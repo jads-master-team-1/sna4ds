@@ -125,5 +125,8 @@ $RECYCLE.BIN/
 *.lnk
 
 ### Custom ###
-# Scratch notebook
+# Report output
+src/report/report.html
+
+# Scratch script
 src/scratch.R
