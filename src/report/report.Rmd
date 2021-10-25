@@ -107,6 +107,9 @@ connected to previous work or to a problem you raised?
 *	What does the rest of the report look like? In one short paragraph, list the 
 topics of the following sections.
 
+#### Roll-call votes
+The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
+
 ## Methodology
 
 ### Dataset 
@@ -135,6 +138,15 @@ o	How was the data collected?
 
 *	What is the potential bias in the data? How does this affect your results?
 
+#### Source of data and collection
+The data used in this research was collected by scraping the VoteWatch website for all votes concerning the two relevant motions. VoteWatch is a European political analysis website that aims to make the workings of the European parliament more transparent \citealt{votewatch_europe}. They therefore replicate the data from European parliament votes in a more easily accessible manner. It was therefore possible via this interface to scrape the data using a Python script with the urllib library. The name of the MEP, their European-level political party, member state and action relating to that particular vote (for, against, didn’t vote, abstain, absent) were collected via this method and collated to give two datasets with all actions concerning the two motions.
+
+#### Usefulness of data for research questions and potential biases
+The collected data concerns the names of MEPs, their nationality, European-level political party and vote for each relevant motion for resolution. This data provides enough information to be able to answer the research questions discussed above as the effect of political party (and nationality?) on agreement between individuals can be modelled. The collection of data from two motions in different fields also provides the opportunity to be able to compare the network of agreement between the two areas and comment on similarities and differences. The creation of two networks from these two datasets is discussed in the next section of this paper.
+A limitation of the data collected is the lack of information about the personal network dynamics at play in the European parliament. Agreement between individuals is likely also influenced by who they are friends with and collaborate with most often. There are likely also more powerful members of the party such as national and European-party level leaders who may therefore invoke a higher level of agreement from others. With the data collected these dynamics are either impossible to model or can only be done in a limited manner.
+The data collected also allows the comparison of networks for a motion relating to the climate-area and a more industry focused motion. However, for this research only two motions were chosen rather than examining all relevant motions in the current period. This has been carried out in previous research, see \cite{cherepnalkoski_karpf_mozetič_grčar_2016} but was deemed to be too time consuming for this initial research. The research carried out in this paper is therefore considered to be a point-in-time comparison which could trigger future investigation if this brief analysis indicates interesting results.
+An issue with the collection method of the roll-call data is that it was collected via a third-party website VoteWatch rather than the European parliament website. This decision was taken due to the significant difference in ease in navigating and accessing the data on the two sites. The risk of this choice is considered to be small as the aim of VoteWatch is transparency so the data is likely to be accurate but it is not impossible that inaccuracies and differences could have been caused when reproducing the vote results between the two websites. Given more time to conduct this research, a next step would be to build a method for finding the relevant votes in the European parliament minutes and scraping the data directly.
+
 ### Data analysis (Research Rationale)
 (about 500 words) – 1 POINTS
 *	Why are these two methods suitable for your data?
@@ -148,6 +160,66 @@ methods you chose better for this case?
 
 ## Results
 (about 2000 words)
+
+#### Creation of the networks
+To create a network it first had to be determined what counted as agreement between two MEPs. Multiple actions can be taken as a response to a roll-call vote. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. This decision is in line with the edges created in previous research \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}.
+Furthermore, due to limitations with the ERGM’s ability to model weighted edges, the network to be used in this analysis had to consist of binary edges. Therefore, in order to create a network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see \cite{cranmer_desmarais_2011}. 
+An appropriate threshold therefore had to be determined. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by generating the networks for a selection of thresholds, comparing density and the resulting ERGM model.
+An exploration of the thresholds was started by plotting a histogram of the different levels of agreements between MEPs and then a line graph showing the changing density of the networks depending on the threshold for agreement required for an edge (see plots below). The two plots corroborate each other, with big changes in network density occurring when setting the threshold above approximately 15 and again above 40. This is caused by the two peaks that we can see present in the spread of agreement around these two points.
+
+```{r}
+edges_climate <- read.csv("../../data/edges_for_against.csv")
+mep_climate <- read.csv("../../data/mepdata_climate.csv")
+hist(edges_climate$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:44) {
+        edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
+        network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
+        density_filter <- igraph::edge_density(network_filter)
+        de <- list(agreement=i, density=density_filter)
+        df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Density", main="Changing density of graphs depending on agreement threshold")
+```
+For clarity the thresholds considered here are absolute numbers of votes on which the MEPs agree on. Since every MEP has the opportunity to be both present and vote on each motion for each resolution then this is considered to be a clear and fair method for testing levels of agreement.
+With this data in mind, three models were created, visualised and tested with the ERGM (see plots and degree distribution of selected networks below). The three models used a threshold of above 5, above 20 and above 40 respectively. These models were all separately tested to ensure the best chance of finding a converging model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 5) in comparison to almost total agreement (above 40) which can be tested with these three models. 
+
+```{r}
+#Filter to relevant edges
+edges_climate5 <- edges_climate[edges_climate[, "Agreement"]>5, c("MEP_1","MEP_2")]
+edges_climate20 <- edges_climate[edges_climate[, "Agreement"]>20, c("MEP_1","MEP_2")]
+edges_climate40 <- edges_climate[edges_climate[, "Agreement"]>40, c("MEP_1","MEP_2")]
+#Create network
+network_climate5 <- igraph::graph_from_data_frame(edges_climate5, vertices=mep_climate, directed=FALSE)
+network_climate20 <- igraph::graph_from_data_frame(edges_climate20, vertices=mep_climate, directed=FALSE)
+network_climate40 <- igraph::graph_from_data_frame(edges_climate40, vertices=mep_climate, directed=FALSE)
+#Plot network
+par(mfrow=c(1,2))
+plot(network_climate5,
+     vertex.size = 3,
+     edge.arrow.size = .4,
+     vertex.label=NA,
+     layout = igraph::layout.fruchterman.reingold,
+     main= "Threshold above 5" )
+hist(igraph::degree(network_climate5), xlab="Degree", main='Degree distribution above 5')
+par(mfrow=c(1,2))
+plot(network_climate20,
+     vertex.size = 3,
+     edge.arrow.size = .4,
+     vertex.label=NA,
+     layout = igraph::layout.fruchterman.reingold,
+     main= "Theshold above 20")
+hist(igraph::degree(network_climate20), ylim=c(0,600), xlab="Degree", main='Degree distribution above 20')
+par(mfrow=c(1,2))
+plot(network_climate40,
+     vertex.size = 3,
+     edge.arrow.size = .4,
+     vertex.label=NA,
+     layout = igraph::layout_with_graphopt,
+     main= "Threshold above 40")
+hist(igraph::degree(network_climate40), ylim=c(0,600), xlab="Degree", main='Degree distribution above 40')
+```
 
 ### Model 1
 (about 1000 words) – 2.5 POINTS
