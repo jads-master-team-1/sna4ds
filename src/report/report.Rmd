@@ -52,9 +52,8 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
-
-
-# Citations in papaja, detele appropriately later
+<!--
+Citations in papaja (delete appropriately later)
 
 Add the bibtex entry in the .bib file. You can find the entries in Google scholar, 
 but double check since it is not always correct. 
@@ -71,22 +70,25 @@ Year only	[-@R-base]
 
 Only if your citation appears in the text it will also show up in the Reference 
 list. Don't manually modify the Reference list.
+-->
 
 ## Executive Summary
+<!--
+Executive Summary Description (150 words) – 0.3 POINTS
 
-(150 words) – 0.3 POINTS
 Summarize the report. Write this as the very last thing.
 
 What is the main topic you are addressing?
 
-what are your research questions and hypotheses?  
+What are your research questions and hypotheses?  
 
-what are your results and the main conclusion?
-
-
+What are your results and the main conclusion?
+-->
 
 ## Introduction 
-(about 1000 words) – 0.5 POINTS
+<!--
+Introduction Description (about 1000 words) – 0.5 POINTS
+
 Place your topic of choice within the existing literature and explain what you 
 are going to address in this report and why.
 
@@ -105,6 +107,7 @@ connected to previous work or to a problem you raised?
 
 *	What does the rest of the report look like? In one short paragraph, list the 
 topics of the following sections.
+-->
 
 #### Roll-call votes
 The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
@@ -112,30 +115,33 @@ The analysis conducted in this paper is carried out over a set of 61 roll-call v
 ## Methodology
 
 ### Dataset 
-(about 500 words) 1 POINT (+ BONUS)
+<!-- 
+Dataset Description (about 500 words) 1 POINT (+ BONUS)
+
 *	Which data set are you going to use? Three options:
 
-o	Use readily/easily available data (0 bonus points)
+  *	Use readily/easily available data (0 bonus points)
 
-o	Combine two or more existing datasets (max 0.5 bonus points)
+  *	Combine two or more existing datasets (max 0.5 bonus points)
 
-o	Scrape or collect your own data (max. 1 bonus point)
+  *	Scrape or collect your own data (max. 1 bonus point)
 
 *	Clearly explain where the data is coming from:
 
-o	Who collected the data?
+  *	Who collected the data?
 
-o	What is the source?
+  *	What is the source?
 
-o	When was the data produced?
+  *	When was the data produced?
 
-o	How was the data collected?
+  *	How was the data collected?
 
 *	Provide descriptive measures of your data (tables, plots, etc.)
 
 *	Why is this data useful to study your topic and answer your research questions?
 
 *	What is the potential bias in the data? How does this affect your results?
+-->
 
 #### Source of data and collection
 The data used in this research was collected by scraping the VoteWatch website for all votes concerning the two relevant motions. VoteWatch is a European political analysis website that aims to make the workings of the European parliament more transparent \citealt{votewatch_europe}. They therefore replicate the data from European parliament votes in a more easily accessible manner. It was therefore possible via this interface to scrape the data using a Python script with the urllib library. The name of the MEP, their European-level political party, member state and action relating to that particular vote (for, against, didn’t vote, abstain, absent) were collected via this method and collated to give two datasets with all actions concerning the two motions.
@@ -147,18 +153,27 @@ The data collected also allows the comparison of networks for a motion relating 
 An issue with the collection method of the roll-call data is that it was collected via a third-party website VoteWatch rather than the European parliament website. This decision was taken due to the significant difference in ease in navigating and accessing the data on the two sites. The risk of this choice is considered to be small as the aim of VoteWatch is transparency so the data is likely to be accurate but it is not impossible that inaccuracies and differences could have been caused when reproducing the vote results between the two websites. Given more time to conduct this research, a next step would be to build a method for finding the relevant votes in the European parliament minutes and scraping the data directly.
 
 ### Data analysis (Research Rationale)
-(about 500 words) – 1 POINTS
+<!--
+Data Analysis (Research Rationale) (about 500 words) – 1 POINTS
+
 *	Why are these two methods suitable for your data?
 
 *	Why are these two methods suitable for your research questions?
 
 *	Are there other methods to address these questions? If yes, why are the 
 methods you chose better for this case?
+-->
 
+The first research question looks into the correlation between the network from the environment bill and the network from the industry bill. We propose to use a QAP correlation test to find an answer for this question. QAP is similar to CUG, in that it uses statistical simulation to generate a distribution of hypothetical networks. However, with QAP we do not generate a series of random graphs (with some properties such as a given size and density), but we now control for all purely structural properties of the two graphs being compared themselves. This is done by making permutations of the networks that are to be compared, similar to the practice of bootstrapping.
 
+A QAP correlation test is the most suitable option. A QAP test is suitable for situations where two or more networks have to be compared with each other. For the first research question, two networks, based on votes from two different bills, have to be compared. A CUG model would not work here, since it is only about investigating the network measures of one network. Similarly, an LNAM model focuses on the social influence in a network and is not applicable. It might be possible to make two ERGM models for the bills, where explanatory variables are included that represent groups that vote alike, but this would be needlessly complex and inferior to the QAP test. Lastly, a MRQAP model is not necessary since only two networks have to be compared. 
+
+The second research question investigates whether there is cohesion of agreement, based on the MEP’s voting behaviour for the environment bill, within every European group. In the environment bill network two MEP’s are connected if they agree on an arbitrary amount of amendments within the bill. Since we want to explain the reason why a tie is formed in the network or specifically between two MEP’s, we propose to use an exponential random graph family model or ERGM for short. An ERGM is a class of network models to perform causal inference and deduce the cause of an observed relation phenomenon that we observe and conceptualize as a network. The model will include endogenous and exogenous terms since the party membership is an attribute of the vertices and therefore a term like nodefactor needs to be used. Nodefactor is a Markovian term that measures the extent to which being in a certain category influences edge formation. We specifically need to use the regular variant as opposed to the directed in or directed out variant since the environment bill network is undirected. The complexity and flexibility of ERGM makes this technique very suitable to verifying this research question. The other techniques are not suitable for this type of analysis since CUG and QAP are used for checking whether a network statistic is statistically significant and comparing two networks respectively.
 
 ## Results
-(about 2000 words)
+<!--
+Results Description (about 2000 words)
+-->
 
 #### Creation of the networks
 To create a network it first had to be determined what counted as agreement between two MEPs. Multiple actions can be taken as a response to a roll-call vote. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. This decision is in line with the edges created in previous research \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}.
@@ -221,14 +236,15 @@ hist(igraph::degree(network_climate40), ylim=c(0,600), xlab="Degree", main='Degr
 ```
 
 ### Model 1
-(about 1000 words) – 2.5 POINTS
+<!--
+Model 1 Description (about 1000 words) – 2.5 POINTS
 
 *	Present your results appropriately (plots, tables…) and discuss your findings 
 in plain English
 
 *	Discuss the meaning of your findings in relation to your hypothesis. (half of
 the points evaluated in this other part)
-
+-->
 
 ```{r echo = FALSE, results = 'asis'}
 # table example
@@ -243,16 +259,16 @@ rownames(tab) <- NULL
 knitr::kable(tab)
 ```
 
-
 ### ERGM 
-(about 1000) – 2.5 POINTS
-
+<!--
+ERGM Description (about 1000) – 2.5 POINTS
 
 * Present your results appropriately (plots, tables…) and discuss your findings 
 in plain English
 
 * Discuss the meaning of your findings in relation to your hypothesis. (half of 
 the points evaluated in this other part)
+-->
 
 Option 1: 
 
@@ -330,8 +346,9 @@ texreg::plotreg(list(lm.D9, lm.D90))
 
 
 ## Conclusion
+<!--
+Conclusion Description (about 350 words) – 0.7 POINTS
 
-(about 350 words) – 0.7 POINTS
 What were your topic and research questions again? (1 sentence)
 
 What did you learn from the two analysis you run? *** most important point to 
@@ -342,8 +359,7 @@ Who benefits from your findings?
 What does remain an open problem?
 
 Can you give suggestions for future work in this area?
-
-
+-->
 
 \newpage
 
