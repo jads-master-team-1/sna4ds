@@ -234,9 +234,9 @@ In order to get a better overview of the dataset, the five-number summary is com
 
 ```{r}
 par(mfrow = c(2,2), cex=0.6)
-mep_climate <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\mepdata-climatemotion.csv", header = T, sep = ",")
+mep_climate <- read.csv("../../data/mepdata_climate.csv", header = T, sep = ",")
 
-edges_climate <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\edges_for_against_climate.csv", header = T, sep = ",")
+edges_climate <- read.csv("../../data/edges_for_against.csv", header = T, sep = ",")
 
 df <- data.frame(agreement=integer(), density=double())
 for (i in 1:44) {
@@ -285,9 +285,9 @@ plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Diameter", main
 
 
 par(mfrow = c(2,2), cex=0.6)
-mep_coalsteel <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\coal_steel_data.csv", header = T, sep = ",")
+mep_coalsteel <- read.csv("../../data/coal_steel_data.csv", header = T, sep = ",")
 
-edges_coalsteel <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\edges_for_against_coal_steel.csv", header = T, sep = ",")
+edges_coalsteel <- read.csv("../../data/edges_for_against_coal_steel.csv", header = T, sep = ",")
 
 
 df <- data.frame(agreement=integer(), density=double())
