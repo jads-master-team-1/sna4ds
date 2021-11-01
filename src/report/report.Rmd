@@ -138,10 +138,12 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 *	Provide descriptive measures of your data (tables, plots, etc.)
 
+
 *	Why is this data useful to study your topic and answer your research questions?
 
 *	What is the potential bias in the data? How does this affect your results?
 -->
+
 
 #### Source of data and collection
 The data used in this research was collected by scraping the VoteWatch website for all votes concerning the two relevant motions. VoteWatch is a European political analysis website that aims to make the workings of the European parliament more transparent \citealt{votewatch_europe}. They therefore replicate the data from European parliament votes in a more easily accessible manner. It was therefore possible via this interface to scrape the data using a Python script with the urllib library. The name of the MEP, their European-level political party, member state and action relating to that particular vote (for, against, didn’t vote, abstain, absent) were collected via this method and collated to give two datasets with all actions concerning the two motions.
@@ -151,6 +153,12 @@ The collected data concerns the names of MEPs, their nationality, European-level
 A limitation of the data collected is the lack of information about the personal network dynamics at play in the European parliament. Agreement between individuals is likely also influenced by who they are friends with and collaborate with most often. There are likely also more powerful members of the party such as national and European-party level leaders who may therefore invoke a higher level of agreement from others. With the data collected these dynamics are either impossible to model or can only be done in a limited manner.
 The data collected also allows the comparison of networks for a motion relating to the climate-area and a more industry focused motion. However, for this research only two motions were chosen rather than examining all relevant motions in the current period. This has been carried out in previous research, see \cite{cherepnalkoski_karpf_mozetič_grčar_2016} but was deemed to be too time consuming for this initial research. The research carried out in this paper is therefore considered to be a point-in-time comparison which could trigger future investigation if this brief analysis indicates interesting results.
 An issue with the collection method of the roll-call data is that it was collected via a third-party website VoteWatch rather than the European parliament website. This decision was taken due to the significant difference in ease in navigating and accessing the data on the two sites. The risk of this choice is considered to be small as the aim of VoteWatch is transparency so the data is likely to be accurate but it is not impossible that inaccuracies and differences could have been caused when reproducing the vote results between the two websites. Given more time to conduct this research, a next step would be to build a method for finding the relevant votes in the European parliament minutes and scraping the data directly.
+
+
+
+
+
+
 
 ### Data analysis (Research Rationale)
 <!--
@@ -164,16 +172,136 @@ Data Analysis (Research Rationale) (about 500 words) – 1 POINTS
 methods you chose better for this case?
 -->
 
-The first research question looks into the correlation between the network from the environment bill and the network from the industry bill. We propose to use a QAP correlation test to find an answer for this question. QAP is similar to CUG, in that it uses statistical simulation to generate a distribution of hypothetical networks. However, with QAP we do not generate a series of random graphs (with some properties such as a given size and density), but we now control for all purely structural properties of the two graphs being compared themselves. This is done by making permutations of the networks that are to be compared, similar to the practice of bootstrapping.
+The first research question looks into the correlation between the network from the climate bill and the network from the industry bill. We propose to use a QAP correlation test to find an answer for this question. QAP is similar to CUG, in that it uses statistical simulation to generate a distribution of hypothetical networks. However, with QAP we do not generate a series of random graphs (with some properties such as a given size and density), but we now control for all purely structural properties of the two graphs being compared themselves. This is done by making permutations of the networks that are to be compared, similar to the practice of bootstrapping.
 
 A QAP correlation test is the most suitable option. A QAP test is suitable for situations where two or more networks have to be compared with each other. For the first research question, two networks, based on votes from two different bills, have to be compared. A CUG model would not work here, since it is only about investigating the network measures of one network. Similarly, an LNAM model focuses on the social influence in a network and is not applicable. It might be possible to make two ERGM models for the bills, where explanatory variables are included that represent groups that vote alike, but this would be needlessly complex and inferior to the QAP test. Lastly, a MRQAP model is not necessary since only two networks have to be compared. 
 
-The second research question investigates whether there is cohesion of agreement, based on the MEP’s voting behaviour for the environment bill, within every European group. In the environment bill network two MEP’s are connected if they agree on an arbitrary amount of amendments within the bill. Since we want to explain the reason why a tie is formed in the network or specifically between two MEP’s, we propose to use an exponential random graph family model or ERGM for short. An ERGM is a class of network models to perform causal inference and deduce the cause of an observed relation phenomenon that we observe and conceptualize as a network. The model will include endogenous and exogenous terms since the party membership is an attribute of the vertices and therefore a term like nodefactor needs to be used. Nodefactor is a Markovian term that measures the extent to which being in a certain category influences edge formation. We specifically need to use the regular variant as opposed to the directed in or directed out variant since the environment bill network is undirected. The complexity and flexibility of ERGM makes this technique very suitable to verifying this research question. The other techniques are not suitable for this type of analysis since CUG and QAP are used for checking whether a network statistic is statistically significant and comparing two networks respectively.
+The second research question investigates whether there is cohesion of agreement, based on the MEP’s voting behaviour for the climate bill, within every European group. In the climate bill network two MEP’s are connected if they agree on an arbitrary amount of amendments within the bill. Since we want to explain the reason why a tie is formed in the network or specifically between two MEP’s, we propose to use an exponential random graph family model or ERGM for short. An ERGM is a class of network models to perform causal inference and deduce the cause of an observed relation phenomenon that we observe and conceptualize as a network. The model will include endogenous and exogenous terms since the party membership is an attribute of the vertices and therefore a term like nodefactor needs to be used. Nodefactor is a Markovian term that measures the extent to which being in a certain category influences edge formation. We specifically need to use the regular variant as opposed to the directed in or directed out variant since the climate bill network is undirected. The complexity and flexibility of ERGM makes this technique very suitable to verifying this research question. The other techniques are not suitable for this type of analysis since CUG and QAP are used for checking whether a network statistic is statistically significant and comparing two networks respectively.
 
 ## Results
 <!--
 Results Description (about 2000 words)
 -->
+
+#### Descriptive measures
+
+In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion as a function of the agreement threshold. It was chosen to develop the plots as a function of the agreement threshold because the dataset for both motions is very large. There are 705 members of the European parliament with 248160 undirected edges for just the climate motion. As a result, the edge density for the climate motion is equal to 1 for the complete dataset. Each edge between two parliament members if formed when they agree on a minimum of 1 vote within the motion. Therefore not all edges are a result of causal relationships. In order to visualise just the important, non-random relationships, this section will explore the descriptive measures as a result of the agreement threshold that is yet to be determined. 
+
+```{r}
+par(mfrow = c(2,2), cex=0.6)
+mep_climate <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\mepdata-climatemotion.csv", header = T, sep = ",")
+
+edges_climate <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\edges_for_against_climate.csv", header = T, sep = ",")
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:44) {
+  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
+  density_filter <- igraph::transitivity(network_filter, type = 'global')
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Global transitivity", main="Transitivity as a function of agreement threshold")
+
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:44) {
+  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
+  density_filter <- igraph::edge_density(network_filter)
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Network density", main="Network density as a function of agreement threshold")
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:44) {
+  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
+  density_filter <- igraph::mean_distance(network_filter)
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Average path length", main="Average path length a function of agreement threshold")
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:44) {
+  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
+  density_filter <- igraph::diameter(network_filter)
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Diameter", main="Diameter as a function of agreement threshold")
+
+
+par(mfrow = c(2,2), cex=0.6)
+mep_coalsteel <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\coal_steel_data.csv", header = T, sep = ",")
+
+edges_coalsteel <- read.csv("C:\\Users\\20174172\\Documents\\TUe\\Data science\\Year 1 Master\\JM2080 Social Network Analysis\\project\\edges_for_against_coal_steel.csv", header = T, sep = ",")
+
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:15) {
+  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
+  density_filter <- igraph::transitivity(network_filter, type = 'global')
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Global transitivity", main="Transitivity as a function of agreement threshold")
+
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:15) {
+  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
+  density_filter <- igraph::edge_density(network_filter)
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Network density", main="Network density as a function of agreement threshold")
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:15) {
+  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
+  density_filter <- igraph::mean_distance(network_filter)
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Average path length", main="Average path length a function of agreement threshold")
+
+df <- data.frame(agreement=integer(), density=double())
+for (i in 1:15) {
+  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
+  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
+  density_filter <- igraph::diameter(network_filter)
+  de <- list(agreement=i, density=density_filter)
+  df = rbind(df,de, stringsAsFactors=FALSE) 
+}
+
+plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Diameter", main="Diameter as a function of agreement threshold")
+
+
+```
+
+##### Climate Motion
+
+The graphs for the climate motion show a rather dense network with a short average path length. This can be explained by the fact that with the full dataset, almost all members of the EP are connected to each other through some vote agreement. Which seems logical, given that they would just need to agree on one vote. However, this is not the most relevant information to us. Instead, it is observed from the transitivity measure figure that at an agreement threshold of 15, there is a drop in transitivity. This signals that there is a reduction in clusters when a threshold of 15 is set. Similarly, the network density plot shows a vast decline around the threshold of 15, indicating a large reduction of edges. As such we assume that by setting the treshold slightly past 15 will eliminate random edges between members of the EP. It is thus an interesting threshold to further evaluate. 
+
+
+##### Industry Motion
+
+
+
 
 #### Creation of the networks
 To create a network it first had to be determined what counted as agreement between two MEPs. Multiple actions can be taken as a response to a roll-call vote. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. This decision is in line with the edges created in previous research \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}.
