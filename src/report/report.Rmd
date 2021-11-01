@@ -143,6 +143,7 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 *	What is the potential bias in the data? How does this affect your results?
 -->
+As the dataset for this research two votes of the European Parliament on May 18th 2021 are scraped from the VoteWatch.eu website. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 subvotes. The second vote is named "Research Fund for Coal and Steel", and has [TODO] subvotes. The full official document of the votes can be found in the Appendix [TODO]. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend \cite{votewatch_methodology}. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
 
 
 #### Source of data and collection
