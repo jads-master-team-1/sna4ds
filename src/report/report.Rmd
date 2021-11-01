@@ -108,9 +108,53 @@ connected to previous work or to a problem you raised?
 *	What does the rest of the report look like? In one short paragraph, list the 
 topics of the following sections.
 -->
+#### topic of choice and litterature research
+
+The data used for this project comes from an open source provided by the European Union (EU). Lots of studies are conducted such as [reference above]. The mentioned studies are examples of how Twitter statuses of members of the European Parliament (MEP) can be connected to predict voting. Coalitions and political party cohesion are strong indicators of which vote will be final for the given MEP. The European Parliament is constructed in such a way where one political coalition may not have the overall majority to vote in or out a resolution. It is made on purpose to encourage discussion, debate and legal amendments. What tips the voting in favour or against are the members that vote against what is “expected” from them, in the sense of against of their priors. Having an idea of when or how these events happen are interesting to investigate from where this paper. The current literature has a similar methodology and investigative scope than our project. Our paper will corroborate or not with their findings. Towards the end it will be explained why it is more nuanced.
+Our work is going to contribute to the field by providing additional insight into the voting behaviors of given MEPs. Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [reference from list]. 
+
+#### Methods
+The programming language used for this project is R. After having done some exploratory network descriptive to see whether there are some outliers or unusual dynamics going around. The following characteristics were studied:
+•	Network density
+•	Average path length 
+•	Diameter
+•	Degree census
+•	Global transitivity
+The Exponential family random graph models (ERGM) are our main tool for this project.
+There are numerous studies that used this method such as:
+• Gondal, The local and global structure of knowledge production in an emergent research field, SOCNET 2011 
+• Lomi and Palotti, Relational collaboration among spatial multipoint competitors , SOCNET 2011 
+• Wimmer & Lewis, Beyond and Below Racial Homophily, AJS 2010 
+• Lusher, Masculinity, educational achievement and social status, GENDER & EDUCATION 2011 
+• Rank et al. (2010). Structural logic of intra-organizational networks, ORG SCI, 2010.
+ERGMs are Increasingly being used, increasingly being understood, increasingly being able to handle imperfect data (also missing link prediction) - Lusher, Koskinen, Robins ERGMs for SN, CUP, 2011
+Quadratic assignment procedure (QAP) is another method that will be used for this project. It scrambles the dependent variable data through several permutations. By taking the data, and “scrambling” it repeatedly, resulting in multiple random datasets with the dependent variable—and then multiple analyses can be performed. It is like a bootstrapping method but applied in the field of network analysis. 
+
+2-Does political cohesion, country of origin can predict the vote of a MEP against or for a given resolution ?
+Method:
+Linear regression based on metric extracted from network could be interesting. 
+
+Hypotheses:
+	Cohesion is stable across the two bills.
+	Networks have little change from one bill to the other.
+	MEPs do not agree with each other across bills.
+	Political parties have little influence on the community formation.
+	Countries have little influence on the community formation identified using transitivity.
+	Are voting networks built around cycles grouping certain indviduals.
+	What happens to the network when the most central nodes are taken away. This hypothesis would test whether the removal of a central node would be influential or not.
+
 
 #### Roll-call votes
 The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
+
+#### Impact of climate change on vulnerable population
+
+As the COP26 is upon us between the 1st and 12th of November 2021 in Glasgow, climate change is becoming more and more central to international political agendas. New goals will be set to protect those most vulnerable to climate change. In fact, climate change leading to an increase of sea levels may turn out to be deadly for some marginalized societies such as the Sentinelese. A couple centimeters of additional water level can lead their islands to be submerged and permanently lose their foot on the solid ground. Other societies are under the increasing threat of higher temperatures leading to a whole spectrum of climate and weather changes. This may force certain communities to change the crop that is being grown within the region. Bad harvests may lead some societies to starvation or economical crisis due to bad quality products thus unfit for exportation towards richer areas such as Europe. Climate change affect many countries in many ways. Ecosystems are being disturbed create new geopolitical tensions such as access to drinkable water, new mineral and fossil fuel accesses in the arctic, sea commercial areas wanting to be extended for commercial reasons. All this without even mentioning the consequence on wildlife with their variety decreasing each year. As the president of Brazil would claim, what is the economical gain for a country to have all this wildlife in comparison to burning it for farmland. In conclusion, the communities that are already on the edge of survival will be once again hit hard by the result of a planet-degrading, unsustainable consumer behavior lived in the richest countries of the World. To push this trend further, emerging countries such as China are more and more willing to adopt such a way of living creating even more stress on the planet's carbon emission. 
+
+#### Proceeding of report's parts
+Firstly the methodology is explained. Some general comments are made on the obtention of the data, exploratory results under the form of plots. 
+Secondly, an explanation of the exact manner of how the network and its modelling is constructed.
+Thirdly, an interpretation of the modelling results of the networks, how it relates and partially answers the research question given previously.
 
 ## Methodology
 
