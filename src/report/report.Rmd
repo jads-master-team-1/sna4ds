@@ -418,10 +418,10 @@ Following the descriptive analysis, an appropriate threshold had to be determine
 
 As previously discussed, in the previous descriptive analysis both datasets had two specific ranges where the structure of the network significantly changed. The decision was therefore made to set the threshold for the networks used in this paper just above these ranges. This was chosen as it was considered likely that the more frequent levels of agreement between MEPs were likely be chance- particularly at lower levels.
 
-In order to be able to compare the analysis of both networks it was considered desirable to use the same thresholds on both. Therefore percentage thresholds were identified to be used: above 30% agreement and above 90% agreement. These both relate to the two ranges identified in the descriptive models above and their respective medians.
+In order to be able to compare the analysis of both networks it was considered desirable to use the same thresholds on both. Therefore percentage thresholds were identified to be used: above 40% agreement and above 95% agreement. These both relate to the two ranges identified in the descriptive models above and their respective medians.
 
 With this data in mind, the networks models were created, visualised and tested with the ERGM (see plots and degree distribution of selected networks below). Summary statistics for these networks were also computed (see below) showing most significantly differences in graph density and diameter of the graphs (note: the centrality charts for these networks were also computed but again failed to show significant results due to the scale of the network- the only point of note was the range of degree which can be seen already in the degree distribution plotted below).
-All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 30%) in comparison to almost total agreement (above 90%) which can be tested with these models. 
+All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 40%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
 
 ```{r echo=FALSE}
 edges_climate$AgreementPercent <- round(edges_climate$Agreement/44, digits=2)
@@ -449,67 +449,67 @@ plot_network_perc <- function(edges,threshold_perc, layout) {
 
 #Plot network
 par(mfrow=c(1,2))
-network_climate_30perc <- plot_network_perc(edges_climate,0.3,igraph::layout_with_lgl)
-hist(igraph::degree(network_climate_30perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 30%')
+network_climate_40perc <- plot_network_perc(edges_climate,0.4,igraph::layout_with_graphopt)
+hist(igraph::degree(network_climate_40perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 40%')
 
 par(mfrow=c(1,2))
-network_climate_90perc <- plot_network_perc(edges_climate,0.9,igraph::layout_with_graphopt)
-hist(igraph::degree(network_climate_90perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 90%')
+network_climate_95perc <- plot_network_perc(edges_climate,0.95,igraph::layout_with_graphopt)
+hist(igraph::degree(network_climate_95perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 90%')
 ```
 ```{r echo=FALSE}
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_climate_30perc))
-noedges <- c("Number of edges",igraph::ecount(network_climate_30perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_30perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_30perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_30perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_climate_30perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_climate_40perc))
+noedges <- c("Number of edges",igraph::ecount(network_climate_40perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_40perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_40perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_40perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_climate_40perc))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for climate network with threshold 30%")
 
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_climate_90perc))
-noedges <- c("Number of edges",igraph::ecount(network_climate_90perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_90perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_90perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_90perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_climate_90perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_climate_95perc))
+noedges <- c("Number of edges",igraph::ecount(network_climate_95perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_95perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_95perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_95perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_climate_95perc))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
-knitr::kable(tab, caption = "Statistics for climate network with threshold 90%")
+knitr::kable(tab, caption = "Statistics for climate network with threshold 95%")
 ```
 
 
 ```{r echo=FALSE}
 #Plot network
 par(mfrow=c(1,2))
-network_industry_30perc <- plot_network_perc(edges_industry,0.3,igraph::layout_with_lgl)
-hist(igraph::degree(network_industry_30perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 30%')
+network_industry_40perc <- plot_network_perc(edges_industry,0.4,igraph::layout_with_lgl)
+hist(igraph::degree(network_industry_40perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 40%')
 
 par(mfrow=c(1,2))
-network_industry_90perc <- plot_network_perc(edges_industry,0.9,igraph::layout_with_lgl)
-hist(igraph::degree(network_industry_90perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 90%')
+network_industry_95perc <- plot_network_perc(edges_industry,0.95,igraph::layout_with_lgl)
+hist(igraph::degree(network_industry_95perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 95%')
 ```
 ```{r echo=FALSE}
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_industry_30perc))
-noedges <- c("Number of edges",igraph::ecount(network_industry_30perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_30perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_30perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_30perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_industry_30perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_industry_40perc))
+noedges <- c("Number of edges",igraph::ecount(network_industry_40perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_40perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_40perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_40perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_industry_40perc))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for industry network with threshold 30%")
 
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_industry_90perc))
-noedges <- c("Number of edges",igraph::ecount(network_industry_90perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_90perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_90perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_90perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_industry_90perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_industry_95perc))
+noedges <- c("Number of edges",igraph::ecount(network_industry_95perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_95perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_95perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_95perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_industry_95perc))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for industry network with threshold 90%")
