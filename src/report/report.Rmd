@@ -71,6 +71,28 @@ Year only	[-@R-base]
 Only if your citation appears in the text it will also show up in the Reference 
 list. Don't manually modify the Reference list.
 -->
+```{r echo=FALSE}
+#Inputting data in one place
+mep <- read.csv("../../data/MEP_data.csv", header = T, sep = ",")
+edges_climate <- read.csv("../../data/edges_for_against_climate.csv", header = T, sep = ",")
+edges_industry <- read.csv("../../data/edges_for_against_industry.csv")
+```
+
+```{r echo=FALSE}
+colour_network <- function(network){
+  igraph::V(network)$color <- 'gray'
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'EPP', "blue", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'IDG', "blue4", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'S&D', "red", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'ECR', "dodgerblue3", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'REG', "yellow", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'Greens/EFA', "green", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'The Left', "red4", igraph::V(network)$color)
+  igraph::V(network)$color <- ifelse(igraph::V(network)$group_abbv== 'NI', "slategray4", igraph::V(network)$color)
+  return(network)
+}
+```
+
 
 ## Executive Summary
 <!--
@@ -108,7 +130,7 @@ connected to previous work or to a problem you raised?
 *	What does the rest of the report look like? In one short paragraph, list the 
 topics of the following sections.
 -->
-#### topic of choice and litterature research
+#### Topic of choice and literature review
 
 The data used for this project comes from an open source provided by the European Union (EU). Lots of studies are conducted such as [reference above]. The mentioned studies are examples of how Twitter statuses of members of the European Parliament (MEP) can be connected to predict voting. Coalitions and political party cohesion are strong indicators of which vote will be final for the given MEP. The European Parliament is constructed in such a way where one political coalition may not have the overall majority to vote in or out a resolution. It is made on purpose to encourage discussion, debate and legal amendments. What tips the voting in favour or against are the members that vote against what is “expected” from them, in the sense of against of their priors. Having an idea of when or how these events happen are interesting to investigate from where this paper. The current literature has a similar methodology and investigative scope than our project. Our paper will corroborate or not with their findings. Towards the end it will be explained why it is more nuanced.
 Our work is going to contribute to the field by providing additional insight into the voting behaviors of given MEPs. Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [reference from list]. 
@@ -134,6 +156,8 @@ Quadratic assignment procedure (QAP) is another method that will be used for thi
 Method:
 Linear regression based on metric extracted from network could be interesting. 
 
+Here we define cohesion in line with the definition provided by @cherepnalkoski_karpf_mozetic_grcar_2016 who view cohesion as the propensity to vote in the same manner within the same group, here the same European parliamentary group.
+
 Hypotheses:
 	Cohesion is stable across the two bills.
 	Networks have little change from one bill to the other.
@@ -145,7 +169,7 @@ Hypotheses:
 
 
 #### Roll-call votes
-The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
+The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands [@cherepnalkoski_karpf_mozetic_grcar_2016]. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
 
 #### Impact of climate change on vulnerable population
 <!--
@@ -191,17 +215,17 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 *	What is the potential bias in the data? How does this affect your results?
 -->
-As the dataset for this research two votes of the European Parliament on May 18th 2021 are scraped from the VoteWatch.eu website. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 subvotes. The second vote is named "Research Fund for Coal and Steel", and has 16 subvotes. The full official document of the votes can be found in the Appendix. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend \cite{votewatch_methodology}. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
+As the dataset for this research two votes of the European Parliament on May 18th 2021 are scraped from the VoteWatch.eu website. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 subvotes. The second vote is named "Research Fund for Coal and Steel", and has 16 subvotes. The full official document of the votes can be found in the Appendix. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend @votewatch_methodology. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
 The two analysed votes are purposefully chosen in order to analyze the potential difference in the network effects within the European Parliament for different areas of politics. Stereotypically, political views on climate change on the one hand, and coal & steel industry on the other hand are often adverse, which make these votes interesting to analyze. Furthermore, the votes took place on the same date, which eliminates influence of various possible external parameters. Some examples of such parameters are the date of the vote, the composition of the parliament, or short-lived political ideologies.
 
 
 #### Source of data and collection
-The data used in this research was collected by scraping the VoteWatch website for all votes concerning the two relevant motions. VoteWatch is a European political analysis website that aims to make the workings of the European parliament more transparent \citealt{votewatch_europe}. They therefore replicate the data from European parliament votes in a more easily accessible manner. It was therefore possible via this interface to scrape the data using a Python script with the urllib library. The name of the MEP, their European-level political party, member state and action relating to that particular vote (for, against, didn’t vote, abstain, absent) were collected via this method and collated to give two datasets with all actions concerning the two motions.
+The data used in this research was collected by scraping the VoteWatch website for all votes concerning the two relevant motions. VoteWatch is a European political analysis website that aims to make the workings of the European parliament more transparent [@votewatch_europe]. They therefore replicate the data from European parliament votes in a more easily accessible manner. It was therefore possible via this interface to scrape the data using a Python script with the urllib library. The name of the MEP, their European-level political party, member state and action relating to that particular vote (for, against, didn’t vote, abstain, absent) were collected via this method and collated to give two datasets with all actions concerning the two motions.
 
 #### Usefulness of data for research questions and potential biases
 The collected data concerns the names of MEPs, their nationality, European-level political party and vote for each relevant motion for resolution. This data provides enough information to be able to answer the research questions discussed above as the effect of political party (and nationality?) on agreement between individuals can be modelled. The collection of data from two motions in different fields also provides the opportunity to be able to compare the network of agreement between the two areas and comment on similarities and differences. The creation of two networks from these two datasets is discussed in the next section of this paper.
 A limitation of the data collected is the lack of information about the personal network dynamics at play in the European parliament. Agreement between individuals is likely also influenced by who they are friends with and collaborate with most often. There are likely also more powerful members of the party such as national and European-party level leaders who may therefore invoke a higher level of agreement from others. With the data collected these dynamics are either impossible to model or can only be done in a limited manner.
-The data collected also allows the comparison of networks for a motion relating to the climate-area and a more industry focused motion. However, for this research only two motions were chosen rather than examining all relevant motions in the current period. This has been carried out in previous research, see \cite{cherepnalkoski_karpf_mozetič_grčar_2016} but was deemed to be too time consuming for this initial research. The research carried out in this paper is therefore considered to be a point-in-time comparison which could trigger future investigation if this brief analysis indicates interesting results.
+The data collected also allows the comparison of networks for a motion relating to the climate-area and a more industry focused motion. However, for this research only two motions were chosen rather than examining all relevant motions in the current period. This has been carried out in previous research, see @cherepnalkoski_karpf_mozetic_grcar_2016 but was deemed to be too time consuming for this initial research. The research carried out in this paper is therefore considered to be a point-in-time comparison which could trigger future investigation if this brief analysis indicates interesting results.
 An issue with the collection method of the roll-call data is that it was collected via a third-party website VoteWatch rather than the European parliament website. This decision was taken due to the significant difference in ease in navigating and accessing the data on the two sites. The risk of this choice is considered to be small as the aim of VoteWatch is transparency so the data is likely to be accurate but it is not impossible that inaccuracies and differences could have been caused when reproducing the vote results between the two websites. Given more time to conduct this research, a next step would be to build a method for finding the relevant votes in the European parliament minutes and scraping the data directly.
 
 
@@ -232,185 +256,263 @@ The second research question investigates whether there is cohesion of agreement
 <!--
 Results Description (about 2000 words)
 -->
+#### Creation of the networks
+To create a network to be used in our analysis it first had to be determined what counted as an edge. It was decided that each edge should represent agreement between two MEPs. Multiple actions can be taken as a response to a roll-call vote. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. This decision is in line with the edges created in previous research [@cherepnalkoski_karpf_mozetic_grcar_2016].
+
+A decision also needed to be made regarding the nature of the edges in the network. One technique could be that agreement between MEPs would be summed creating a weighted edge equaling the number of times the two MEPs agreed in the bill. This network can be used for our first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges but it was determined that it was most useful to first begin with testing ERGM models with networks with binary edges. Once, this has been tested properly, then a model with a weighted ERGM model can be attempted.
+
+Therefore, in order to create a binary network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote [@cherepnalkoski_karpf_mozetic_grcar_2016]. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see @cranmer_desmarais_2011. 
 
 #### Descriptive measures
 
-In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion as a function of the agreement threshold. It was chosen to develop the plots as a function of the agreement threshold because the dataset for both motions is very large. There are 705 members of the European parliament with 248160 undirected edges for just the climate motion. As a result, the edge density for the climate motion is equal to 1 for the complete dataset. Each edge between two parliament members if formed when they agree on a minimum of 1 vote within the motion. Therefore not all edges are a result of causal relationships. In order to visualise just the important, non-random relationships, this section will explore the descriptive measures as a result of the agreement threshold that is yet to be determined. 
+In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion. The following two tables show these statistics for the two weighted networks where there is a weighted edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph we just show the number of nodes and edges rather than the dyad-cencus since this would not provide any additional information.The centrality chart for these networks was also examined but was difficult to interpret given number of nodes included. Additionally, the centrality chart pointed towards the low centrality of the graphs which is easy to confirm with the statistics below. Due to the high transivity and density of the graph, there are not many specific nodes that are more/less central in the graphs.
 
-```{r}
+The summary statistics of the graph already point to a high level of similarity in structure. They both have very high density and transitivity. They also have the same path length and diameter, likely due to the many connections between nodes in both graphs.
+
+```{r echo=FALSE}
+w_edges_climate <- edges_climate[edges_climate[, "Agreement"]>=1, c("MEP_1","MEP_2")]
+w_network_climate <- igraph::graph_from_data_frame(w_edges_climate, vertices=mep, directed=FALSE)
+
+cn <- c("Measurement", "Value")
+nonodes <- c("Number of nodes",igraph::vcount(w_network_climate))
+noedges <- c("Number of edges",igraph::ecount(w_network_climate))
+trans <- c("Transitivity", sprintf(igraph::transitivity(w_network_climate), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(w_network_climate), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(w_network_climate), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(w_network_climate))
+tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
+rownames(tab) <- NULL
+knitr::kable(tab, caption = "Statistics for weighted climate network")
+
+w_edges_industry <- edges_industry[edges_industry[, "Agreement"]>=1, c("MEP_1","MEP_2")]
+w_network_industry <- igraph::graph_from_data_frame(w_edges_industry, vertices=mep, directed=FALSE)
+
+cn <- c("Measurement", "Value")
+nonodes <- c("Number of nodes",igraph::vcount(w_network_industry))
+noedges <- c("Number of edges",igraph::ecount(w_network_industry))
+trans <- c("Transitivity", sprintf(igraph::transitivity(w_network_industry), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(w_network_industry), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(w_network_industry), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(w_network_industry))
+tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
+rownames(tab) <- NULL
+knitr::kable(tab, caption = "Statistics for weighted industry network")
+
+```
+
+As previously discussed, to begin the ERGM testing it was required to transform the networks from weighted networks to binary networks. This required the choice of thresholds. Therefore to aid this process, the five-number summary was plotted for the networks using all possible absolute number thresholds (see plots below).Histograms of the spread of agreement are also plotted below to provide context for the other statistics.
+There will therefore be an edge between two parliament members if they have a minimum agreement equal or above the threshold. The lowest threshold for an edge in these graphs is therefore one, meaning that the MEPs agreed on one and only one subvote in the bill. For low level of agreement this could therefore mean that MEPs only agreed very few times. Therefore not all edges are a result of causal relationships or represent a significant amount of agreement. The aim was therefore to set thresholds so as to create a network of the most important, non-random relationships. The plots below are therefore examined to try and determine the most appropriate thresholds.
+For clarity the thresholds considered here are absolute numbers of votes on which the MEPs agree on. Since every MEP has the opportunity to be both present and vote on each motion for each resolution then this is considered to be a clear and fair method for testing levels of agreement.
+
+```{r echo=FALSE}
+
+plot_statistic <- function(fun,edges,num_votes,ylab,title){
+  df <- data.frame(agreement=integer(), statistic=double())
+  for (i in 1:num_votes) {
+    edges_filter <- edges[edges[, "Agreement"]>i, c("MEP_1","MEP_2")]
+    network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep, directed=FALSE)
+    stat_filter <- fun(network_filter)
+    de <- list(agreement=i, statistic=stat_filter)
+    df = rbind(df,de, stringsAsFactors=FALSE) 
+  }
+    plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab=ylab, main=title)
+}
+
+#Climate
+hist(edges_climate$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
 par(mfrow = c(2,2), cex=0.6)
-mep_climate <- read.csv("../../data/mepdata_climate.csv", header = T, sep = ",")
-
-edges_climate <- read.csv("../../data/edges_for_against.csv", header = T, sep = ",")
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:44) {
-  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
-  density_filter <- igraph::transitivity(network_filter, type = 'global')
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Global transitivity", main="Transitivity as a function of agreement threshold")
+plot_statistic(igraph::transitivity, edges_climate, 44, "Global transitivity", "Transitivity as a function of agreement threshold")
+plot_statistic(igraph::edge_density, edges_climate, 44, "Network density", "Network density as a function of agreement threshold")
+plot_statistic(igraph::mean_distance, edges_climate, 44, "Average path length", "Average path length a function of agreement threshold")
+plot_statistic(igraph::diameter, edges_climate, 44, "Diameter", "Diameter as a function of agreement threshold")
+mtext("Climate Motion",side=3,line=-19,outer=TRUE)
 
 
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:44) {
-  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
-  density_filter <- igraph::edge_density(network_filter)
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Network density", main="Network density as a function of agreement threshold")
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:44) {
-  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
-  density_filter <- igraph::mean_distance(network_filter)
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Average path length", main="Average path length a function of agreement threshold")
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:44) {
-  edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
-  density_filter <- igraph::diameter(network_filter)
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Diameter", main="Diameter as a function of agreement threshold")
-
-
+#Industry
+hist(edges_industry$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
 par(mfrow = c(2,2), cex=0.6)
-mep_coalsteel <- read.csv("../../data/coal_steel_data.csv", header = T, sep = ",")
-
-edges_coalsteel <- read.csv("../../data/edges_for_against_coal_steel.csv", header = T, sep = ",")
-
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:15) {
-  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
-  density_filter <- igraph::transitivity(network_filter, type = 'global')
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Global transitivity", main="Transitivity as a function of agreement threshold")
-
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:15) {
-  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
-  density_filter <- igraph::edge_density(network_filter)
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Network density", main="Network density as a function of agreement threshold")
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:15) {
-  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
-  density_filter <- igraph::mean_distance(network_filter)
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Average path length", main="Average path length a function of agreement threshold")
-
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:15) {
-  edges_filter <- edges_coalsteel[edges_coalsteel[, "Agreement"]>i, c("MEP_1","MEP_2")]
-  network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_coalsteel, directed=FALSE)
-  density_filter <- igraph::diameter(network_filter)
-  de <- list(agreement=i, density=density_filter)
-  df = rbind(df,de, stringsAsFactors=FALSE) 
-}
-
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Diameter", main="Diameter as a function of agreement threshold")
+plot_statistic(igraph::transitivity, edges_industry, 16, "Global transitivity", "Transitivity as a function of agreement threshold")
+plot_statistic(igraph::edge_density, edges_industry, 16, "Network density", "Network density as a function of agreement threshold")
+plot_statistic(igraph::mean_distance, edges_industry, 16, "Average path length", "Average path length a function of agreement threshold")
+plot_statistic(igraph::diameter, edges_industry, 16, "Diameter", "Diameter as a function of agreement threshold")
+mtext("Industry Motion",side=3,line=-19,outer=TRUE)
 
 
 ```
 
+
 ##### Climate Motion
 
-The graphs for the climate motion show a rather dense network with a short average path length. This can be explained by the fact that with the full dataset, almost all members of the EP are connected to each other through some vote agreement. Which seems logical, given that they would just need to agree on one vote. However, this is not the most relevant information to us. Instead, it is observed from the transitivity measure figure that at an agreement threshold of 15, there is a drop in transitivity. This signals that there is a reduction in clusters when a threshold of 15 is set. Similarly, the network density plot shows a vast decline around the threshold of 15, indicating a large reduction of edges. As such we assume that by setting the treshold slightly past 15 will eliminate random edges between members of the EP. It is thus an interesting threshold to further evaluate. 
+The graphs for the climate motion initially show a dense network with a short average path length. This can be explained by the fact that with the full dataset, almost all members of the EP are connected to each other through at least one voting agreement. This is logical, given that they would just need to agree on one vote. However, this is not the most relevant information for this research. 
+
+Instead, two key points of change are noted in the graphs: agreement between 12-18 and agreement above 38. For expample,it is observed from the transitivity measure figure that at an agreement threshold of 15, there is a drop in transitivity. This signals that there is a reduction in clusters when a threshold of 15 is set. Similarly, the network density plot shows a vast decline around the threshold of 15, indicating a large reduction of edges. This behaviour can be seen when plotting the graphs (see plots below- MEPs have been plotted with their European party clearer to make clustering behaviour more obvious) as clearer subcommunities begin to appear. The median amount of agreement between MEPs in this dataset of 17 also underlines this range being a significant point in the network. 
+
+Additionally, a small drop in transitivity and density can be observed at an agreement threshold above 38 as well. This is interesting to observe, since at an agreement threshold of 38 and above, the MEPs agree on almost all votes. The density plot also shows, that there are fewer connections left, indicating that a smaller proportion of MEPs agree with each other at this significant level.This is clear when comparing the relevant plot where initially at a threshold of 38 there is still one large community. When the threshold is raised to 44 then this community has fractured into much smaller sub-groups
+
+```{r echo=FALSE}
+plot_network <- function(edges,threshold, layout) {
+  edges <- edges[edges[, "Agreement"]>=threshold, c("MEP_1","MEP_2")]
+  #Create network
+  network <- igraph::graph_from_data_frame(edges, vertices=mep, directed=FALSE)
+  #Plot network
+  isolates_network = which(igraph::degree(network)==0)
+  network_vis <- igraph::delete.vertices(network, isolates_network)
+  network_vis <- colour_network(network_vis)
+  plot(network_vis,
+     vertex.size = 4,
+     edge.size = .4,
+     vertex.label=NA,
+     layout = layout,
+     main=paste('Threshold of',threshold,',', length(isolates_network), 'isolated nodes removed', sep=" "))
+}
+
+par(mfrow=c(1,2))
+plot_network(edges_climate,12,igraph::layout_with_lgl)
+plot_network(edges_climate,17,igraph::layout_with_lgl)
+
+par(mfrow=c(1,2))
+plot_network(edges_climate,38,igraph::layout_with_graphopt)
+plot_network(edges_climate,44,igraph::layout_with_graphopt)
+```
 
 
 ##### Industry Motion
 
+As for the industry motion, a dense network with a short average path length can be observed as well for the full network. Again, all members are connected to each other through some voting agreement. As such, it becomes even more important to eliminate the random voting agreements in order to visualise the most important relationships between members of the European Parliament. 
 
+The transitivity clearly shows two key drops between 3-5 and 11-14. This signals that there is a reduction in clusters. Similarly, the density plot also signals a drop in density at a threshold of 4 and 13, indicating that many connections disappear at these stages.This matches the results from the histogram as there are many pairs of MEPs with agreement around these levels. The changes to the network are modelled in the visualisations below, particularly in the comparison of the threshold of 3 and 5 where there has been a clear fracturing into subcommunities.
 
+In contrast to the climate motion the median in agreement in this data is 13 showing a much higher average amount of agreement in this network.This is likely due to the high number of MEPs (around 5000) pairs that are in total agreement across all votes.
 
-#### Creation of the networks
-To create a network it first had to be determined what counted as agreement between two MEPs. Multiple actions can be taken as a response to a roll-call vote. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. This decision is in line with the edges created in previous research \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}.
-Furthermore, due to limitations with the ERGM’s ability to model weighted edges, the network to be used in this analysis had to consist of binary edges. Therefore, in order to create a network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote \citealt{cherepnalkoski_karpf_mozetič_grčar_2016}. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see \cite{cranmer_desmarais_2011}. 
-An appropriate threshold therefore had to be determined. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by generating the networks for a selection of thresholds, comparing density and the resulting ERGM model.
-An exploration of the thresholds was started by plotting a histogram of the different levels of agreements between MEPs and then a line graph showing the changing density of the networks depending on the threshold for agreement required for an edge (see plots below). The two plots corroborate each other, with big changes in network density occurring when setting the threshold above approximately 15 and again above 40. This is caused by the two peaks that we can see present in the spread of agreement around these two points.
-
-```{r}
-edges_climate <- read.csv("../../data/edges_for_against.csv")
-mep_climate <- read.csv("../../data/mepdata_climate.csv")
-hist(edges_climate$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
-df <- data.frame(agreement=integer(), density=double())
-for (i in 1:44) {
-        edges_filter <- edges_climate[edges_climate[, "Agreement"]>i, c("MEP_1","MEP_2")]
-        network_filter <- igraph::graph_from_data_frame(edges_filter, vertices=mep_climate, directed=FALSE)
-        density_filter <- igraph::edge_density(network_filter)
-        de <- list(agreement=i, density=density_filter)
-        df = rbind(df,de, stringsAsFactors=FALSE) 
+```{r echo=FALSE}
+plot_network <- function(edges,threshold, layout) {
+  edges <- edges[edges[, "Agreement"]>=threshold, c("MEP_1","MEP_2")]
+  #Create network
+  network <- igraph::graph_from_data_frame(edges, vertices=mep, directed=FALSE)
+  #Plot network
+  isolates_network = which(igraph::degree(network)==0)
+  network_vis <- igraph::delete.vertices(network, isolates_network)
+  network_vis <- colour_network(network_vis)
+  plot(network_vis,
+     vertex.size = 4,
+     edge.size = .4,
+     vertex.label=NA,
+     layout = layout,
+     main=paste('Threshold of',threshold,',', length(isolates_network), 'isolated nodes removed', sep=" "))
 }
 
-plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab="Density", main="Changing density of graphs depending on agreement threshold")
-```
-For clarity the thresholds considered here are absolute numbers of votes on which the MEPs agree on. Since every MEP has the opportunity to be both present and vote on each motion for each resolution then this is considered to be a clear and fair method for testing levels of agreement.
-With this data in mind, three models were created, visualised and tested with the ERGM (see plots and degree distribution of selected networks below). The three models used a threshold of above 5, above 20 and above 40 respectively. These models were all separately tested to ensure the best chance of finding a converging model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 5) in comparison to almost total agreement (above 40) which can be tested with these three models. 
+par(mfrow=c(1,2))
+plot_network(edges_industry,3,igraph::layout_with_lgl)
+plot_network(edges_industry,5,igraph::layout_with_lgl)
 
-```{r}
-#Filter to relevant edges
-edges_climate5 <- edges_climate[edges_climate[, "Agreement"]>5, c("MEP_1","MEP_2")]
-edges_climate20 <- edges_climate[edges_climate[, "Agreement"]>20, c("MEP_1","MEP_2")]
-edges_climate40 <- edges_climate[edges_climate[, "Agreement"]>40, c("MEP_1","MEP_2")]
-#Create network
-network_climate5 <- igraph::graph_from_data_frame(edges_climate5, vertices=mep_climate, directed=FALSE)
-network_climate20 <- igraph::graph_from_data_frame(edges_climate20, vertices=mep_climate, directed=FALSE)
-network_climate40 <- igraph::graph_from_data_frame(edges_climate40, vertices=mep_climate, directed=FALSE)
+par(mfrow=c(1,2))
+plot_network(edges_industry,11,igraph::layout_with_graphopt)
+plot_network(edges_industry,14,igraph::layout_with_graphopt)
+```
+
+For the climate motion, it can be assumed that by setting the threshold slightly past 15 will eliminate random edges between members of the EP. As for the threshold of 39, it would be interesting to observe given that the remaining connections capture extreme agreement, relevant to our research. As for the industry motion, it can be concluded that a threshold of 4 definitely removes the first set of random voting agreements. Additionally, a threshold of 13 also removes a large set of edges between members of the European Parliament, but it is yet to be evaluated whether these are random agreements or not. Instead, the threshold of 13 actually captures connections with extreme agreement. Therefore it would be interesting to use the number of voting agreements of 4 and 13 as thresholds for the remaining of our research.
+
+#### Threshold determination
+
+Following the descriptive analysis, an appropriate threshold had to be determined. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by examining the networks for a selection of thresholds, comparing density and the resulting ERGM model.
+
+As previously discussed, in the previous descriptive analysis both datasets had two specific ranges where the structure of the network significantly changed. The decision was therefore made to set the threshold for the networks used in this paper just above these ranges. This was chosen as it was considered likely that the more frequent levels of agreement between MEPs were likely be chance- particularly at lower levels.
+
+In order to be able to compare the analysis of both networks it was considered desirable to use the same thresholds on both. Therefore percentage thresholds were identified to be used: above 40% agreement and above 95% agreement. These both relate to the two ranges identified in the descriptive models above and their respective medians.
+
+With this data in mind, the networks models were created, visualised and tested with the ERGM (see plots and degree distribution of selected networks below). Summary statistics for these networks were also computed (see below) showing most significantly differences in graph density and diameter of the graphs (note: the centrality charts for these networks were also computed but again failed to show significant results due to the scale of the network- the only point of note was the range of degree which can be seen already in the degree distribution plotted below).
+All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 40%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
+
+```{r echo=FALSE}
+edges_climate$AgreementPercent <- round(edges_climate$Agreement/44, digits=2)
+edges_industry$AgreementPercent <- round(edges_climate$Agreement/16, digits=2)
+```
+
+
+```{r echo=FALSE}
+plot_network_perc <- function(edges,threshold_perc, layout) {
+  edges <- edges[edges[, "AgreementPercent"]>=threshold_perc, c("MEP_1","MEP_2")]
+  #Create network
+  network <- igraph::graph_from_data_frame(edges, vertices=mep, directed=FALSE)
+  #Plot network
+  isolates_network = which(igraph::degree(network)==0)
+  network_vis <- igraph::delete.vertices(network, isolates_network)
+  network_vis <- colour_network(network_vis)
+  plot(network_vis,
+     vertex.size = 4,
+     edge.size = .4,
+     vertex.label=NA,
+     layout = layout,
+     main=paste('Threshold of',threshold_perc,',', length(isolates_network), 'isolated nodes removed', sep=" "))
+  return(network)
+}
+
 #Plot network
 par(mfrow=c(1,2))
-plot(network_climate5,
-     vertex.size = 3,
-     edge.arrow.size = .4,
-     vertex.label=NA,
-     layout = igraph::layout.fruchterman.reingold,
-     main= "Threshold above 5" )
-hist(igraph::degree(network_climate5), xlab="Degree", main='Degree distribution above 5')
+network_climate_40perc <- plot_network_perc(edges_climate,0.4,igraph::layout_with_graphopt)
+hist(igraph::degree(network_climate_40perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 40%')
+
 par(mfrow=c(1,2))
-plot(network_climate20,
-     vertex.size = 3,
-     edge.arrow.size = .4,
-     vertex.label=NA,
-     layout = igraph::layout.fruchterman.reingold,
-     main= "Theshold above 20")
-hist(igraph::degree(network_climate20), ylim=c(0,600), xlab="Degree", main='Degree distribution above 20')
+network_climate_95perc <- plot_network_perc(edges_climate,0.95,igraph::layout_with_graphopt)
+hist(igraph::degree(network_climate_95perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 90%')
+```
+```{r echo=FALSE}
+cn <- c("Measurement", "Value")
+nonodes <- c("Number of nodes",igraph::vcount(network_climate_40perc))
+noedges <- c("Number of edges",igraph::ecount(network_climate_40perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_40perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_40perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_40perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_climate_40perc))
+tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
+rownames(tab) <- NULL
+knitr::kable(tab, caption = "Statistics for climate network with threshold 30%")
+
+cn <- c("Measurement", "Value")
+nonodes <- c("Number of nodes",igraph::vcount(network_climate_95perc))
+noedges <- c("Number of edges",igraph::ecount(network_climate_95perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_95perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_95perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_95perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_climate_95perc))
+tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
+rownames(tab) <- NULL
+knitr::kable(tab, caption = "Statistics for climate network with threshold 95%")
+```
+
+
+```{r echo=FALSE}
+#Plot network
 par(mfrow=c(1,2))
-plot(network_climate40,
-     vertex.size = 3,
-     edge.arrow.size = .4,
-     vertex.label=NA,
-     layout = igraph::layout_with_graphopt,
-     main= "Threshold above 40")
-hist(igraph::degree(network_climate40), ylim=c(0,600), xlab="Degree", main='Degree distribution above 40')
+network_industry_40perc <- plot_network_perc(edges_industry,0.4,igraph::layout_with_lgl)
+hist(igraph::degree(network_industry_40perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 40%')
+
+par(mfrow=c(1,2))
+network_industry_95perc <- plot_network_perc(edges_industry,0.95,igraph::layout_with_lgl)
+hist(igraph::degree(network_industry_95perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 95%')
+```
+```{r echo=FALSE}
+cn <- c("Measurement", "Value")
+nonodes <- c("Number of nodes",igraph::vcount(network_industry_40perc))
+noedges <- c("Number of edges",igraph::ecount(network_industry_40perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_40perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_40perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_40perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_industry_40perc))
+tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
+rownames(tab) <- NULL
+knitr::kable(tab, caption = "Statistics for industry network with threshold 30%")
+
+cn <- c("Measurement", "Value")
+nonodes <- c("Number of nodes",igraph::vcount(network_industry_95perc))
+noedges <- c("Number of edges",igraph::ecount(network_industry_95perc))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_95perc), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_95perc), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_95perc), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_industry_95perc))
+tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
+rownames(tab) <- NULL
+knitr::kable(tab, caption = "Statistics for industry network with threshold 90%")
 ```
 
 ### Model 1
