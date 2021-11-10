@@ -132,10 +132,13 @@ topics of the following sections.
 -->
 #### Topic of choice and literature review
 
-The data used for this project comes from an open source provided by the European Union (EU). Lots of studies are conducted such as [reference above]. The mentioned studies are examples of how Twitter statuses of members of the European Parliament (MEP) can be connected to predict voting. Coalitions and political party cohesion are strong indicators of which vote will be final for the given MEP. The European Parliament is constructed in such a way where one political coalition may not have the overall majority to vote in or out a resolution. It is made on purpose to encourage discussion, debate and legal amendments. What tips the voting in favour or against are the members that vote against what is “expected” from them, in the sense of against of their priors. Having an idea of when or how these events happen are interesting to investigate from where this paper. The current literature has a similar methodology and investigative scope than our project. Our paper will corroborate or not with their findings. Towards the end it will be explained why it is more nuanced.
-Our work is going to contribute to the field by providing additional insight into the voting behaviors of given MEPs. Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [reference from list]. 
+The data used for this project comes from an open source provided by the European Union (EU). Lots of studies are conducted such as [@Cohesion_and_coalition_formation_in_the_european_parliament_roll_call_votes_and_twitter_activities_2016]. The mentioned studies are examples of how Twitter statuses of members of the European Parliament (MEP) can be connected to predict voting. Coalitions and political party cohesion are strong indicators of which vote will be final for the given MEP. The European Parliament is constructed in such a way where one political coalition may not have the overall majority to vote in or out a resolution. It is made on purpose to encourage discussion, debate and legal amendments. What tips the voting in favour or against are the members that vote against what is “expected” from them, in the sense of against of their priors. Having an idea of when or how these events happen are interesting to investigate from where this paper. The current literature has a similar methodology and investigative scope than our project. Our paper will corroborate or not with their findings. Towards the end it will be explained why it is more nuanced.
+Our work is going to contribute to the field by providing additional insight into the voting behaviors of given MEPs. Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [@A_network_science_approach_to_social_cohesion_in_european_societies_2021-2026; @Political_network_size_and_its_antecedents_and_consequences_2013; @Political_networks_a_structured_bibliography_2007; @the_oxford_handbook_of_political_networks_2017]. 
 
-#### Methods
+The study will give possible factors that influence the final voting outcome for a given bill. The tools deployed to tackle this problem are described down below. They will allow to compare objectively using statistical tools such as ERGM. The creation of these models allow a better understanding of which factors influence the formation and dissociation of coalitions and political party cohesions.
+
+
+#### Statistical arsenal
 The programming language used for this project is R. After having done some exploratory network descriptive to see whether there are some outliers or unusual dynamics going around. The following characteristics were studied:
 •	Network density
 •	Average path length 
@@ -150,15 +153,30 @@ There are numerous studies that used this method such as:
 • Lusher, Masculinity, educational achievement and social status, GENDER & EDUCATION 2011 
 • Rank et al. (2010). Structural logic of intra-organizational networks, ORG SCI, 2010.
 ERGMs are Increasingly being used, increasingly being understood, increasingly being able to handle imperfect data (also missing link prediction) - Lusher, Koskinen, Robins ERGMs for SN, CUP, 2011
-Quadratic assignment procedure (QAP) is another method that will be used for this project. It scrambles the dependent variable data through several permutations. By taking the data, and “scrambling” it repeatedly, resulting in multiple random datasets with the dependent variable—and then multiple analyses can be performed. It is like a bootstrapping method but applied in the field of network analysis. 
+Quadratic assignment procedure (QAP) is another method that will be used for this project. It scrambles the dependent variable data through several permutations. By taking the data, and “scrambling” it repeatedly, resulting in multiple random datasets with the dependent variable—and then multiple analyses can be performed. It is similar to a bootstrapping method but applied in the field of network analysis.
 
-2-Does political cohesion, country of origin can predict the vote of a MEP against or for a given resolution ?
-Method:
-Linear regression based on metric extracted from network could be interesting. 
+Based on literature research and available statistical tools, the following research questions and hypotheses will be answered using the self-provided dataset.
+
+<!--
+correct to add "and industry bill" in question 1 @laurens ?
+is this order respected @laurens ? "ERGM then QAP question"
+-->
+1- “What is the cohesion of agreement, based on the climate and industry bill, within every European group?”
+2- “What is the correlation between the network from the climate bill and the network from the industry bill?”
 
 Here we define cohesion in line with the definition provided by @cherepnalkoski_karpf_mozetic_grcar_2016 who view cohesion as the propensity to vote in the same manner within the same group, here the same European parliamentary group.
 
 Hypotheses:
+
+	“We expect a high level of cohesion”. 
+	“We expect a high level of correlation”. 
+<!--
+not sure if this following part is supposed to be here or not @laurens ?
+-->
+
+When using the ERGM method, the networks cannot be too dense. In this research, edges are drawn when people agree often enough based on an arbitrary threshold. Agreeing is defined as both MEPs saying yes or no to a bill. When taking all votes across one or two bills, a network can be made with weights being the number of times these two MEPs agree on an amendment or legal portion of the overarching document.
+
+<!--
 	Cohesion is stable across the two bills.
 	Networks have little change from one bill to the other.
 	MEPs do not agree with each other across bills.
@@ -166,6 +184,7 @@ Hypotheses:
 	Countries have little influence on the community formation identified using transitivity.
 	Are voting networks built around cycles grouping certain indviduals.
 	What happens to the network when the most central nodes are taken away. This hypothesis would test whether the removal of a central node would be influential or not.
+-->
 
 
 #### Roll-call votes
@@ -175,7 +194,7 @@ The analysis conducted in this paper is carried out over a set of 61 roll-call v
 <!--
 Bram Nov 2: I think this subsection is not needed, and a bit distracting from the goal of the report.
 -->
-As the COP26 is upon us between the 1st and 12th of November 2021 in Glasgow, climate change is becoming more and more central to international political agendas. New goals will be set to protect those most vulnerable to climate change. In fact, climate change leading to an increase of sea levels may turn out to be deadly for some marginalized societies such as the Sentinelese. A couple centimeters of additional water level can lead their islands to be submerged and permanently lose their foot on the solid ground. Other societies are under the increasing threat of higher temperatures leading to a whole spectrum of climate and weather changes. This may force certain communities to change the crop that is being grown within the region. Bad harvests may lead some societies to starvation or economical crisis due to bad quality products thus unfit for exportation towards richer areas such as Europe. Climate change affect many countries in many ways. Ecosystems are being disturbed create new geopolitical tensions such as access to drinkable water, new mineral and fossil fuel accesses in the arctic, sea commercial areas wanting to be extended for commercial reasons. All this without even mentioning the consequence on wildlife with their variety decreasing each year. As the president of Brazil would claim, what is the economical gain for a country to have all this wildlife in comparison to burning it for farmland. In conclusion, the communities that are already on the edge of survival will be once again hit hard by the result of a planet-degrading, unsustainable consumer behavior lived in the richest countries of the World. To push this trend further, emerging countries such as China are more and more willing to adopt such a way of living creating even more stress on the planet's carbon emission.
+As the COP26 is upon us between the 1st and 12th of November 2021 in Glasgow, climate change is becoming more and more central to international political agendas. New goals will be set to protect those most vulnerable to climate change. In fact, climate change leading to an increase of sea levels may turn out to be deadly for some marginalized societies such as the Sentinelese [@Nathanial_Matthews_2019]. A couple centimeters of additional water level can lead their islands to be submerged and permanently lose their foot on the solid ground. Other societies are under the increasing threat of higher temperatures leading to a whole spectrum of climate and weather changes. This may force certain communities to change the crop that is being grown within the region. Bad harvests may lead some societies to starvation or economical crisis due to bad quality products thus unfit for exportation towards richer areas such as Europe. Climate change affect many countries in many ways. Ecosystems are being disturbed create new geopolitical tensions such as access to drinkable water, new mineral and fossil fuel accesses in the arctic, sea commercial areas wanting to be extended for commercial reasons. All this without even mentioning the consequence on wildlife with their variety decreasing each year. As the president of Brazil would claim, what is the economical gain for a country to have all this wildlife in comparison to burning it for farmland. In conclusion, the communities that are already on the edge of survival will be once again hit hard by the result of a planet-degrading, unsustainable consumer behavior lived in the richest countries of the World. To push this trend further, emerging countries such as China are more and more willing to adopt such a way of living creating even more stress on the planet's carbon emission [@Consideration_regarding_vulnerable_groups_communities_and_ecosystems_in_the_context_of_the_national_adadaptation_plans_2018].
 
 #### 
 
@@ -658,3 +677,23 @@ Can you give suggestions for future work in this area?
 # Appendix
 Document on the Coal & Steel vote: https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
 Document on the impacts of climate change: https://www.europarl.europa.eu/doceo/document/A-9-2021-0115_EN.html
+<!--
+Sources of introduction
+--> 
+ William P. Eveland Jr., Myiah J. Hutchens & Alyssa C. Morey (2013) Political Network Size and Its Antecedents and Consequences, Political Communication, 30:3, 371-394, DOI: 10.1080/10584609.2012.737433 
+ 
+ Schneider, Volker & Lang, Achim & Leifeld, Philip & Gundelach, Birte. (2007). Political Networks - A Structured Bibliography. 
+
+Lee, Jeongyoon. (2019). The Oxford handbook of political networks: edited by Jennifer Nicoll Victor, Alexander H. Montgomery and Mark Lubell, Oxford, New York, Oxford University Press, 2017, 1008 pp., $175.00 (hardback), ISBN: 9780190228217, DOI:10.1093/oxfordhb/9780190228217.001.0001. International Review of Public Administration. 24. 1-3. 10.1080/12294659.2019.1662655. 
+
+Cherepnalkoski D, Karpf A, Mozetič I, Grčar M (2016) Cohesion and Coalition Formation in the European Parliament: Roll-Call Votes and Twitter Activities. PLoS ONE 11(11): e0166586. https://doi.org/10.1371/journal.pone.0166586
+
+UNIVERSIDAD AUTONOMA DE BARCELONA (2021, 2026) A Network Science Approach to Social Cohesion in European Societies https://cordis.europa.eu/project/id/101020038 
+<!--
+Sources of vulnerable populations
+--> 
+Least developed countries expert group - United Nations Climate Change Secretariat (2018) Considerations regarding vulnerable groups, communities and ecosystems in the context of the national adaptiations plans https://unfccc.int/sites/default/files/resource/Considerations%20regarding%20vulnerable.pdf 
+
+Nathanial Matthews, Deon Nel (2019) Climate change hits vulnerable communities first and hardest https://www.iisd.org/articles/climate-change-hits-vulnerable-communities-first-and-hardest 
+
+Public health newswire American public health association (2021) Climate changes health: vulnerable populations https://www.apha.org/topics-and-issues/climate-change/vulnerable-populations 
