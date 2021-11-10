@@ -161,8 +161,8 @@ Based on literature research and available statistical tools, the following rese
 correct to add "and industry bill" in question 1 @laurens ?
 is this order respected @laurens ? "ERGM then QAP question"
 -->
-1- “What is the cohesion of agreement, based on the climate and industry bill, within every European group?”
-2- “What is the correlation between the network from the climate bill and the network from the industry bill?”
+1- “What is the correlation between the network from the climate bill and the network from the industry bill?”
+2- “What is the cohesion of agreement, based on the climate and industry bill, within every European group?”
 
 Here we define cohesion in line with the definition provided by @cherepnalkoski_karpf_mozetic_grcar_2016 who view cohesion as the propensity to vote in the same manner within the same group, here the same European parliamentary group.
 
@@ -536,29 +536,58 @@ rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for industry network with threshold 95%")
 ```
 
-### Model 1
-<!--
-Model 1 Description (about 1000 words) – 2.5 POINTS
-
-*	Present your results appropriately (plots, tables…) and discuss your findings 
-in plain English
-
-*	Discuss the meaning of your findings in relation to your hypothesis. (half of
-the points evaluated in this other part)
--->
-
-```{r echo = FALSE, results = 'asis'}
-# table example
-cn <- c("age", "gender", "eyes_col")
-one <- c(7, "M", "BLUE")
-two <- c(8, "F", "BROWN")
-three <- c(8, "M", "GREEN")
-four <- c(7, "F", "PINK")
-
-tab <- rbind(cn, one, two, three, four)
-rownames(tab) <- NULL
-knitr::kable(tab)
+```{r echo=FALSE}
+#Creating network objects of all required igraph objects
+w_network_climate_nw <- intergraph::asNetwork(w_network_climate)
+w_network_industry_nw <- intergraph::asNetwork(w_network_industry)
+network_climate_35perc_nw <- intergraph::asNetwork(network_climate_35perc)
+network_climate_95perc_nw <- intergraph::asNetwork(network_climate_95perc)
+network_industry_35perc_nw <- intergraph::asNetwork(network_industry_35perc)
+network_industry_95perc_nw <- intergraph::asNetwork(network_industry_95perc)
 ```
+
+### QAP test
+In this section the correlation between the the climate vote network and the industry vote network was analysed with QAP-tests to give an initial indication to the first research question. The correlation between these networks can be considered in a number of ways, including inserting them in ERGMs as a predictor for the other respective networks. This will be carried out later since this can provide added information about the correlation while controlling for the other network characteristics. However, to already get a view on the correlation here, QAP tests were carried out. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used.
+
+A QAP test involves permutating both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations.This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme. This is reflected in the p-value of the likelihood of this statistic being observed.
+
+DEFINE ASSOCIATION SOMEWHERE
+CHECK- WEIGHT NOT INCLUDED? IF SO- STATE SOMEWHERE
+
+QAP tests were carried out on the full network, the 35% threshold network and the 95% threshold network for full coverage and also to see if there is different association at different level of agreement. For example, it's possible that there could be less correlation in the full network due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance and it is likely that if two MEPs agree on climate that they might have similar views about the coal and steel industry (add source here!!!).
+
+```{r echo=FALSE}
+paste('Correlation of full networks:', sprintf(sna::gcor(w_network_climate_nw,w_network_industry_nw), fmt = '%#.3f'), sep=" ")
+paste('Correlation of 35% threshold network:', sprintf(sna::gcor(network_climate_35perc_nw,network_industry_35perc_nw), fmt = '%#.3f'), sep=" ")
+paste('Correlation of 95% threshold network:', sprintf(sna::gcor(network_climate_95perc_nw,network_industry_95perc_nw), fmt = '%#.3f'),sep=" ")
+```
+
+Interestingly, in contrast to the prediction, the correlation from the initial graphs is significantly higher than the correlation between the two thresholded networks. However, this may be due to the very high number of edges in the initial network- if nearly MEPs have one moment of agreement then nearly the whole network will be connected. This is reflected in the high densities of these graphs (0.964 and 0.977). This would explain the very high level of association as the probability is therefore very high that there will be a matching edge in the other network. he result from the thresholded networks is perhaps then more interesting. Next, the QAP test, can help further by showing how significant each association result is.
+
+```{r echo=FALSE}
+mepCor <- sna::qaptest(list(w_network_climate_nw, w_network_industry_nw), 
+                       FUN = sna::gcor, g1 = 1, g2 = 2, reps = 1000)
+sum_mepCor <- summary(mepCor)
+sum_mepCor
+sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
+```
+```{r echo=FALSE}
+mepCor35 <- sna::qaptest(list(network_climate_35perc_nw, network_industry_35perc_nw), 
+                       FUN = sna::gcor, g1 = 1, g2 = 2, reps = 1000)
+sum_mepCor35 <- summary(mepCor35)
+sum_mepCor35
+sna::plot.qaptest(mepCor35, xlim=c(min(sum_mepCor35[[2]])-0.005,sum_mepCor35[[1]]))
+```
+```{r echo=FALSE}
+mepCor95 <- sna::qaptest(list(network_climate_95perc_nw, network_industry_95perc_nw), 
+                       FUN = sna::gcor, g1 = 1, g2 = 2, reps = 1000)
+sum_mepCor95 <- summary(mepCor95)
+sum_mepCor95
+sna::plot.qaptest(mepCor95, xlim=c(min(sum_mepCor95[[2]])-0.005,sum_mepCor95[[1]]))
+```
+What does change in correlations say? Correlation highest for people who agree the most? (Maybe check which parties are removed/ remain in the 95% threshold one- they're the ones that stick to their guns?)
+
+What proportion of possible edges are in the first two graphs?
 
 ### ERGM 
 <!--
@@ -685,8 +714,6 @@ Sources of introduction
  Schneider, Volker & Lang, Achim & Leifeld, Philip & Gundelach, Birte. (2007). Political Networks - A Structured Bibliography. 
 
 Lee, Jeongyoon. (2019). The Oxford handbook of political networks: edited by Jennifer Nicoll Victor, Alexander H. Montgomery and Mark Lubell, Oxford, New York, Oxford University Press, 2017, 1008 pp., $175.00 (hardback), ISBN: 9780190228217, DOI:10.1093/oxfordhb/9780190228217.001.0001. International Review of Public Administration. 24. 1-3. 10.1080/12294659.2019.1662655. 
-
-Cherepnalkoski D, Karpf A, Mozetič I, Grčar M (2016) Cohesion and Coalition Formation in the European Parliament: Roll-Call Votes and Twitter Activities. PLoS ONE 11(11): e0166586. https://doi.org/10.1371/journal.pone.0166586
 
 UNIVERSIDAD AUTONOMA DE BARCELONA (2021, 2026) A Network Science Approach to Social Cohesion in European Societies https://cordis.europa.eu/project/id/101020038 
 <!--
