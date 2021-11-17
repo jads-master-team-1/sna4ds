@@ -65,11 +65,11 @@ Base Terms:
   - edges: CONVERGED
 
 Structural Terms:
-  - gwesp(decay = 0.25, fixed = TRUE): DEGENERATE (DID NOT REACH MAX ITER / 75min)
-  - gwesp(decay = 0.25, fixed = FALSE): DEGENERATE (DID NOT REACH MAX ITER / 90min)
-  - gwesp(decay = 0.1, fixed = TRUE): ??? (9:20 - ???)
-  - gwesp(decay = 0.1, fixed = FALSE): ???
-  - gwdsp(decay = 0.25, fixed = TRUE): ???
+  - gwesp(decay = 0.25, fixed = TRUE): DEGENERATE (E1 / NO MAX ITER / 75min)
+  - gwesp(decay = 0.25, fixed = FALSE): DEGENERATE (E1 / NO MAX ITER / 90min)
+  - gwesp(decay = 0.1, fixed = TRUE): DEGENERATE (E1 / NO MAX ITER / 70min)
+  - gwesp(decay = 0.1, fixed = FALSE): NOPROGRESS (E2 / NO MAX ITER / 180min)
+  - gwdsp(decay = 0.25, fixed = TRUE): ??? (??? / ??? / 13:45)
   - gwdsp(decay = 0.25, fixed = FALSE): ???
   - gwdsp(decay = 0.1, fixed = TRUE): ???
   - gwdsp(decay = 0.1, fixed = FALSE): ???
@@ -83,3 +83,25 @@ Structural Terms:
   - dsp(1): ???
   - dsp(2): ???
   - dsp(3): ???
+
+Errors:
+  E1  Error in ergm.MCMLE(init, nw, model, initialfit = (initialfit <- NULL),  : 
+        Number of edges in a simulated network exceeds that in the observed by a
+        factor of more than 20. This is a strong indicator of model degeneracy or
+        a very poor starting parameter configuration. If you are reasonably certain
+        that neither of these is the case, increase the MCMLE.density.guard
+        control.ergm() parameter.
+        
+        In addition: Warning messages:
+          1: In mple.existence(pl) : The MPLE does not exist!
+          2: In ergm.mple(nw, fd, m, MPLEtype = MPLEtype, init = init,
+             control = control,  :
+               glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+  E2  Starting maximum pseudolikelihood estimation (MPLE):
+      Evaluating the predictor and response matrix.
+      Maximizing the pseudolikelihood.
+      Finished MPLE.
+      Starting Monte Carlo maximum likelihood estimation (MCMLE):
+      Iteration 1 of at most 60:
+      ...
