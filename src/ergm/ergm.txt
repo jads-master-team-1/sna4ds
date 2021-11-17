@@ -65,9 +65,9 @@ Base Terms:
   - edges: CONVERGED
 
 Structural Terms:
-  - gwesp(decay = 0.25, fixed = TRUE): ???
-  - gwesp(decay = 0.25, fixed = FALSE): ???
-  - gwesp(decay = 0.1, fixed = TRUE): ???
+  - gwesp(decay = 0.25, fixed = TRUE): DEGENERATE (DID NOT REACH MAX ITER / 75min)
+  - gwesp(decay = 0.25, fixed = FALSE): DEGENERATE (DID NOT REACH MAX ITER / 90min)
+  - gwesp(decay = 0.1, fixed = TRUE): ??? (9:20 - ???)
   - gwesp(decay = 0.1, fixed = FALSE): ???
   - gwdsp(decay = 0.25, fixed = TRUE): ???
   - gwdsp(decay = 0.25, fixed = FALSE): ???
