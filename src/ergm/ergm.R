@@ -1,4 +1,4 @@
-# Scratch
+# ERGM
 
 ## Set seed
 random_seed <- 42
@@ -83,16 +83,19 @@ plot(cug_gden_industry)
 ### Baseline
 m0_climate <- ergm::ergm(network_climate ~ edges)
 
-m0_climate_fit <- ergm::gof(m0_climate)
-
-summary(m0_climate_fit)
+(m0_climate_fit <- ergm::gof(m0_climate))
 plot(m0_climate_fit)
 
 ### Baseline + Structural Effects
-m1_climate <- ergm::ergm(network_climate ~ edges + gwesp(decay = 0.25, fixed = TRUE),
+m1_climate <- ergm::ergm(network_climate ~ edges + gwdsp(decay = 1, fixed = TRUE),
                          check.degeneracy = TRUE,
                          control = ergm::control.ergm(MCMC.burnin = 5000,
                                                       MCMC.samplesize = 10000,
                                                       seed = random_seed,
                                                       MCMLE.maxit = 60,
                                                       parallel = 4))
+
+(m1_climate_fit <- ergm::gof(m1_climate))
+plot(m1_climate_fit)
+
+ergm::mcmc.diagnostics(m1_climate)

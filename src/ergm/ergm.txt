@@ -69,20 +69,23 @@ Structural Terms:
   - gwesp(decay = 0.25, fixed = FALSE): DEGENERATE (E1 / NO MAX ITER / 90min)
   - gwesp(decay = 0.1, fixed = TRUE): DEGENERATE (E1 / NO MAX ITER / 70min)
   - gwesp(decay = 0.1, fixed = FALSE): NOPROGRESS (E2 / NO MAX ITER / 180min)
-  - gwdsp(decay = 0.25, fixed = TRUE): ??? (??? / ??? / 13:45)
-  - gwdsp(decay = 0.25, fixed = FALSE): ???
-  - gwdsp(decay = 0.1, fixed = TRUE): ???
-  - gwdsp(decay = 0.1, fixed = FALSE): ???
-  - triadcensus: ???
-  - cycle(1): ???
-  - cycle(2): ???
-  - cycle(3): ???
-  - esp(1): ???
-  - esp(2): ???
-  - esp(3): ???
-  - dsp(1): ???
-  - dsp(2): ???
-  - dsp(3): ???
+  - gwdsp(decay = 1, fixed = TRUE): ??? (??? / ??? / 18:45)
+  - gwdsp(decay = 1, fixed = FALSE): ??? (??? / ??? / ???)
+  - gwdsp(decay = 0.25, fixed = TRUE): NOPROGRESS (E2 / NO MAX ITER / 195min)
+  - gwdsp(decay = 0.25, fixed = FALSE): NOCONVERGE (E3 / MAX ITER / 18hr 30min)
+  - gwdsp(decay = 0.1, fixed = TRUE): ??? (??? / ??? / ???)
+  - gwdsp(decay = 0.1, fixed = FALSE): ??? (??? / ??? / ???)
+
+  - triadcensus: ??? (??? / ??? / ???)
+  - cycle(1): ??? (??? / ??? / ???)
+  - cycle(2): ??? (??? / ??? / ???)
+  - cycle(3): ??? (??? / ??? / ???)
+  - esp(1): ??? (??? / ??? / ???)
+  - esp(2): ??? (??? / ??? / ???)
+  - esp(3): ??? (??? / ??? / ???)
+  - dsp(1): ??? (??? / ??? / ???)
+  - dsp(2): ??? (??? / ??? / ???)
+  - dsp(3): ??? (??? / ??? / ???)
 
 Errors:
   E1  Error in ergm.MCMLE(init, nw, model, initialfit = (initialfit <- NULL),  : 
@@ -105,3 +108,33 @@ Errors:
       Starting Monte Carlo maximum likelihood estimation (MCMLE):
       Iteration 1 of at most 60:
       ...
+
+  E3  Iteration 60 of at most 60:
+        Optimizing with step length 0.0010.
+        The log-likelihood improved by 4.5442.
+        Estimating equations are not within tolerance region.
+      
+      MCMLE estimation did not converge after 60 iterations. The estimated
+      coefficients may not be accurate. Estimation may be resumed by passing the
+      coefficients as initial values; see 'init' under ?control.ergm for details.
+      
+      Finished MCMLE.
+        Evaluating log-likelihood at the estimate. Fitting the dyad-independent submodel...
+        Bridging between the dyad-independent submodel and the full model...
+        Setting up bridge sampling...
+          Using 16 bridges: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 .
+        Bridging finished.
+      
+      This model was fit using MCMC. To examine model diagnostics and check for
+      degeneracy, use the mcmc.diagnostics() function.
+      
+      Warning messages:
+        1: In term 'gwdsp': decay parameter 'decay' passed with 'fixed=FALSE'.
+           'decay' will be ignored. To specify an initial value for 'decay', use
+           the 'init' control parameter. 
+        2: In term 'gwdsp': decay parameter 'decay' passed with 'fixed=FALSE'.
+           'decay' will be ignored. To specify an initial value for 'decay', use
+           the 'init' control parameter. 
+        3: In term 'gwdsp': decay parameter 'decay' passed with 'fixed=FALSE'.
+           'decay' will be ignored. To specify an initial value for 'decay', use
+           the 'init' control parameter.
