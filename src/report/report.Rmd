@@ -244,7 +244,7 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 *	What is the potential bias in the data? How does this affect your results?
 -->
-As the dataset for this research two votes of the European Parliament on May 18th 2021 are scraped from the VoteWatch.eu website. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 subvotes. The second vote is named "Research Fund for Coal and Steel", and has 16 subvotes. The full official document of the votes can be found in the Appendix. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend @votewatch_methodology. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
+As the dataset for this research two votes of the European Parliament on May 18th 2021 are scraped from the VoteWatch.eu website. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 subvotes. The second vote is named "Research Fund for Coal and Steel", and has 16 subvotes. The full official document of the votes can be found in the Appendix. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend @votewatch_europe The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
 The two analysed votes are purposefully chosen in order to analyze the potential difference in the network effects within the European Parliament for different areas of politics. Stereotypically, political views on climate change on the one hand, and coal & steel industry on the other hand are often adverse, which make these votes interesting to analyze. Furthermore, the votes took place on the same date, which eliminates influence of various possible external parameters. Some examples of such parameters are the date of the vote, the composition of the parliament, or short-lived political ideologies.
 
 
@@ -293,8 +293,14 @@ In order to get a better overview of the dataset, the five-number summary is com
 The summary statistics of the graph already point to a high level of similarity in structure. They both have very high density and transitivity. They also have the same path length and diameter, likely due to the many connections between nodes in both graphs.
 
 ```{r echo=FALSE}
+edges_climate$AgreementPercent <- round(edges_climate$Agreement/44, digits=2)
+edges_industry$AgreementPercent <- round(edges_industry$Agreement/16, digits=2)
+```
+
+```{r echo=FALSE}
 w_edges_climate <- edges_climate[edges_climate[, "Agreement"]>=1, c("MEP_1","MEP_2")]
 w_network_climate <- igraph::graph_from_data_frame(w_edges_climate, vertices=mep, directed=FALSE)
+w_network_climate  <- igraph::set_edge_attr(w_network_climate , "weight", value= edges_climate$AgreementPercent)
 
 cn <- c("Measurement", "Value")
 nonodes <- c("Number of nodes",igraph::vcount(w_network_climate))
@@ -309,6 +315,7 @@ knitr::kable(tab, caption = "Statistics for weighted climate network")
 
 w_edges_industry <- edges_industry[edges_industry[, "Agreement"]>=1, c("MEP_1","MEP_2")]
 w_network_industry <- igraph::graph_from_data_frame(w_edges_industry, vertices=mep, directed=FALSE)
+w_network_industry  <- igraph::set_edge_attr(w_network_industry , "weight", value= edges_industry$AgreementPercent)
 
 cn <- c("Measurement", "Value")
 nonodes <- c("Number of nodes",igraph::vcount(w_network_industry))
@@ -447,11 +454,6 @@ With this data in mind, the networks models were created, visualised and tested 
 All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 35%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
 
 ```{r echo=FALSE}
-edges_climate$AgreementPercent <- round(edges_climate$Agreement/44, digits=2)
-edges_industry$AgreementPercent <- round(edges_industry$Agreement/16, digits=2)
-```
-
-```{r echo=FALSE}
 p1 <- hist(edges_industry$AgreementPercent)
 p2 <- hist(edges_climate$AgreementPercent)
 plot(p1 , col=rgb(0,0,1,1/4), xlim=c(0,1), main='Histogram of edges for climate and industry with selected thresholds', xlab= 'Agreement frequency')  # first histogram
@@ -557,26 +559,27 @@ network_industry_95perc_nw <- intergraph::asNetwork(network_industry_95perc)
 ```
 
 ### QAP test
-In this section the correlation between the the climate vote network and the industry vote network was analysed with QAP-tests to give an initial indication to the first research question. The correlation between these networks can be considered in a number of ways, including inserting them in ERGMs as a predictor for the other respective networks. This will be carried out later since this can provide added information about the correlation while controlling for the other network characteristics. However, to already get a view on the correlation here, QAP tests were carried out. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used.
+In this section the correlation between the the climate vote network and the industry vote network was analysed with QAP-tests to give an initial indication of the answer to the first research question. The correlation between these networks can be considered in a number of ways, including inserting them in ERGMs as a predictor for the other respective networks. This will be carried out later since this can provide added information about the correlation while controlling for the other network characteristics. However, to already get a view on the correlation here, in a faster manner, QAP tests were carried out. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used.Calculating the correlation here therefore involves comparing the existence of an edge between two MEPs in the first network with the existence of an edge between the same two MEPs in the second network.
 
-A QAP test involves permutating both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations.This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme. This is reflected in the p-value of the likelihood of this statistic being observed.
+A QAP test involves permuting both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations.This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme for a graph controlled by this size and structure. This likeliness of observing this statistic is reflected in the p-value returned.This therefore uses the original graph and creates a distribution based for comparison of what the association would be under the null hypothesis of there being no association.
 
-DEFINE ASSOCIATION SOMEWHERE
-CHECK- WEIGHT NOT INCLUDED? IF SO- STATE SOMEWHERE
-
-QAP tests were carried out on the full network, the 35% threshold network and the 95% threshold network for full coverage and also to see if there is different association at different level of agreement. For example, it's possible that there could be less correlation in the full network due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance and it is likely that if two MEPs agree on climate that they might have similar views about the coal and steel industry (add source here!!!).
+QAP tests were carried out on the full network, the 35% threshold network and the 95% threshold network for full coverage and also to see if there is different association at different level of agreement. For example, it's possible that there could be less correlation with lower thresholds due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance. and it is likely that if two MEPs agree on climate that they might have similar views about the importance of researching less environmentally impactful ways of producing steel.
+First of all the basic correlation statistics for the three comparisons are calculated. The product-moment correlation statistic is used here as the most common statistic for correlation in networks [@MEGHANATHAN2021339]:
 
 ```{r echo=FALSE}
-paste('Correlation of full networks:', sprintf(sna::gcor(w_network_climate_nw,w_network_industry_nw), fmt = '%#.3f'), sep=" ")
-paste('Correlation of 35% threshold network:', sprintf(sna::gcor(network_climate_35perc_nw,network_industry_35perc_nw), fmt = '%#.3f'), sep=" ")
-paste('Correlation of 95% threshold network:', sprintf(sna::gcor(network_climate_95perc_nw,network_industry_95perc_nw), fmt = '%#.3f'),sep=" ")
+paste('Correlation of full networks (without weighting):', sprintf(sna::gcor(w_network_climate_nw,w_network_industry_nw,mode='graph'), fmt = '%#.3f'), sep=" ")
+paste('Correlation of 35% threshold network:', sprintf(sna::gcor(network_climate_35perc_nw,network_industry_35perc_nw,mode='graph'), fmt = '%#.3f'), sep=" ")
+paste('Correlation of 95% threshold network:', sprintf(sna::gcor(network_climate_95perc_nw,network_industry_95perc_nw,mode='graph'), fmt = '%#.3f'),sep=" ")
+c_m <- network::as.sociomatrix(w_network_climate_nw,matrix.type='adjacency',attrname='weight')
+i_m <- network::as.sociomatrix(w_network_industry_nw,matrix.type='adjacency',attrname='weight')
+paste('Correlation of full weighted networks:', sprintf(sna::gcor(c_m, i_m,mode='graph'), fmt = '%#.3f'), sep=" ")
 ```
 
-Interestingly, in contrast to the prediction, the correlation from the initial graphs is significantly higher than the correlation between the two thresholded networks. However, this may be due to the very high number of edges in the initial network- if nearly MEPs have one moment of agreement then nearly the whole network will be connected. This is reflected in the high densities of these graphs (0.964 and 0.977). This would explain the very high level of association as the probability is therefore very high that there will be a matching edge in the other network. he result from the thresholded networks is perhaps then more interesting. Next, the QAP test, can help further by showing how significant each association result is.
+Interestingly, in contrast to the prediction, the correlation from the initial graph is significantly higher than the correlation between the two thresholded networks. However, upon examination this is likely due to the very high number of edges in the initial network- if all MEPs agree with the other MEPs on at least one vote then the whole network will be connected. This is reflected in the high densities of these graphs (0.964 and 0.977). This would explain the very high level of association as the probability is therefore very high that there will be a matching edge in the other network. The result from the thresholded networks is perhaps then more interesting. The correlation of the weighted graph is very low. However, nothing about the correlation of these graphs can be concluded without knowing how significant each association result is compared with the result from the null hypothesis. The QAP test is therefore carried out for this.
 
 ```{r echo=FALSE}
 mepCor <- sna::qaptest(list(w_network_climate_nw, w_network_industry_nw), 
-                       FUN = sna::gcor, g1 = 1, g2 = 2, reps = 1000)
+                       FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph', reps = 1000)
 sum_mepCor <- summary(mepCor)
 sum_mepCor
 sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
@@ -584,22 +587,30 @@ sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
 
 ```{r echo=FALSE}
 mepCor35 <- sna::qaptest(list(network_climate_35perc_nw, network_industry_35perc_nw), 
-                       FUN = sna::gcor, g1 = 1, g2 = 2, reps = 1000)
+                       FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph',reps = 1000)
 sum_mepCor35 <- summary(mepCor35)
 sum_mepCor35
 sna::plot.qaptest(mepCor35, xlim=c(min(sum_mepCor35[[2]])-0.005,sum_mepCor35[[1]]))
 ```
 ```{r echo=FALSE}
 mepCor95 <- sna::qaptest(list(network_climate_95perc_nw, network_industry_95perc_nw), 
-                       FUN = sna::gcor, g1 = 1, g2 = 2, reps = 1000)
+                       FUN = sna::gcor, g1 = 1, g2 = 2, mode='graph', reps = 1000)
 sum_mepCor95 <- summary(mepCor95)
 sum_mepCor95
 sna::plot.qaptest(mepCor95, xlim=c(min(sum_mepCor95[[2]])-0.005,sum_mepCor95[[1]]))
 ```
+```{r echo=FALSE}
+mepCor <- sna::qaptest(list(c_m, i_m), 
+                       FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph', reps = 1000)
+sum_mepCor <- summary(mepCor)
+sum_mepCor
+sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
+```
 
-What does change in correlations say? Correlation highest for people who agree the most? (Maybe check which parties are removed/ remain in the 95% threshold one- they're the ones that stick to their guns?)
+From the results it can be seen that all of these correlation results are very significantly significant. For all of these graphs based on the p-values there would be a 0.2% chance or less of observing these correlations based on chance alone.The significance of each correlation result is also put into scale in the diagram. While the full graph had the highest correlation statistic, the statistic is only around three times greater than the correlation from the created simulated graphs. In contrast, the correlation of the 95% networks is over 12 times larger than the highest correlation of the simulated graphs. This perhaps indicates that there is more association between actors with lots of agreement in both networks.
+The most interesting graph is perhaps the QAP results from the weighted networks. While the association between the graphs is still significant, there is an overlap between the result observed in the networks and the permuted graphs in the QAP test. 
+From the results it can therefore be concluded that there is an association between how pairs of MEPs agreed in the climate motion and industry motion for both weighted agreement, and with thresholds for incidental agreement and almost total agreement.This therefore provides evidence in line with the first hypothesis of this paper.
 
-What proportion of possible edges are in the first two graphs?
 
 ### ERGM 
 <!--
