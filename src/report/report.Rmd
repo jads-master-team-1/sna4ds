@@ -17,6 +17,7 @@ shorttitle: Title
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
   Enter author note here.
@@ -98,6 +99,8 @@ colour_network <- function(network){
 <!--
 Executive Summary Description (150 words) – 0.3 POINTS
 
+Basically an Abstract.
+
 Summarize the report. Write this as the very last thing.
 
 What is the main topic you are addressing?
@@ -156,9 +159,9 @@ Along with the research question, the following hypothesis is formulated:
 _H2: “We expect a high level of correlation”._
 
 
-Our work is going to contribute to the field by providing additional insight into the voting behaviors of given members of the European Parliament (MEPs). Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [@A_network_science_approach_to_social_cohesion_in_european_societies_2021-2026; @Political_network_size_and_its_antecedents_and_consequences_2013; @Political_networks_a_structured_bibliography_2007; @the_oxford_handbook_of_political_networks_2017]. 
+Our work is going to contribute to the field by providing additional insight into the voting behaviors of given members of the European Parliament (MEPs). Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [@Eveland2013; @Schneider2007; @Nicoll_Victor2017]. 
 
-The study will give possible factors that influence the final voting outcome for a given bill. The tools deployed to tackle this problem are described down below. They will allow to compare objectively using statistical tools such as ERGM. The creation of these models allow a better understanding of which factors influence the formation and dissociation of coalitions and political party cohesions.
+The study will give possible factors that influence the final voting outcome for a given bill. The tools deployed to tackle this problem are described in further sections. They will allow to compare objectively using statistical tools, for instance ERGM. The creation of these models allow a better understanding of which factors influence the formation and dissociation of coalitions and political party cohesions.
 
 #### Roll-call votes
 The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands [@cherepnalkoski_karpf_mozetic_grcar_2016]. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
@@ -202,7 +205,7 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 *	What is the potential bias in the data? How does this affect your results?
 -->
 #### Source of data and collection
-As the dataset for this research two votes of the European Parliament, both on May 18th 2021, are scraped from the VoteWatch.eu website. The code used to scrape the data can be found in the appendix <!--ADD REFERENCE TO APPENDIX-->. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 roll-calls. The second vote is named "Research Fund for Coal and Steel", and has 16 roll-calls. The full official document of the votes can be found in the Appendix <!--ADD REFERENCE TO APPENDIX-->. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend @votewatch_methodology. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
+As the dataset for this research two votes of the European Parliament, both on May 18th 2021, are scraped from the VoteWatch.eu website. The code used to scrape the data can be found in the appendix<!--ADD REFERENCE TO APPENDIX-->. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 roll-calls. The second vote is named "Research Fund for Coal and Steel", and has 16 roll-calls. The full official document of the votes can be found in the Appendix<!--ADD REFERENCE TO APPENDIX-->. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to a great extend [@noauthor_votewatchmethodology_nodate]. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
 
 The two analysed votes are purposefully chosen in order to analyze the potential difference in the network effects within the European Parliament for different areas of politics. Stereo typically, political views on climate change on the one hand, and coal & steel industry on the other hand are often adverse, which make these votes interesting to analyze. Furthermore, the votes took place on the same date, which eliminates influence of various possible external parameters. Some examples of such parameters are the date of the vote, the composition of the parliament, or short-lived political ideologies.
 
