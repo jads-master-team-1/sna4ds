@@ -330,7 +330,7 @@ sink()
 
 saveRDS(m2_2_industry, file = "./models/m2_2_industry_alt.rds")
 
-### Edges + Isolates + AltKStar + nodematch("group_abbv") (5min - ERROR)
+### Edges + Isolates + AltKStar + nodematch("group_abbv") (??? - ???)
 m3_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
                             nodematch("group_abbv"),
                           check.degeneracy = TRUE,
