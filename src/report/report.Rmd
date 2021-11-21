@@ -1,5 +1,6 @@
 ---
 title: "Cohesion within the European Parliament: a social network analysis"
+shorttitle: "Cohesion within the European Parliament"
 author:
 - name: Iona Donaldson (2064159)
 - name: Colette van Happen (2069244)
@@ -7,7 +8,6 @@ author:
 - name: Tom de Wildt (2068292)
 - name: Laurens Priem (1274328)
 - name: Bram Delisse (2065006)
-shorttitle: Cohesion within the European Parliament
 output:
   html_document:
     df_print: paged
