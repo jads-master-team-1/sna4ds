@@ -1,0 +1,373 @@
+Call:
+ergm::ergm(formula = network_climate ~ edges + isolates + altkstar(0.5, 
+    fixed = TRUE), control = ergm::control.ergm(MCMC.burnin = 5000, 
+    MCMC.samplesize = 10000, seed = random_seed, MCMLE.maxit = 60, 
+    parallel = 4), verbose = TRUE, check.degeneracy = TRUE)
+
+Monte Carlo Maximum Likelihood Results:
+
+             Estimate Std. Error MCMC % z value Pr(>|z|)    
+edges         -9.4479     0.4509      0  -20.95   <1e-04 ***
+isolates      19.8709     0.1970      0  100.86   <1e-04 ***
+altkstar.0.5   6.5556     0.4503      0   14.56   <1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+     Null Deviance: 344023  on 248160  degrees of freedom
+ Residual Deviance:  54091  on 248157  degrees of freedom
+ 
+AIC: 54097  BIC: 54128  (Smaller is better. MC Std. Err. = 49.4)
+
+Goodness-of-fit for degree 
+
+          obs min   mean max MC p-value
+degree0   567 568 607.99 697       0.00
+degree1     6   0   0.04   2       0.00
+degree2     6   0   6.47  20       1.00
+degree3     4   0   0.30   2       0.00
+degree4     5   1  16.79  35       0.58
+degree5     0   0   0.78   5       1.00
+degree6     0   0  21.90  54       0.22
+degree7     0   0   0.78   4       1.00
+degree8     0   0  16.26  42       0.30
+degree9     0   0   0.47   4       1.00
+degree10    0   0   8.46  35       0.54
+degree11    0   0   0.18   3       1.00
+degree12    0   0   4.34  29       0.92
+degree13    0   0   0.08   2       1.00
+degree14    0   0   2.12  24       1.00
+degree15    0   0   0.06   2       1.00
+degree16    0   0   1.51  25       1.00
+degree17    0   0   0.04   1       1.00
+degree18    0   0   1.09  22       1.00
+degree20    0   0   1.19  25       1.00
+degree21    0   0   0.02   1       1.00
+degree22    0   0   1.19  21       1.00
+degree23    0   0   0.01   1       1.00
+degree24    0   0   0.91  21       1.00
+degree25    0   0   0.02   1       1.00
+degree26    0   0   0.80  22       1.00
+degree28    0   0   0.70  19       1.00
+degree29    0   0   0.01   1       1.00
+degree30    0   0   0.52  14       1.00
+degree31    0   0   0.02   2       1.00
+degree32    0   0   0.62  22       1.00
+degree33    0   0   0.01   1       1.00
+degree34    0   0   0.39  11       1.00
+degree35    0   0   0.01   1       1.00
+degree36    0   0   0.38  13       1.00
+degree37    0   0   0.01   1       1.00
+degree38    0   0   0.27  10       1.00
+degree39    0   0   0.01   1       1.00
+degree40    0   0   0.34  11       1.00
+degree42    0   0   0.42  13       1.00
+degree43    0   0   0.01   1       1.00
+degree44    0   0   0.28  10       1.00
+degree46    0   0   0.31  12       1.00
+degree48    0   0   0.35  13       1.00
+degree49    0   0   0.03   2       1.00
+degree50    0   0   0.30  15       1.00
+degree52    0   0   0.28  13       1.00
+degree54    0   0   0.31  13       1.00
+degree56    0   0   0.31  12       1.00
+degree58    0   0   0.25  15       1.00
+degree59    0   0   0.03   2       1.00
+degree60    0   0   0.29  13       1.00
+degree61    0   0   0.02   2       1.00
+degree62    0   0   0.28  16       1.00
+degree64    0   0   0.26  17       1.00
+degree66    0   0   0.21  11       1.00
+degree68    0   0   0.13   6       1.00
+degree70    0   0   0.25  14       1.00
+degree72    0   0   0.16  11       1.00
+degree74    0   0   0.20  14       1.00
+degree76    0   0   0.11   6       1.00
+degree78    0   0   0.20  19       1.00
+degree80    0   0   0.20  18       1.00
+degree82    0   0   0.09   9       1.00
+degree84    0   0   0.15  13       1.00
+degree86    0   0   0.11   8       1.00
+degree88    0   0   0.14   7       1.00
+degree90    0   0   0.16  14       1.00
+degree92    0   0   0.19  19       1.00
+degree94    0   0   0.16  16       1.00
+degree95    0   0   0.01   1       1.00
+degree96    0   0   0.11  11       1.00
+degree98    0   0   0.17  17       1.00
+degree99    0   0   0.01   1       1.00
+degree100   0   0   0.11  11       1.00
+degree102   0   0   0.05   5       1.00
+degree103   0   0   0.01   1       1.00
+degree104   0   0   0.08   4       1.00
+degree105   0   0   0.01   1       1.00
+degree106   0   0   0.10   7       1.00
+degree107   0   0   0.01   1       1.00
+degree108   0   0   0.15  14       1.00
+degree109   0   0   0.01   1       1.00
+degree110   0   0   0.30  30       1.00
+degree111   0   0   0.03   3       1.00
+degree112   0   0   0.30  30       1.00
+degree113   0   0   0.01   1       1.00
+degree114   0   0   0.18  18       1.00
+degree116 117   0   0.07   7       0.00
+
+Goodness-of-fit for edgewise shared partner 
+
+        obs min   mean max MC p-value
+esp0      3  10 180.12 380       0.00
+esp1      6   0  79.39 280       0.26
+esp2      6   0  31.05 249       0.76
+esp3     10   0  19.25 265       0.36
+esp4      0   0  15.17 267       1.00
+esp5      0   0  11.12 230       1.00
+esp6      0   0   9.82 237       1.00
+esp7      0   0   8.17 208       1.00
+esp8      0   0   7.93 239       1.00
+esp9      0   0   6.14 201       1.00
+esp10     0   0   6.13 228       1.00
+esp11     0   0   5.49 239       1.00
+esp12     0   0   5.28 199       1.00
+esp13     0   0   4.96 205       1.00
+esp14     0   0   5.04 245       1.00
+esp15     0   0   5.14 217       1.00
+esp16     0   0   4.64 205       1.00
+esp17     0   0   4.96 214       1.00
+esp18     0   0   4.68 196       1.00
+esp19     0   0   4.58 220       1.00
+esp20     0   0   4.32 236       1.00
+esp21     0   0   4.04 199       1.00
+esp22     0   0   4.63 211       1.00
+esp23     0   0   4.25 219       1.00
+esp24     0   0   4.44 200       1.00
+esp25     0   0   4.70 238       1.00
+esp26     0   0   4.25 217       1.00
+esp27     0   0   4.14 226       1.00
+esp28     0   0   4.48 248       1.00
+esp29     0   0   4.24 228       1.00
+esp30     0   0   4.13 215       1.00
+esp31     0   0   3.99 186       1.00
+esp32     0   0   4.40 239       1.00
+esp33     0   0   3.72 213       1.00
+esp34     0   0   3.50 229       1.00
+esp35     0   0   3.73 270       1.00
+esp36     0   0   3.57 261       1.00
+esp37     0   0   3.44 271       1.00
+esp38     0   0   2.85 215       1.00
+esp39     0   0   2.89 212       1.00
+esp40     0   0   2.91 212       1.00
+esp41     0   0   2.40 174       1.00
+esp42     0   0   2.26 139       1.00
+esp43     0   0   2.04 100       1.00
+esp44     0   0   2.22 123       1.00
+esp45     0   0   2.28 144       1.00
+esp46     0   0   2.50 187       1.00
+esp47     0   0   2.35 195       1.00
+esp48     0   0   2.44 219       1.00
+esp49     0   0   2.83 255       1.00
+esp50     0   0   2.69 253       1.00
+esp51     0   0   2.56 248       1.00
+esp52     0   0   2.91 284       1.00
+esp53     0   0   2.86 284       1.00
+esp54     0   0   2.72 269       1.00
+esp55     0   0   2.83 283       1.00
+esp56     0   0   2.45 244       1.00
+esp57     0   0   2.46 245       1.00
+esp58     0   0   1.96 196       1.00
+esp59     0   0   1.80 175       1.00
+esp60     0   0   1.56 150       1.00
+esp61     0   0   1.47 137       1.00
+esp62     0   0   1.10  91       1.00
+esp63     0   0   0.89  62       1.00
+esp64     0   0   0.83  49       1.00
+esp65     0   0   0.88  55       1.00
+esp66     0   0   0.86  69       1.00
+esp67     0   0   1.23 112       1.00
+esp68     0   0   1.31 125       1.00
+esp69     0   0   1.96 192       1.00
+esp70     0   0   1.94 193       1.00
+esp71     0   0   2.49 249       1.00
+esp72     0   0   2.65 265       1.00
+esp73     0   0   3.08 308       1.00
+esp74     0   0   3.02 302       1.00
+esp75     0   0   3.62 362       1.00
+esp76     0   0   3.36 336       1.00
+esp77     0   0   3.64 364       1.00
+esp78     0   0   3.72 372       1.00
+esp79     0   0   3.15 315       1.00
+esp80     0   0   2.90 290       1.00
+esp81     0   0   2.69 269       1.00
+esp82     0   0   2.27 227       1.00
+esp83     0   0   2.19 219       1.00
+esp84     0   0   1.89 189       1.00
+esp85     0   0   1.32 132       1.00
+esp86     0   0   1.18 118       1.00
+esp87     0   0   0.98  98       1.00
+esp88     0   0   0.76  76       1.00
+esp89     0   0   0.65  65       1.00
+esp90     0   0   0.45  45       1.00
+esp91     0   0   0.33  32       1.00
+esp92     0   0   0.22  19       1.00
+esp93     0   0   0.16   9       1.00
+esp94     0   0   0.31  16       1.00
+esp95     0   0   0.31  27       1.00
+esp96     0   0   0.43  40       1.00
+esp97     0   0   1.15 112       1.00
+esp98     0   0   1.25 125       1.00
+esp99     0   0   2.77 277       1.00
+esp100    0   0   2.43 242       1.00
+esp101    0   0   4.73 473       1.00
+esp102    0   0   3.75 375       1.00
+esp103    0   0   7.51 751       1.00
+esp104    0   0   4.51 451       1.00
+esp105    0   0   8.88 888       1.00
+esp106    0   0   4.27 427       1.00
+esp107    0   0   8.17 817       1.00
+esp108    0   0   2.91 291       1.00
+esp109    0   0   5.72 572       1.00
+esp110    0   0   1.44 144       1.00
+esp111    0   0   2.77 277       1.00
+esp112    0   0   0.35  35       1.00
+esp113    0   0   1.02 102       1.00
+esp114    0   0   0.06   6       1.00
+esp115 6786   0   0.15  15       0.00
+
+Goodness-of-fit for minimum geodesic distance 
+
+       obs    min      mean    max MC p-value
+1     6811     10    673.88   6511       0.00
+2        0     13   2254.79   7038       0.00
+3        0      5   2293.29   5027       0.00
+4        0      0    438.18   1401       0.26
+5        0      0     18.05     85       0.76
+6        0      0      1.42     27       1.00
+7        0      0      0.31     10       1.00
+8        0      0      0.08      4       1.00
+9        0      0      0.02      1       1.00
+Inf 241349 238844 242479.98 248132       0.98
+
+Goodness-of-fit for model statistics 
+
+              obs min   mean  max MC p-value
+edges        6811  10 673.88 6511          0
+isolates      567 568 607.99  697          0
+altkstar.0.5 6806  10 672.36 6507          0
+Sample statistics summary:
+
+Iterations = 8896512:36036608
+Thinning interval = 8192 
+Number of chains = 4 
+Sample size per chain = 3314 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+                Mean     SD Naive SE Time-series SE
+edges        -1602.1 5212.2   45.270          4.727
+isolates      -179.5  317.6    2.758          0.000
+altkstar.0.5 -1602.8 5206.5   45.221          4.704
+
+2. Quantiles for each variable:
+
+              2.5%     25%   50%  75% 97.5%
+edges        -6811 -6811.0 -1860 3614  3963
+isolates      -504  -493.5  -176  138   138
+altkstar.0.5 -6806 -6806.0 -1863 3607  3955
+
+
+Are sample statistics significantly different from observed?
+                   edges isolates  altkstar.0.5 Overall (Chi^2)
+diff.      -1.602103e+03   -179.5 -1.602775e+03              NA
+test stat. -2.943174e+00      0.0 -2.963880e+00      0.04781986
+P-val.      3.248659e-03      1.0  3.037872e-03      0.99735156
+
+Sample statistics cross-correlations:
+                 edges   isolates altkstar.0.5
+edges         1.000000 -0.9997860    1.0000000
+isolates     -0.999786  1.0000000   -0.9997854
+altkstar.0.5  1.000000 -0.9997854    1.0000000
+
+Sample statistics auto-correlation:
+Chain 1 
+          edges isolates altkstar.0.5
+Lag 0       NaN      NaN          NaN
+Lag 8192    NaN      NaN          NaN
+Lag 16384   NaN      NaN          NaN
+Lag 24576   NaN      NaN          NaN
+Lag 32768   NaN      NaN          NaN
+Lag 40960   NaN      NaN          NaN
+Chain 2 
+              edges isolates altkstar.0.5
+Lag 0     1.0000000      NaN    1.0000000
+Lag 8192  0.9733383      NaN    0.9731127
+Lag 16384 0.9472853      NaN    0.9470955
+Lag 24576 0.9215874      NaN    0.9214671
+Lag 32768 0.8964677      NaN    0.8966684
+Lag 40960 0.8714458      NaN    0.8717009
+Chain 3 
+          edges isolates altkstar.0.5
+Lag 0       NaN      NaN          NaN
+Lag 8192    NaN      NaN          NaN
+Lag 16384   NaN      NaN          NaN
+Lag 24576   NaN      NaN          NaN
+Lag 32768   NaN      NaN          NaN
+Lag 40960   NaN      NaN          NaN
+Chain 4 
+              edges isolates altkstar.0.5
+Lag 0     1.0000000      NaN    1.0000000
+Lag 8192  0.9720696      NaN    0.9716995
+Lag 16384 0.9446114      NaN    0.9442237
+Lag 24576 0.9192586      NaN    0.9191625
+Lag 32768 0.8954776      NaN    0.8952899
+Lag 40960 0.8730562      NaN    0.8728247
+
+Sample statistics burn-in diagnostic (Geweke):
+Chain 1 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+       edges     isolates altkstar.0.5 
+         NaN          NaN          NaN 
+
+Individual P-values (lower = worse):
+       edges     isolates altkstar.0.5 
+         NaN          NaN          NaN 
+Joint P-value (lower = worse):  0 .
+Chain 2 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+       edges     isolates altkstar.0.5 
+       1.718          NaN        1.723 
+
+Individual P-values (lower = worse):
+       edges     isolates altkstar.0.5 
+  0.08574266          NaN   0.08497897 
+Joint P-value (lower = worse):  0.2475034 .
+Chain 3 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+       edges     isolates altkstar.0.5 
+         NaN          NaN          NaN 
+
+Individual P-values (lower = worse):
+       edges     isolates altkstar.0.5 
+         NaN          NaN          NaN 
+Joint P-value (lower = worse):  0 .
+Chain 4 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+       edges     isolates altkstar.0.5 
+     -0.7742          NaN      -0.7855 
+
+Individual P-values (lower = worse):
+       edges     isolates altkstar.0.5 
+   0.4388413          NaN    0.4321666 
+Joint P-value (lower = worse):  0.7162555 .
+
+MCMC diagnostics shown here are from the last round of simulation, prior to computation of final parameter estimates. Because the final estimates are refinements of those used for this simulation run, these diagnostics may understate model performance. To directly assess the performance of the final model on in-model statistics, please use the GOF command: gof(ergmFitObject, GOF=~model).
