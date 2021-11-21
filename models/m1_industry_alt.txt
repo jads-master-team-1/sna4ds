@@ -1,0 +1,211 @@
+Call:
+ergm::ergm(formula = network_industry ~ edges + isolates, control = ergm::control.ergm(MCMC.burnin = 5000, 
+    MCMC.samplesize = 10000, seed = random_seed, MCMLE.maxit = 60, 
+    parallel = 4), verbose = TRUE, check.degeneracy = TRUE)
+
+Monte Carlo Maximum Likelihood Results:
+
+         Estimate Std. Error MCMC % z value Pr(>|z|)    
+edges    -0.55220    0.03984      0  -13.86   <1e-04 ***
+isolates 18.62444         NA     NA      NA       NA    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+     Null Deviance: 6322  on 4560  degrees of freedom
+ Residual Deviance: 4384  on 4558  degrees of freedom
+ 
+AIC: 4388  BIC: 4401  (Smaller is better. MC Std. Err. = 1.231)
+
+Goodness-of-fit for degree 
+
+         obs min  mean max MC p-value
+degree0   22  22 22.00  22       1.00
+degree13  14   0  0.02   1       0.00
+degree14   0   0  0.03   1       1.00
+degree15   0   0  0.10   2       1.00
+degree16   0   0  0.20   1       1.00
+degree17   0   0  0.51   3       1.00
+degree18   0   0  0.83   4       0.76
+degree19   0   0  1.22   5       0.66
+degree20   0   0  2.10   6       0.20
+degree21   0   0  2.74   7       0.08
+degree22   0   0  4.03  10       0.10
+degree23   0   1  4.97  11       0.00
+degree24  25   1  5.57  11       0.00
+degree25   0   0  6.81  12       0.02
+degree26   0   2  7.30  14       0.00
+degree27   0   2  7.13  14       0.00
+degree28   0   0  7.00  17       0.02
+degree29   0   1  6.15  14       0.00
+degree30   0   1  5.31  12       0.00
+degree31   0   0  3.69   9       0.04
+degree32   0   0  2.67   7       0.14
+degree33   0   0  2.00   8       0.22
+degree34  35   0  1.53   6       0.00
+degree35   0   0  0.98   4       0.66
+degree36   0   0  0.51   4       1.00
+degree37   0   0  0.27   2       1.00
+degree38   0   0  0.17   2       1.00
+degree39   0   0  0.08   1       1.00
+degree40   0   0  0.07   1       1.00
+degree41   0   0  0.01   1       1.00
+
+Goodness-of-fit for edgewise shared partner 
+
+      obs min   mean max MC p-value
+esp0    0   0   0.04   1       1.00
+esp1    0   0   0.38   4       1.00
+esp2    0   0   2.15  10       0.44
+esp3    0   0   7.61  27       0.02
+esp4    0   7  19.59  45       0.00
+esp5    0  19  40.31  74       0.00
+esp6    0  35  68.75 104       0.00
+esp7    0  60 100.65 139       0.00
+esp8    0  82 126.58 161       0.00
+esp9    0  98 136.57 174       0.00
+esp10   0  96 132.10 168       0.00
+esp11   0  78 113.54 147       0.00
+esp12  91  48  89.30 139       0.90
+esp13   0  30  61.01 120       0.00
+esp14   0   8  39.74  78       0.00
+esp15   0   4  22.43  50       0.00
+esp16   0   0  12.76  35       0.02
+esp17   0   0   5.99  24       0.04
+esp18   0   0   2.62  10       0.46
+esp19   0   0   1.17   8       0.82
+esp20   0   0   0.42   3       1.00
+esp21   0   0   0.15   2       1.00
+esp22   0   0   0.06   1       1.00
+esp23 300   0   0.01   1       0.00
+esp33 595   0   0.00   0       0.00
+
+Goodness-of-fit for minimum geodesic distance 
+
+     obs  min    mean  max MC p-value
+1    986  920  983.93 1047       0.98
+2      0 1654 1717.02 1781       0.00
+3      0    0    0.05    1       1.00
+Inf 3574 1859 1859.00 1859       0.00
+
+Goodness-of-fit for model statistics 
+
+         obs min   mean  max MC p-value
+edges    986 920 983.93 1047       0.98
+isolates  22  22  22.00   22       1.00
+Sample statistics summary:
+
+Iterations = 632832:2560000
+Thinning interval = 1024 
+Number of chains = 4 
+Sample size per chain = 1883 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+            Mean    SD Naive SE Time-series SE
+edges    -0.8251 25.12   0.2894         0.7383
+isolates  0.0000  0.00   0.0000         0.0000
+
+2. Quantiles for each variable:
+
+         2.5% 25% 50% 75% 97.5%
+edges     -48 -18  -1  16 50.72
+isolates    0   0   0   0  0.00
+
+
+Are sample statistics significantly different from observed?
+                edges isolates Overall (Chi^2)
+diff.      -0.8251460        0              NA
+test stat. -1.1219854      NaN       1.2432129
+P-val.      0.2618687      NaN       0.2650855
+
+Sample statistics cross-correlations:
+         edges isolates
+edges        1       NA
+isolates    NA        1
+
+Sample statistics auto-correlation:
+Chain 1 
+             edges isolates
+Lag 0    1.0000000      NaN
+Lag 1024 0.7247714      NaN
+Lag 2048 0.5095374      NaN
+Lag 3072 0.3590336      NaN
+Lag 4096 0.2352970      NaN
+Lag 5120 0.1435334      NaN
+Chain 2 
+             edges isolates
+Lag 0    1.0000000      NaN
+Lag 1024 0.7393674      NaN
+Lag 2048 0.5734604      NaN
+Lag 3072 0.4468856      NaN
+Lag 4096 0.3264621      NaN
+Lag 5120 0.2395994      NaN
+Chain 3 
+             edges isolates
+Lag 0    1.0000000      NaN
+Lag 1024 0.7205455      NaN
+Lag 2048 0.5202754      NaN
+Lag 3072 0.3783523      NaN
+Lag 4096 0.2829783      NaN
+Lag 5120 0.2037693      NaN
+Chain 4 
+             edges isolates
+Lag 0    1.0000000      NaN
+Lag 1024 0.7489876      NaN
+Lag 2048 0.5491696      NaN
+Lag 3072 0.4159450      NaN
+Lag 4096 0.2989076      NaN
+Lag 5120 0.2009589      NaN
+
+Sample statistics burn-in diagnostic (Geweke):
+Chain 1 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+   edges isolates 
+ -0.3516      NaN 
+
+Individual P-values (lower = worse):
+   edges isolates 
+0.725132      NaN 
+Joint P-value (lower = worse):  0.761145 .
+Chain 2 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+   edges isolates 
+    1.18      NaN 
+
+Individual P-values (lower = worse):
+   edges isolates 
+0.238162      NaN 
+Joint P-value (lower = worse):  0.2159932 .
+Chain 3 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+   edges isolates 
+   0.976      NaN 
+
+Individual P-values (lower = worse):
+    edges  isolates 
+0.3290569       NaN 
+Joint P-value (lower = worse):  0.4866298 .
+Chain 4 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+   edges isolates 
+  0.3743      NaN 
+
+Individual P-values (lower = worse):
+    edges  isolates 
+0.7081441       NaN 
+Joint P-value (lower = worse):  0.7398661 .
+
+MCMC diagnostics shown here are from the last round of simulation, prior to computation of final parameter estimates. Because the final estimates are refinements of those used for this simulation run, these diagnostics may understate model performance. To directly assess the performance of the final model on in-model statistics, please use the GOF command: gof(ergmFitObject, GOF=~model).
