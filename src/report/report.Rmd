@@ -11,6 +11,7 @@ shorttitle: Cohesion within the European Parliament
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
   Enter author note here.
@@ -90,6 +91,8 @@ colour_network <- function(network){
 <!--
 Executive Summary Description (150 words) – 0.3 POINTS
 
+Basically an Abstract.
+
 Summarize the report. Write this as the very last thing.
 
 What is the main topic you are addressing?
@@ -122,7 +125,9 @@ connected to previous work or to a problem you raised?
 *	What does the rest of the report look like? In one short paragraph, list the 
 topics of the following sections.
 -->
-#### Topic of choice and literature review
+
+### Topic of choice and literature review
+
 The European Parliament (EP) is composed of 705 members, all elected officials. While these officials are elected to represent the European people as a whole, they are often also a member of a national party of one of the European Union (EU) member states. The officials of national parties then form European groups in the EP based on the ideology of the national parties. The purpose of these European group is to have unity in the voting behavior of its members. However, there can be a difference in interest between ideology and national interest of the parliaments's members. European groups are formed based on a common ideology, yet all its internal members also have to take national interest into account. Probably it is the case that for certain bills that are closely connected to the ideology of a group, unity inside that European group is very high. At the same time, bills that are further apart from the ideology and where national interest play a larger role may lead to a different and more varied voting behavior for the group. For instance, we expect a high level of unity inside the Greens group when they are voting on a bill related to climate. At the same time, such a group might be more influenced by national interests when it votes on a bill related to industry or economic activity. The catch here is that the industry bill might also have an effect on the climate. This begs the overarching question about how consistent European groups vote across bills. Does the network from one bill significantly differ from a network from a different bill? We want to investigate this using the following research question:
 
 _RQ1: “What is the correlation between the network from the climate bill and the network from the industry bill?”_
@@ -131,7 +136,15 @@ Along with the research question, the following hypothesis is formulated:
 
 _H1: “We expect a high level of correlation”._
 
-Another interesting political clash to investigate is that between the interests from certain national parties with those from the European group. For instance, the European Christen Democrats group (EPP) has been in a big dispute with Hungary's Fidesz party, eventually even leading to the national party leaving the group after being threatened to get kicked out [@de_la_baume_orbans_2021]. 
+
+An interesting political clash to investigate is between ideology and national interest. European groups are formed based on a common ideology, yet all its internal members also have to take national interest into account. Probably it is the case that for certain bills that are closely connected to the ideology of a group, unity inside that European group is very high. At the same time, bills that are further apart from the ideology and where national interest play a larger role may lead to a different and more varied voting behavior for the group. For instance, we expect a high level of unity inside the Greens group when they are voting on a bill related to climate. At the same time, such a group might be more influenced by national interests when it votes on a bill related to industry or economic activity. The catch here is that the industry bill might also have an effect on the climate. This begs the overarching question about how consistent European groups vote across bills. Does the network from one bill significantly differ from a network from a different bill? We want to investigate this using the following research question:
+
+<!--
+Should we perhaps specify exactly what we mean with "high level of cohesion/correlation"? What is high?
+-->
+
+The purpose of the European group is to have unity in the voting behavior of its members. However, it can be the case that the interests from certain national parties clash with those from the European group. For instance, the European Christen Democrats group (EPP) has been in a big dispute with Hungary's Fidesz party, eventually even leading to the national party leaving the group after being threatened to get kicked out [@de_la_baume_orbans_2021]. 
+
 
 Given potential clashes between national and European interests, we are very interested to investigate the unity and dynamics inside European groups. As such, we have formulated the following research question:
 
@@ -141,77 +154,21 @@ Along with the research question, the following hypothesis is formulated:
 
 _H2: “We expect a high level of cohesion for both bills”._
 
-<!--
-Should we perhaps specify exactly what we mean with "high level of cohesion/correlation"? What is high?
--->
-
 Here we define cohesion in line with the definition provided by [@cherepnalkoski_karpf_mozetic_grcar_2016] who view cohesion as the propensity to vote in the same manner within the same group, here the same European parliamentary group.
 
+Our work is going to contribute to the field by providing additional insight into the voting behaviors of given members of the European Parliament (MEPs). Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [@Eveland2013; @Schneider2007; @Nicoll_Victor2017]. 
 
-
-
-
-The data used for this project comes from an open source provided by EU. Lots of studies are conducted such as [@cherepnalkoski_karpf_mozetic_grcar_2016]. The mentioned studies are examples of how Twitter statuses of members of the European Parliament (MEP) can be connected to predict voting. Coalitions and political party cohesion are strong indicators of which vote will be final for the given MEP. The European Parliament is constructed in such a way where one political coalition may not have the overall majority to vote in or out a resolution. It is made on purpose to encourage discussion, debate and legal amendments. What tips the voting in favour or against are the members that vote against what is “expected” from them, in the sense of against their priors. Having an idea of when or how these events happen are interesting to investigate. The current literature has a similar methodology and investigative scope as our project. Our paper will corroborate or not with their findings. Towards the end it will be explained why it is more nuanced.
-Our work is going to contribute to the field by providing additional insight into the voting behaviors of given MEPs. Our data being recent (2021) can suggest whether voting patterns are staying similar in time in comparison to other studies such as [@A_network_science_approach_to_social_cohesion_in_european_societies_2021-2026; @Political_network_size_and_its_antecedents_and_consequences_2013; @Political_networks_a_structured_bibliography_2007; @the_oxford_handbook_of_political_networks_2017]. 
-
-The study will give possible factors that influence the final voting outcome for a given bill. The tools deployed to tackle this problem are described down below. They will allow to compare objectively using statistical tools such as ERGM. The creation of these models allow a better understanding of which factors influence the formation and dissociation of coalitions and political party cohesions.
-
-
-#### Statistical arsenal
-
-The programming language used for this project is R. After having done some exploratory network descriptive to see whether there are some outliers or unusual dynamics going around. The following characteristics were studied:
-•	Network density
-•	Average path length 
-•	Diameter
-•	Degree census
-•	Global transitivity
-
-The Exponential family random graph models (ERGM) are our main tool for this project.
-There are numerous studies that used this method such as:
-• Gondal, The local and global structure of knowledge production in an emergent research field, SOCNET 2011 
-• Lomi and Palotti, Relational collaboration among spatial multipoint competitors , SOCNET 2011 
-• Wimmer & Lewis, Beyond and Below Racial Homophily, AJS 2010 
-• Lusher, Masculinity, educational achievement and social status, GENDER & EDUCATION 2011 
-• Rank et al. (2010). Structural logic of intra-organizational networks, ORG SCI, 2010.
-ERGMs are increasingly being used, increasingly being understood, increasingly being able to handle imperfect data (also missing link prediction) - Lusher, Koskinen, Robins ERGMs for SN, CUP, 2011
-Quadratic assignment procedure (QAP) is another method that will be used for this project. It scrambles the dependent variable data through several permutations. By taking the data, and “scrambling” it repeatedly, resulting in multiple random datasets with the dependent variable—and then multiple analyses can be performed. It is similar to a bootstrapping method but applied in the field of network analysis.
-
-When using the ERGM method, the networks cannot be too dense. In this research, edges are drawn when people agree often enough based on an arbitrary threshold. Agreeing is defined as both MEPs saying yes or no to a bill. When taking all votes across one or two bills, a network can be made with weights being the number of times these two MEPs agree on an amendment or legal portion of the overarching document.
-<!--
-Where should the above paragraph be placed? Perhaps it should be moved to methodology?
--->
-
-<!--
-	Cohesion is stable across the two bills.
-	Networks have little change from one bill to the other.
-	MEPs do not agree with each other across bills.
-	Political parties have little influence on the community formation.
-	Countries have little influence on the community formation identified using transitivity.
-	Are voting networks built around cycles grouping certain indviduals.
-	What happens to the network when the most central nodes are taken away. This hypothesis would test whether the removal of a central node would be influential or not.
--->
-
+The study will give possible factors that influence the final voting outcome for a given bill. The tools deployed to tackle this problem are described in further sections. They will allow to compare objectively using statistical tools, for instance ERGM. The creation of these models allow a better understanding of which factors influence the formation and dissociation of coalitions and political party cohesions.
 
 #### Roll-call votes
 The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands [@cherepnalkoski_karpf_mozetic_grcar_2016]. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
 
-
-<!--
-#### Impact of climate change on vulnerable population
--->
-<!--
-Bram Nov 2: I think this subsection is not needed, and a bit distracting from the goal of the report.
-Laurens Nov 10: I agree, so I commented it out for now.
--->
-
-<!--
-As the COP26 is upon us between the 1st and 12th of November 2021 in Glasgow, climate change is becoming more and more central to international political agendas. New goals will be set to protect those most vulnerable to climate change. In fact, climate change leading to an increase of sea levels may turn out to be deadly for some marginalized societies such as the Sentinelese [@Nathanial_Matthews_2019]. A couple centimeters of additional water level can lead their islands to be submerged and permanently lose their foot on the solid ground. Other societies are under the increasing threat of higher temperatures leading to a whole spectrum of climate and weather changes. This may force certain communities to change the crop that is being grown within the region. Bad harvests may lead some societies to starvation or economical crisis due to bad quality products thus unfit for exportation towards richer areas such as Europe. Climate change affect many countries in many ways. Ecosystems are being disturbed create new geopolitical tensions such as access to drinkable water, new mineral and fossil fuel accesses in the arctic, sea commercial areas wanting to be extended for commercial reasons. All this without even mentioning the consequence on wildlife with their variety decreasing each year. As the president of Brazil would claim, what is the economical gain for a country to have all this wildlife in comparison to burning it for farmland. In conclusion, the communities that are already on the edge of survival will be once again hit hard by the result of a planet-degrading, unsustainable consumer behavior lived in the richest countries of the World. To push this trend further, emerging countries such as China are more and more willing to adopt such a way of living creating even more stress on the planet's carbon emission [@Consideration_regarding_vulnerable_groups_communities_and_ecosystems_in_the_context_of_the_national_adadaptation_plans_2018].
--->
-
-#### Proceeding of report's parts
+### Proceeding of report's parts
 Firstly the methodology is explained. Some general comments are made on the obtention of the data, exploratory results under the form of plots. 
 Secondly, an explanation of the exact manner of how the network and its modelling is constructed.
 Thirdly, an interpretation of the modelling results of the networks, how it relates and partially answers the research question given previously.
+
+
 
 ## Methodology
 
@@ -244,20 +201,19 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 *	What is the potential bias in the data? How does this affect your results?
 -->
-As the dataset for this research two votes of the European Parliament on May 18th 2021 are scraped from the VoteWatch.eu website. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 subvotes. The second vote is named "Research Fund for Coal and Steel", and has 16 subvotes. The full official document of the votes can be found in the Appendix. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to great extend @votewatch_europe The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
-The two analysed votes are purposefully chosen in order to analyze the potential difference in the network effects within the European Parliament for different areas of politics. Stereotypically, political views on climate change on the one hand, and coal & steel industry on the other hand are often adverse, which make these votes interesting to analyze. Furthermore, the votes took place on the same date, which eliminates influence of various possible external parameters. Some examples of such parameters are the date of the vote, the composition of the parliament, or short-lived political ideologies.
-
 
 #### Source of data and collection
-The data used in this research was collected by scraping the VoteWatch website for all votes concerning the two relevant motions. VoteWatch is a European political analysis website that aims to make the workings of the European parliament more transparent [@votewatch_europe]. They therefore replicate the data from European parliament votes in a more easily accessible manner. It was therefore possible via this interface to scrape the data using a Python script with the urllib library. The name of the MEP, their European-level political party, member state and action relating to that particular vote (for, against, didn’t vote, abstain, absent) were collected via this method and collated to give two datasets with all actions concerning the two motions.
+As the dataset for this research two votes of the European Parliament, both on May 18th 2021, are scraped from the VoteWatch.eu website. The code used to scrape the data can be found in the appendix<!--ADD REFERENCE TO APPENDIX-->. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 roll-calls. The second vote is named "Research Fund for Coal and Steel", and has 16 roll-calls. The full official document of the votes can be found in the Appendix<!--ADD REFERENCE TO APPENDIX-->. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to a great extend [@noauthor_votewatchmethodology_nodate]. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
+
+The two analysed votes are purposefully chosen in order to analyze the potential difference in the network effects within the European Parliament for different areas of politics. Stereo typically, political views on climate change on the one hand, and coal & steel industry on the other hand are often adverse, which make these votes interesting to analyze. Furthermore, the votes took place on the same date, which eliminates influence of various possible external parameters. Some examples of such parameters are the date of the vote, the composition of the parliament, or short-lived political ideologies.
 
 #### Usefulness of data for research questions and potential biases
-The collected data concerns the names of MEPs, their nationality, European-level political party and vote for each relevant motion for resolution. This data provides enough information to be able to answer the research questions discussed above as the effect of political party (and nationality?) on agreement between individuals can be modelled. The collection of data from two motions in different fields also provides the opportunity to be able to compare the network of agreement between the two areas and comment on similarities and differences. The creation of two networks from these two datasets is discussed in the next section of this paper.
+The collected data concerns the names of MEPs, their nationality, European-level political party and vote for each relevant motion for resolution. This data provides enough information to be able to answer the research questions discussed above, as the effect of political party and nationality on agreement between MEPs can be modeled. The collection of data from two motions in different fields also provides the opportunity to be able to compare the network of agreement between the two areas and comment on similarities and differences. The creation of two networks from these two datasets is discussed in the next section of this paper.
 A limitation of the data collected is the lack of information about the personal network dynamics at play in the European parliament. Agreement between individuals is likely also influenced by who they are friends with and collaborate with most often. There are likely also more powerful members of the party such as national and European-party level leaders who may therefore invoke a higher level of agreement from others. With the data collected these dynamics are either impossible to model or can only be done in a limited manner.
-The data collected also allows the comparison of networks for a motion relating to the climate-area and a more industry focused motion. However, for this research only two motions were chosen rather than examining all relevant motions in the current period. This has been carried out in previous research, see @cherepnalkoski_karpf_mozetic_grcar_2016 but was deemed to be too time consuming for this initial research. The research carried out in this paper is therefore considered to be a point-in-time comparison which could trigger future investigation if this brief analysis indicates interesting results.
-An issue with the collection method of the roll-call data is that it was collected via a third-party website VoteWatch rather than the European parliament website. This decision was taken due to the significant difference in ease in navigating and accessing the data on the two sites. The risk of this choice is considered to be small as the aim of VoteWatch is transparency so the data is likely to be accurate but it is not impossible that inaccuracies and differences could have been caused when reproducing the vote results between the two websites. Given more time to conduct this research, a next step would be to build a method for finding the relevant votes in the European parliament minutes and scraping the data directly.
+For this research only two motions were chosen rather than examining all relevant motions in the current period. This has been carried out in previous research, see @cherepnalkoski_karpf_mozetic_grcar_2016 but was deemed to be too time consuming for this initial research. The research carried out in this paper is therefore considered to be a point-in-time comparison which could trigger future investigation if this brief analysis indicates interesting results.
+An issue with the collection method of the roll-call data is that it was collected via a third-party website VoteWatch rather than the European parliament website. This decision was taken due to the significant difference in ease in navigating and accessing the data on the two sites. The risk of this choice is considered to be small as the aim of VoteWatch is transparency so the data is likely to be accurate. However, it is not impossible that inaccuracies and differences could have been caused when reproducing the vote results between the two websites. Given more time to conduct this research, a next step would be to build a method for finding the relevant votes in the European parliament minutes and scraping the data directly.
 
-### Data analysis (Research Rationale)
+### Research Rationale
 <!--
 Data Analysis (Research Rationale) (about 500 words) – 1 POINTS
 
@@ -270,6 +226,15 @@ methods you chose better for this case?
 -->
 
 The first research question investigates whether there is cohesion of agreement, based on the MEP’s voting behaviour for the climate bill, within every European group. In the climate bill network two MEP’s are connected if they agree on an arbitrary amount of amendments within the bill. Since we want to explain the reason why a tie is formed in the network or specifically between two MEP’s, we propose to use an exponential random graph family model or ERGM for short. An ERGM is a class of network models to perform causal inference and deduce the cause of an observed relation phenomenon that we observe and conceptualize as a network. The model will include endogenous and exogenous terms since the party membership is an attribute of the vertices and therefore a term like nodefactor needs to be used. Nodefactor is a Markovian term that measures the extent to which being in a certain category influences edge formation. We specifically need to use the regular variant as opposed to the directed in or directed out variant since the climate bill network is undirected. The complexity and flexibility of ERGM makes this technique very suitable to verifying this research question. The other techniques are not suitable for this type of analysis since CUG and QAP are used for checking whether a network statistic is statistically significant and comparing two networks respectively.
+<!--
+Bram 15/nov: Maybe add something about previous research using ERGM (see list below)
+There are numerous studies that used this method such as:
+• Gondal, The local and global structure of knowledge production in an emergent research field, SOCNET 2011 
+• Lomi and Palotti, Relational collaboration among spatial multipoint competitors , SOCNET 2011 
+• Wimmer & Lewis, Beyond and Below Racial Homophily, AJS 2010 
+• Lusher, Masculinity, educational achievement and social status, GENDER & EDUCATION 2011 
+• Rank et al. (2010). Structural logic of intra-organizational networks, ORG SCI, 2010.
+-->
 
 The second research question looks into the correlation between the network from the climate bill and the network from the industry bill. We propose to use a QAP correlation test to find an answer for this question. QAP is similar to CUG, in that it uses statistical simulation to generate a distribution of hypothetical networks. However, with QAP we do not generate a series of random graphs (with some properties such as a given size and density), but we now control for all purely structural properties of the two graphs being compared themselves. This is done by making permutations of the networks that are to be compared, similar to the practice of bootstrapping.
 
@@ -279,14 +244,12 @@ A QAP correlation test is the most suitable option. A QAP test is suitable for s
 <!--
 Results Description (about 2000 words)
 -->
-#### Creation of the networks
-To create a network to be used in our analysis it first had to be determined what counted as an edge. It was decided that each edge should represent agreement between two MEPs. Multiple actions can be taken as a response to a roll-call vote. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. This decision is in line with the edges created in previous research [@cherepnalkoski_karpf_mozetic_grcar_2016].
+### Creation of the networks
+A decision was needed to be made regarding the nature of the edges in the network. One technique could be that agreement between MEPs would be summed creating a weighted edge equaling the number of times the two MEPs agreed in the bill. This network can be used for our first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges, however it was determined that it was most useful to first begin with testing ERGM models with networks with binary edges. Once, this has been tested properly, then a model with a weighted ERGM model can be attempted.
 
-A decision also needed to be made regarding the nature of the edges in the network. One technique could be that agreement between MEPs would be summed creating a weighted edge equaling the number of times the two MEPs agreed in the bill. This network can be used for our first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges but it was determined that it was most useful to first begin with testing ERGM models with networks with binary edges. Once, this has been tested properly, then a model with a weighted ERGM model can be attempted.
+Therefore, in order to create a binary network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote [@cherepnalkoski_karpf_mozetic_grcar_2016]. In this research it was also decided that each edge should represent agreement between two MEPs. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see @cranmer_desmarais_2011, and thus implenting a so called threshold. More about this threshold is explained later in the results. 
 
-Therefore, in order to create a binary network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote [@cherepnalkoski_karpf_mozetic_grcar_2016]. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see @cranmer_desmarais_2011. 
-
-#### Descriptive measures
+### Descriptive measures
 
 In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion. The following two tables show these statistics for the two weighted networks where there is a weighted edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph we just show the number of nodes and edges rather than the dyad-cencus since this would not provide any additional information.The centrality chart for these networks was also examined but was difficult to interpret given number of nodes included. Additionally, the centrality chart pointed towards the low centrality of the graphs which is easy to confirm with the statistics below. Due to the high transivity and density of the graph, there are not many specific nodes that are more/less central in the graphs.
 
@@ -371,7 +334,7 @@ mtext("Industry Motion",side=3,line=-19,outer=TRUE)
 ```
 
 
-##### Climate Motion
+#### Climate Motion
 
 The graphs for the climate motion initially show a dense network with a short average path length. This can be explained by the fact that with the full dataset, almost all members of the EP are connected to each other through at least one voting agreement. This is logical, given that they would just need to agree on one vote. However, this is not the most relevant information for this research. 
 
@@ -406,7 +369,7 @@ plot_network(edges_climate,44,igraph::layout_with_graphopt)
 ```
 
 
-##### Industry Motion
+#### Industry Motion
 
 As for the industry motion, a dense network with a short average path length can be observed as well for the full network. Again, all members are connected to each other through some voting agreement. As such, it becomes even more important to eliminate the random voting agreements in order to visualise the most important relationships between members of the European Parliament. 
 
@@ -440,9 +403,10 @@ plot_network(edges_industry,11,igraph::layout_with_graphopt)
 plot_network(edges_industry,14,igraph::layout_with_graphopt)
 ```
 
+<!-- The piece below should be under Threshold determination? -->
 For the climate motion, it can be assumed that by setting the threshold slightly past 15 will eliminate random edges between members of the EP. As for the threshold of 39, it would be interesting to observe given that the remaining connections capture extreme agreement, relevant to our research. As for the industry motion, it can be concluded that a threshold of 4 definitely removes the first set of random voting agreements. Additionally, a threshold of 13 also removes a large set of edges between members of the European Parliament, but it is yet to be evaluated whether these are random agreements or not. Instead, the threshold of 13 actually captures connections with extreme agreement. Therefore it would be interesting to use the number of voting agreements of 4 and 13 as thresholds for the remaining of our research.
 
-#### Threshold determination
+### Threshold determination
 
 Following the descriptive analysis, an appropriate threshold had to be determined. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by examining the networks for a selection of thresholds, comparing density and the resulting ERGM model.
 
@@ -563,8 +527,10 @@ In this section the correlation between the the climate vote network and the ind
 
 A QAP test involves permuting both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations.This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme for a graph controlled by this size and structure. This likeliness of observing this statistic is reflected in the p-value returned.This therefore uses the original graph and creates a distribution based for comparison of what the association would be under the null hypothesis of there being no association.
 
+
 QAP tests were carried out on the full network, the 35% threshold network and the 95% threshold network for full coverage and also to see if there is different association at different level of agreement. For example, it's possible that there could be less correlation with lower thresholds due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance. and it is likely that if two MEPs agree on climate that they might have similar views about the importance of researching less environmentally impactful ways of producing steel.
 First of all the basic correlation statistics for the three comparisons are calculated. The product-moment correlation statistic is used here as the most common statistic for correlation in networks [@MEGHANATHAN2021339]:
+
 
 ```{r echo=FALSE}
 paste('Correlation of full networks (without weighting):', sprintf(sna::gcor(w_network_climate_nw,w_network_industry_nw,mode='graph'), fmt = '%#.3f'), sep=" ")
