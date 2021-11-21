@@ -61,80 +61,17 @@ Tips:
 Links:
   - https://cran.r-project.org/web/packages/ergm/vignettes/ergm-term-crossRef.html
 
-Base Terms:
-  - edges: CONVERGED
+Results:
+  m0_climate: edges: CONVERGED
+  m1_climate: edges + isolates: ERROR (number of edges exceeds that in observed)
+  m2_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE): CONVERGED
+  m3_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE): ???
+  m4_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("country", diff = FALSE): ???
+  m5_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE) + nodematch("country", diff = FALSE): ???
 
-Structural Terms:
-  - gwesp(decay = 0.25, fixed = TRUE): DEGENERATE (E1 / NO MAX ITER / 75min)
-  - gwesp(decay = 0.25, fixed = FALSE): DEGENERATE (E1 / NO MAX ITER / 90min)
-  - gwesp(decay = 0.1, fixed = TRUE): DEGENERATE (E1 / NO MAX ITER / 70min)
-  - gwesp(decay = 0.1, fixed = FALSE): NOPROGRESS (E2 / NO MAX ITER / 180min)
-  - gwdsp(decay = 1, fixed = TRUE): ??? (??? / ??? / 18:45)
-  - gwdsp(decay = 1, fixed = FALSE): ??? (??? / ??? / ???)
-  - gwdsp(decay = 0.25, fixed = TRUE): NOPROGRESS (E2 / NO MAX ITER / 195min)
-  - gwdsp(decay = 0.25, fixed = FALSE): NOCONVERGE (E3 / MAX ITER / 18hr 30min)
-  - gwdsp(decay = 0.1, fixed = TRUE): ??? (??? / ??? / ???)
-  - gwdsp(decay = 0.1, fixed = FALSE): ??? (??? / ??? / ???)
-
-  - triadcensus: ??? (??? / ??? / ???)
-  - cycle(1): ??? (??? / ??? / ???)
-  - cycle(2): ??? (??? / ??? / ???)
-  - cycle(3): ??? (??? / ??? / ???)
-  - esp(1): ??? (??? / ??? / ???)
-  - esp(2): ??? (??? / ??? / ???)
-  - esp(3): ??? (??? / ??? / ???)
-  - dsp(1): ??? (??? / ??? / ???)
-  - dsp(2): ??? (??? / ??? / ???)
-  - dsp(3): ??? (??? / ??? / ???)
-
-Errors:
-  E1  Error in ergm.MCMLE(init, nw, model, initialfit = (initialfit <- NULL),  : 
-        Number of edges in a simulated network exceeds that in the observed by a
-        factor of more than 20. This is a strong indicator of model degeneracy or
-        a very poor starting parameter configuration. If you are reasonably certain
-        that neither of these is the case, increase the MCMLE.density.guard
-        control.ergm() parameter.
-        
-        In addition: Warning messages:
-          1: In mple.existence(pl) : The MPLE does not exist!
-          2: In ergm.mple(nw, fd, m, MPLEtype = MPLEtype, init = init,
-             control = control,  :
-               glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-  E2  Starting maximum pseudolikelihood estimation (MPLE):
-      Evaluating the predictor and response matrix.
-      Maximizing the pseudolikelihood.
-      Finished MPLE.
-      Starting Monte Carlo maximum likelihood estimation (MCMLE):
-      Iteration 1 of at most 60:
-      ...
-
-  E3  Iteration 60 of at most 60:
-        Optimizing with step length 0.0010.
-        The log-likelihood improved by 4.5442.
-        Estimating equations are not within tolerance region.
-      
-      MCMLE estimation did not converge after 60 iterations. The estimated
-      coefficients may not be accurate. Estimation may be resumed by passing the
-      coefficients as initial values; see 'init' under ?control.ergm for details.
-      
-      Finished MCMLE.
-        Evaluating log-likelihood at the estimate. Fitting the dyad-independent submodel...
-        Bridging between the dyad-independent submodel and the full model...
-        Setting up bridge sampling...
-          Using 16 bridges: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 .
-        Bridging finished.
-      
-      This model was fit using MCMC. To examine model diagnostics and check for
-      degeneracy, use the mcmc.diagnostics() function.
-      
-      Warning messages:
-        1: In term 'gwdsp': decay parameter 'decay' passed with 'fixed=FALSE'.
-           'decay' will be ignored. To specify an initial value for 'decay', use
-           the 'init' control parameter. 
-        2: In term 'gwdsp': decay parameter 'decay' passed with 'fixed=FALSE'.
-           'decay' will be ignored. To specify an initial value for 'decay', use
-           the 'init' control parameter. 
-        3: In term 'gwdsp': decay parameter 'decay' passed with 'fixed=FALSE'.
-           'decay' will be ignored. To specify an initial value for 'decay', use
-           the 'init' control parameter.
+  m0_industry: edges: CONVERGED
+  m1_industry: edges + isolates: CONVERGED
+  m2_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE): NO PROGRESS (16hr 15min)
+  m3_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE): ???
+  m4_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("country", diff = FALSE): ???
+  m5_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE) + nodematch("country", diff = FALSE): ???
