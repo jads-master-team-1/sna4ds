@@ -69,20 +69,10 @@ Terms:
   - gwesp(decay = 0.5, fixed = FALSE): Geometrically weighted edgewise shared partner distribution
   - gwnsp(decay = 0.5, fixed = FALSE): Geometrically weighted nonedgewise shared partner distribution
 
-Results:
-  m0_climate: edges: CONVERGED
-  m1_climate: edges + isolates: ERROR (number of edges exceeds that in observed)
-  m2_1_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE): CONVERGED
-  m2_2_climate: edges + isolates + altkstar(0.5, fixed = FALSE): CONVERGED
-  m3_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE): ???
-  m4_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("country", diff = FALSE): ???
-  m5_climate: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE) + nodematch("country", diff = FALSE): ???
-
-  m0_industry: edges: CONVERGED
-  m1_industry: edges + isolates: CONVERGED
-  m2_1_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE): ???
-  m2_2_industry: edges + isolates + altkstar(0.5, fixed = FALSE): ???
-  m2_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE): NO PROGRESS (16hr 15min)
-  m3_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE): ???
-  m4_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("country", diff = FALSE): ???
-  m5_industry: edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) + nodematch("group_abbv", diff = TRUE) + nodematch("country", diff = FALSE): ???
+Todo:
+  - m3_climate
+  - m4_climate
+  - m5_climate
+  - m3_industry_alt
+  - m4_industry_alt
+  - m5_industry_alt

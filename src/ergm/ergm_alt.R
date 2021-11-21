@@ -5,7 +5,7 @@ random_seed <- 42
 set.seed(random_seed)
 
 ## Set threshold
-threshold <- 1.0
+threshold <- 0.95
 
 ## Load data
 mep <- read.csv("./data/MEP_data.csv", header = TRUE, sep = ",")
@@ -105,7 +105,7 @@ plot(m0_climate_fit)
 
 saveRDS(m0_climate, file = "./models/m0_climate_alt.rds")
 
-### Edges + Isolates (5sec - ERROR (number of edges exceeds that in observed))
+### Edges + Isolates (5min - CONVERGED)
 m1_climate <- ergm::ergm(network_climate ~ edges + isolates,
                          check.degeneracy = TRUE,
                          control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -128,7 +128,7 @@ sink()
 
 saveRDS(m1_climate, file = "./models/m1_climate_alt.rds")
 
-### Edges + Isolates + GWDegree (5min - CONVERGED)
+### Edges + Isolates + GWDegree (1hr - NO PROGRESS)
 m2_1_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE),
                            check.degeneracy = TRUE,
                            control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -151,7 +151,7 @@ sink()
 
 saveRDS(m2_1_climate, file = "./models/m2_1_climate_alt.rds")
 
-### Edges + Isolates + AltKStar (5min - CONVERGED)
+### Edges + Isolates + AltKStar (1hr - NO PROGRESS)
 m2_2_climate <- ergm::ergm(network_climate ~ edges + isolates + altkstar(0.5, fixed = TRUE),
                            check.degeneracy = TRUE,
                            control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -174,7 +174,7 @@ sink()
 
 saveRDS(m2_2_climate, file = "./models/m2_2_climate_alt.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") (??? - ???)
+### Edges + Isolates + GWDegree + nodematch("group_abbv") (NA - NOT RUN)
 m3_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
                            nodematch("group_abbv"),
                          check.degeneracy = TRUE,
@@ -199,9 +199,9 @@ sink()
 
 saveRDS(m3_climate, file = "./models/m3_climate_alt.rds")
 
-### Edges + Isolates + GWDegree + nodematch("country") (??? - ???)
+### Edges + Isolates + GWDegree + nodematch("country") (NA - NOT RUN)
 m4_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
-                           nodematch("country", diff = FALSE),
+                           nodematch("country"),
                          check.degeneracy = TRUE,
                          control = ergm::control.ergm(MCMC.burnin = 5000,
                                                       MCMC.samplesize = 10000,
@@ -223,9 +223,9 @@ sink()
 
 saveRDS(m4_climate, file = "./models/m4_climate_alt.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") + nodematch("country") (??? - ???)
+### Edges + Isolates + GWDegree + nodematch("group_abbv") + nodematch("country") (NA - NOT RUN)
 m5_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
-                           nodematch("group_abbv", diff = TRUE) + nodematch("country", diff = FALSE),
+                           nodematch("group_abbv") + nodematch("country"),
                          check.degeneracy = TRUE,
                          control = ergm::control.ergm(MCMC.burnin = 5000,
                                                       MCMC.samplesize = 10000,
@@ -261,7 +261,7 @@ plot(m0_industry_fit)
 
 saveRDS(m0_industry, file = "./models/m0_industry_alt.rds")
 
-### Edges + Isolates (10min - CONVERGED)
+### Edges + Isolates (5sec - CONVERGED)
 m1_industry <- ergm::ergm(network_industry ~ edges + isolates,
                           check.degeneracy = TRUE,
                           control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -284,7 +284,7 @@ sink()
 
 saveRDS(m1_industry, file = "./models/m1_industry_alt.rds")
 
-### Edges + Isolates + GWDegree (16hr 15min - NO PROGRESS)
+### Edges + Isolates + GWDegree (NA - ERROR)
 m2_1_industry <- ergm::ergm(network_industry ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE),
                             check.degeneracy = TRUE,
                             control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -307,7 +307,7 @@ sink()
 
 saveRDS(m2_1_industry, file = "./models/m2_1_industry_alt.rds")
 
-### Edges + Isolates + AltKStar (??? - ???)
+### Edges + Isolates + AltKStar (10sec - CONVERGED)
 m2_2_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE),
                             check.degeneracy = TRUE,
                             control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -330,9 +330,9 @@ sink()
 
 saveRDS(m2_2_industry, file = "./models/m2_2_industry_alt.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") (??? - ???)
-m3_industry <- ergm::ergm(network_industry ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
-                            nodematch("group_abbv", diff = TRUE),
+### Edges + Isolates + AltKStar + nodematch("group_abbv") (5min - ERROR)
+m3_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
+                            nodematch("group_abbv"),
                           check.degeneracy = TRUE,
                           control = ergm::control.ergm(MCMC.burnin = 5000,
                                                        MCMC.samplesize = 10000,
@@ -354,9 +354,9 @@ sink()
 
 saveRDS(m3_industry, file = "./models/m3_industry_alt.rds")
 
-### Edges + Isolates + GWDegree + nodematch("country") (??? - ???)
-m4_industry <- ergm::ergm(network_industry ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
-                            nodematch("country", diff = FALSE),
+### Edges + Isolates + AltKStar + nodematch("country") (??? - ???)
+m4_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
+                            nodematch("country"),
                           check.degeneracy = TRUE,
                           control = ergm::control.ergm(MCMC.burnin = 5000,
                                                        MCMC.samplesize = 10000,
@@ -378,9 +378,9 @@ sink()
 
 saveRDS(m4_industry, file = "./models/m4_industry_alt.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") + nodematch("country") (??? - ???)
-m5_industry <- ergm::ergm(network_industry ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
-                            nodematch("group_abbv", diff = TRUE) + nodematch("country", diff = FALSE),
+### Edges + Isolates + AltKStar + nodematch("group_abbv") + nodematch("country") (??? - ???)
+m5_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
+                            nodematch("group_abbv") + nodematch("country"),
                           check.degeneracy = TRUE,
                           control = ergm::control.ergm(MCMC.burnin = 5000,
                                                        MCMC.samplesize = 10000,
