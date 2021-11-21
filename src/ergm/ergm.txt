@@ -61,6 +61,15 @@ Tips:
 Links:
   - https://cran.r-project.org/web/packages/ergm/vignettes/ergm-term-crossRef.html
 
+Terms:
+  - isolates: Isolates
+  - isolatededges: Isolated edges
+  - altkstar(0.5, fixed = FALSE): Alternating k-star
+  - gwdegree(decay = 0.5, fixed = FALSE): Geometrically weighted degree distribution
+  - gwdsp(decay = 0.5, fixed = FALSE): Geometrically weighted dyadwise shared partner distribution
+  - gwesp(decay = 0.5, fixed = FALSE): Geometrically weighted edgewise shared partner distribution
+  - gwnsp(decay = 0.5, fixed = FALSE): Geometrically weighted nonedgewise shared partner distribution
+
 Results:
   m0_climate: edges: CONVERGED
   m1_climate: edges + isolates: ERROR (number of edges exceeds that in observed)
