@@ -330,7 +330,7 @@ sink()
 
 saveRDS(m2_2_industry, file = "./models/m2_2_industry_alt.rds")
 
-### Edges + Isolates + AltKStar + nodematch("group_abbv") (??? - ???)
+### Edges + Isolates + AltKStar + nodematch("group_abbv") (45min - NO PROGRESS)
 m3_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
                             nodematch("group_abbv"),
                           check.degeneracy = TRUE,
@@ -354,7 +354,7 @@ sink()
 
 saveRDS(m3_industry, file = "./models/m3_industry_alt.rds")
 
-### Edges + Isolates + AltKStar + nodematch("country") (??? - ???)
+### Edges + Isolates + AltKStar + nodematch("country") (45min - NO PROGRESS)
 m4_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
                             nodematch("country"),
                           check.degeneracy = TRUE,
@@ -378,7 +378,7 @@ sink()
 
 saveRDS(m4_industry, file = "./models/m4_industry_alt.rds")
 
-### Edges + Isolates + AltKStar + nodematch("group_abbv") + nodematch("country") (??? - ???)
+### Edges + Isolates + AltKStar + nodematch("group_abbv") + nodematch("country") (1hr - NO PROGRESS)
 m5_industry <- ergm::ergm(network_industry ~ edges + isolates + altkstar(0.5, fixed = TRUE) +
                             nodematch("group_abbv") + nodematch("country"),
                           check.degeneracy = TRUE,

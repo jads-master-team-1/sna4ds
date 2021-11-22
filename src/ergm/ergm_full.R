@@ -165,7 +165,7 @@ sink()
 
 saveRDS(m2_2_climate, file = "./models/m2_2_climate.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") (??? - ???)
+### Edges + Isolates + GWDegree + nodematch("group_abbv") (45min - NO PROGRESS)
 m3_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
                            nodematch("group_abbv"),
                          check.degeneracy = TRUE,
@@ -190,7 +190,7 @@ sink()
 
 saveRDS(m3_climate, file = "./models/m3_climate.rds")
 
-### Edges + Isolates + GWDegree + nodematch("country") (??? - ???)
+### Edges + Isolates + GWDegree + nodematch("country") (5min - CONVERGED)
 m4_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
                            nodematch("country"),
                          check.degeneracy = TRUE,
@@ -214,7 +214,7 @@ sink()
 
 saveRDS(m4_climate, file = "./models/m4_climate.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") + nodematch("country") (??? - ???)
+### Edges + Isolates + GWDegree + nodematch("group_abbv") + nodematch("country") (45min - NO PROGRESS)
 m5_climate <- ergm::ergm(network_climate ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
                            nodematch("group_abbv") + nodematch("country"),
                          check.degeneracy = TRUE,
