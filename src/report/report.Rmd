@@ -67,8 +67,8 @@ list. Don't manually modify the Reference list.
 ```{r echo=FALSE}
 #Inputting data in one place
 mep <- read.csv("../../data/MEP_data.csv", header = T, sep = ",")
-edges_climate <- read.csv("../../data/edges_for_against_climate.csv", header = T, sep = ",")
-edges_industry <- read.csv("../../data/edges_for_against_industry.csv")
+edges_soc_clim <- read.csv("../../data/edges_for_against_social.csv", header = T, sep = ",")
+edges_ind_clim <- read.csv("../../data/edges_for_against_industry.csv")
 ```
 
 ```{r echo=FALSE}
@@ -242,48 +242,49 @@ A QAP correlation test is the most suitable option. A QAP test is suitable for s
 Results Description (about 2000 words)
 -->
 ### Creation of the networks
-A decision was needed to be made regarding the nature of the edges in the network. One technique could be that agreement between MEPs would be summed creating a weighted edge equaling the number of times the two MEPs agreed in the bill. This network can be used for our first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges, however it was determined that it was most useful to first begin with testing ERGM models with networks with binary edges. Once, this has been tested properly, then a model with a weighted ERGM model can be attempted.
+A decision was needed to be made regarding the nature of the edges in the network. One technique could be that agreement between MEPs would be summed creating a weighted edge equaling the number of times the two MEPs agreed in the bill. This network can be used for our first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges, however due to the scale of the network in question (705 nodes) this was not considered feasible during the time-period of this research and could be considered as a future area of research based on the results of this paper.
 
 Therefore, in order to create a binary network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote [@cherepnalkoski_karpf_mozetic_grcar_2016]. In this research it was also decided that each edge should represent agreement between two MEPs. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see @cranmer_desmarais_2011, and thus implenting a so called threshold. More about this threshold is explained later in the results. 
 
 ### Descriptive measures
 
-In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion. The following two tables show these statistics for the two weighted networks where there is a weighted edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph we just show the number of nodes and edges rather than the dyad-cencus since this would not provide any additional information.The centrality chart for these networks was also examined but was difficult to interpret given number of nodes included. Additionally, the centrality chart pointed towards the low centrality of the graphs which is easy to confirm with the statistics below. Due to the high transivity and density of the graph, there are not many specific nodes that are more/less central in the graphs.
+In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion. The following two tables show these statistics for the two weighted networks where there is an edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph we just show the number of nodes and edges rather than the dyad-cencus since this would not provide any additional information.The centrality chart for these networks was also examined but was difficult to interpret given number of nodes included. Additionally, the centrality chart pointed towards the low centrality of the graphs which is easy to confirm with the statistics below. Due to the high transivity and density of the graph, there are not many specific nodes that are more/less central in the graphs.
 
 The summary statistics of the graph already point to a high level of similarity in structure. They both have very high density and transitivity. They also have the same path length and diameter, likely due to the many connections between nodes in both graphs.
 
 ```{r echo=FALSE}
-edges_climate$AgreementPercent <- round(edges_climate$Agreement/44, digits=2)
-edges_industry$AgreementPercent <- round(edges_industry$Agreement/16, digits=2)
+edges_soc_clim$AgreementPercent <- round(edges_soc_clim$Agreement/44, digits=2)
+edges_ind_clim$AgreementPercent <- round(edges_ind_clim$Agreement/16, digits=2)
 ```
 
+
 ```{r echo=FALSE}
-w_edges_climate <- edges_climate[edges_climate[, "Agreement"]>=1, c("MEP_1","MEP_2")]
-w_network_climate <- igraph::graph_from_data_frame(w_edges_climate, vertices=mep, directed=FALSE)
-w_network_climate  <- igraph::set_edge_attr(w_network_climate , "weight", value= edges_climate$AgreementPercent)
+w_edges_soc_clim <- edges_soc_clim[edges_soc_clim[, "Agreement"]>=1, c("MEP_1","MEP_2")]
+w_network_soc_clim <- igraph::graph_from_data_frame(w_edges_soc_clim, vertices=mep, directed=FALSE)
+w_network_soc_clim  <- igraph::set_edge_attr(w_network_soc_clim , "weight", value= edges_soc_clim$AgreementPercent)
 
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(w_network_climate))
-noedges <- c("Number of edges",igraph::ecount(w_network_climate))
-trans <- c("Transitivity", sprintf(igraph::transitivity(w_network_climate), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(w_network_climate), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(w_network_climate), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(w_network_climate))
+nonodes <- c("Number of nodes",igraph::vcount(w_network_soc_clim))
+noedges <- c("Number of edges",igraph::ecount(w_network_soc_clim))
+trans <- c("Transitivity", sprintf(igraph::transitivity(w_network_soc_clim), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(w_network_soc_clim), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(w_network_soc_clim), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(w_network_soc_clim))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for weighted climate network")
 
-w_edges_industry <- edges_industry[edges_industry[, "Agreement"]>=1, c("MEP_1","MEP_2")]
-w_network_industry <- igraph::graph_from_data_frame(w_edges_industry, vertices=mep, directed=FALSE)
-w_network_industry  <- igraph::set_edge_attr(w_network_industry , "weight", value= edges_industry$AgreementPercent)
+w_edges_ind_clim <- edges_ind_clim[edges_ind_clim[, "Agreement"]>=1, c("MEP_1","MEP_2")]
+w_network_ind_clim <- igraph::graph_from_data_frame(w_edges_ind_clim, vertices=mep, directed=FALSE)
+w_network_ind_clim  <- igraph::set_edge_attr(w_network_ind_clim , "weight", value= edges_ind_clim$AgreementPercent)
 
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(w_network_industry))
-noedges <- c("Number of edges",igraph::ecount(w_network_industry))
-trans <- c("Transitivity", sprintf(igraph::transitivity(w_network_industry), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(w_network_industry), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(w_network_industry), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(w_network_industry))
+nonodes <- c("Number of nodes",igraph::vcount(w_network_ind_clim))
+noedges <- c("Number of edges",igraph::ecount(w_network_ind_clim))
+trans <- c("Transitivity", sprintf(igraph::transitivity(w_network_ind_clim), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(w_network_ind_clim), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(w_network_ind_clim), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(w_network_ind_clim))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for weighted industry network")
@@ -308,23 +309,23 @@ plot_statistic <- function(fun,edges,num_votes,ylab,title){
     plot(df, type="l", col="blue", xlab="Agreement Threshold", ylab=ylab, main=title)
 }
 
-#Climate
-hist(edges_climate$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
+# Social climate bill
+hist(edges_soc_clim$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
 par(mfrow = c(2,2), cex=0.6)
-plot_statistic(igraph::transitivity, edges_climate, 44, "Global transitivity", "Transitivity as a function of agreement threshold")
-plot_statistic(igraph::edge_density, edges_climate, 44, "Network density", "Network density as a function of agreement threshold")
-plot_statistic(igraph::mean_distance, edges_climate, 44, "Average path length", "Average path length a function of agreement threshold")
-plot_statistic(igraph::diameter, edges_climate, 44, "Diameter", "Diameter as a function of agreement threshold")
+plot_statistic(igraph::transitivity, edges_soc_clim, 44, "Global transitivity", "Transitivity as a function of agreement threshold")
+plot_statistic(igraph::edge_density, edges_soc_clim, 44, "Network density", "Network density as a function of agreement threshold")
+plot_statistic(igraph::mean_distance, edges_soc_clim, 44, "Average path length", "Average path length a function of agreement threshold")
+plot_statistic(igraph::diameter, edges_soc_clim, 44, "Diameter", "Diameter as a function of agreement threshold")
 mtext("Climate Motion",side=3,line=-19,outer=TRUE)
 
 
-#Industry
-hist(edges_industry$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
+# Industry climate bill
+hist(edges_ind_clim$Agreement, col = "lightblue", xlab = "Agreement",main='Histogram of spread of agreement between MEPs')
 par(mfrow = c(2,2), cex=0.6)
-plot_statistic(igraph::transitivity, edges_industry, 16, "Global transitivity", "Transitivity as a function of agreement threshold")
-plot_statistic(igraph::edge_density, edges_industry, 16, "Network density", "Network density as a function of agreement threshold")
-plot_statistic(igraph::mean_distance, edges_industry, 16, "Average path length", "Average path length a function of agreement threshold")
-plot_statistic(igraph::diameter, edges_industry, 16, "Diameter", "Diameter as a function of agreement threshold")
+plot_statistic(igraph::transitivity, edges_ind_clim, 16, "Global transitivity", "Transitivity as a function of agreement threshold")
+plot_statistic(igraph::edge_density, edges_ind_clim, 16, "Network density", "Network density as a function of agreement threshold")
+plot_statistic(igraph::mean_distance, edges_ind_clim, 16, "Average path length", "Average path length a function of agreement threshold")
+plot_statistic(igraph::diameter, edges_ind_clim, 16, "Diameter", "Diameter as a function of agreement threshold")
 mtext("Industry Motion",side=3,line=-19,outer=TRUE)
 
 
@@ -357,12 +358,12 @@ plot_network <- function(edges,threshold, layout) {
 }
 
 par(mfrow=c(1,2))
-plot_network(edges_climate,12,igraph::layout_with_lgl)
-plot_network(edges_climate,17,igraph::layout_with_lgl)
+plot_network(edges_soc_clim,12,igraph::layout_with_lgl)
+plot_network(edges_soc_clim,17,igraph::layout_with_lgl)
 
 par(mfrow=c(1,2))
-plot_network(edges_climate,38,igraph::layout_with_graphopt)
-plot_network(edges_climate,44,igraph::layout_with_graphopt)
+plot_network(edges_soc_clim,38,igraph::layout_with_graphopt)
+plot_network(edges_soc_clim,44,igraph::layout_with_graphopt)
 ```
 
 
@@ -392,12 +393,12 @@ plot_network <- function(edges,threshold, layout) {
 }
 
 par(mfrow=c(1,2))
-plot_network(edges_industry,3,igraph::layout_with_lgl)
-plot_network(edges_industry,5,igraph::layout_with_lgl)
+plot_network(edges_ind_clim,3,igraph::layout_with_lgl)
+plot_network(edges_ind_clim,5,igraph::layout_with_lgl)
 
 par(mfrow=c(1,2))
-plot_network(edges_industry,11,igraph::layout_with_graphopt)
-plot_network(edges_industry,14,igraph::layout_with_graphopt)
+plot_network(edges_ind_clim,11,igraph::layout_with_graphopt)
+plot_network(edges_ind_clim,14,igraph::layout_with_graphopt)
 ```
 
 <!-- The piece below should be under Threshold determination? -->
@@ -415,8 +416,8 @@ With this data in mind, the networks models were created, visualised and tested 
 All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 35%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
 
 ```{r echo=FALSE}
-p1 <- hist(edges_industry$AgreementPercent)
-p2 <- hist(edges_climate$AgreementPercent)
+p1 <- hist(edges_ind_clim$AgreementPercent)
+p2 <- hist(edges_soc_clim$AgreementPercent)
 plot(p1 , col=rgb(0,0,1,1/4), xlim=c(0,1), main='Histogram of edges for climate and industry with selected thresholds', xlab= 'Agreement frequency')  # first histogram
 plot(p2 , col=rgb(1,0,0,1/4), xlim=c(0,1), add=T)  # second
 abline(v = 0.35, col='blue', lwd=3)
@@ -443,32 +444,32 @@ plot_network_perc <- function(edges,threshold_perc, layout) {
 
 #Plot network
 par(mfrow=c(1,2))
-network_climate_35perc <- plot_network_perc(edges_climate,0.35,igraph::layout_with_graphopt)
-hist(igraph::degree(network_climate_35perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 35%')
+network_soc_clim_35 <- plot_network_perc(edges_soc_clim,0.35,igraph::layout_with_graphopt)
+hist(igraph::degree(network_soc_clim_35), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 35%')
 
 par(mfrow=c(1,2))
-network_climate_95perc <- plot_network_perc(edges_climate,0.95,igraph::layout_with_graphopt)
-hist(igraph::degree(network_climate_95perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 90%')
+network_soc_clim_95 <- plot_network_perc(edges_soc_clim,0.95,igraph::layout_with_graphopt)
+hist(igraph::degree(network_soc_clim_95), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 90%')
 ```
 ```{r echo=FALSE}
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_climate_35perc))
-noedges <- c("Number of edges",igraph::ecount(network_climate_35perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_35perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_35perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_35perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_climate_35perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_soc_clim_35))
+noedges <- c("Number of edges",igraph::ecount(network_soc_clim_35))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_soc_clim_35), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_soc_clim_35), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_soc_clim_35), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_soc_clim_35))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for climate network with threshold 35%")
 
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_climate_95perc))
-noedges <- c("Number of edges",igraph::ecount(network_climate_95perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_climate_95perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_climate_95perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_climate_95perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_climate_95perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_soc_clim_95))
+noedges <- c("Number of edges",igraph::ecount(network_soc_clim_95))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_soc_clim_95), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_soc_clim_95), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_soc_clim_95), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_soc_clim_95))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for climate network with threshold 95%")
@@ -478,32 +479,33 @@ knitr::kable(tab, caption = "Statistics for climate network with threshold 95%")
 ```{r echo=FALSE}
 #Plot network
 par(mfrow=c(1,2))
-network_industry_35perc <- plot_network_perc(edges_industry,0.35,igraph::layout_with_lgl)
-hist(igraph::degree(network_industry_35perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 35%')
+network_ind_clim_35 <- plot_network_perc(edges_ind_clim,0.35,igraph::layout_with_lgl)
+hist(igraph::degree(network_ind_clim_35), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 35%')
 
 par(mfrow=c(1,2))
-network_industry_95perc <- plot_network_perc(edges_industry,0.95,igraph::layout_with_graphopt)
-hist(igraph::degree(network_industry_95perc), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 95%')
+network_ind_clim_95 <- plot_network_perc(edges_ind_clim,0.95,igraph::layout_with_graphopt)
+hist(igraph::degree(network_ind_clim_95), ylim=c(0,600), xlab="Degree", main='Degree distribution with threshold 95%')
 ```
+
 ```{r echo=FALSE}
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_industry_35perc))
-noedges <- c("Number of edges",igraph::ecount(network_industry_35perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_35perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_35perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_35perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_industry_35perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_ind_clim_35))
+noedges <- c("Number of edges",igraph::ecount(network_ind_clim_35))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_ind_clim_35), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_ind_clim_35), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_ind_clim_35), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_ind_clim_35))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for industry network with threshold 35%")
 
 cn <- c("Measurement", "Value")
-nonodes <- c("Number of nodes",igraph::vcount(network_industry_95perc))
-noedges <- c("Number of edges",igraph::ecount(network_industry_95perc))
-trans <- c("Transitivity", sprintf(igraph::transitivity(network_industry_95perc), fmt = '%#.3f'))
-dens <- c("Graph density", sprintf(igraph::edge_density(network_industry_95perc), fmt = '%#.3f'))
-avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_industry_95perc), fmt = '%#.3f'))
-diam <- c("Diameter", igraph::diameter(network_industry_95perc))
+nonodes <- c("Number of nodes",igraph::vcount(network_ind_clim_95))
+noedges <- c("Number of edges",igraph::ecount(network_ind_clim_95))
+trans <- c("Transitivity", sprintf(igraph::transitivity(network_ind_clim_95), fmt = '%#.3f'))
+dens <- c("Graph density", sprintf(igraph::edge_density(network_ind_clim_95), fmt = '%#.3f'))
+avg_path <- c("Average path length", sprintf(igraph::mean_distance(network_ind_clim_95), fmt = '%#.3f'))
+diam <- c("Diameter", igraph::diameter(network_ind_clim_95))
 tab <- rbind(cn, nonodes,noedges,trans, dens, avg_path, diam)
 rownames(tab) <- NULL
 knitr::kable(tab, caption = "Statistics for industry network with threshold 95%")
@@ -511,68 +513,50 @@ knitr::kable(tab, caption = "Statistics for industry network with threshold 95%"
 
 ```{r echo=FALSE}
 #Creating network objects of all required igraph objects
-w_network_climate_nw <- intergraph::asNetwork(w_network_climate)
-w_network_industry_nw <- intergraph::asNetwork(w_network_industry)
-network_climate_35perc_nw <- intergraph::asNetwork(network_climate_35perc)
-network_climate_95perc_nw <- intergraph::asNetwork(network_climate_95perc)
-network_industry_35perc_nw <- intergraph::asNetwork(network_industry_35perc)
-network_industry_95perc_nw <- intergraph::asNetwork(network_industry_95perc)
+w_network_soc_clim_nw <- intergraph::asNetwork(w_network_soc_clim)
+w_network_ind_clim_nw <- intergraph::asNetwork(w_network_ind_clim)
+network_soc_clim_35_nw <- intergraph::asNetwork(network_soc_clim_35)
+network_soc_clim_95_nw <- intergraph::asNetwork(network_soc_clim_95)
+network_ind_clim_35_nw <- intergraph::asNetwork(network_ind_clim_35)
+network_ind_clim_95_nw <- intergraph::asNetwork(network_ind_clim_95)
 ```
 
 ### QAP test
-In this section the correlation between the the climate vote network and the industry vote network was analysed with QAP-tests to give an initial indication of the answer to the first research question. The correlation between these networks can be considered in a number of ways, including inserting them in ERGMs as a predictor for the other respective networks. This will be carried out later since this can provide added information about the correlation while controlling for the other network characteristics. However, to already get a view on the correlation here, in a faster manner, QAP tests were carried out. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used.Calculating the correlation here therefore involves comparing the existence of an edge between two MEPs in the first network with the existence of an edge between the same two MEPs in the second network.
+In this section the correlation between the the climate vote network and the industry vote network was analysed with QAP-tests to give an initial indication of the answer to the first research question. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used. Calculating the correlation here therefore involves comparing the existence of an edge (and its weight if included) between two MEPs in the first network with the existence of an edge between the same two MEPs in the second network.
 
-A QAP test involves permuting both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations.This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme for a graph controlled by this size and structure. This likeliness of observing this statistic is reflected in the p-value returned.This therefore uses the original graph and creates a distribution based for comparison of what the association would be under the null hypothesis of there being no association.
+A QAP test involves permuting both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations.This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme for a graph controlled by this size and structure. This likeliness of observing this statistic is reflected in the p-value returned.This therefore uses the original graph and creates a distribution based for comparison of what the association would be under the null hypothesis of there being no association. The product-moment correlation statistic is used here as the most common statistic for correlation in networks [@MEGHANATHAN2021339].
 
+QAP tests were carried out on the full network, the 35% threshold network, the 95% threshold network and with the weighted networks for full coverage and also to see if there is different association at different level of agreement. For example, it's possible that there could be less correlation with lower thresholds due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance. This is particularly true in this case as it can be expected that if an MEP has a strong opinion on what should be done regarding the human impact of climate change that they would also have strong opinions about what could be done in industry that might improve/ worsen the climate issue. 
 
-QAP tests were carried out on the full network, the 35% threshold network and the 95% threshold network for full coverage and also to see if there is different association at different level of agreement. For example, it's possible that there could be less correlation with lower thresholds due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance. and it is likely that if two MEPs agree on climate that they might have similar views about the importance of researching less environmentally impactful ways of producing steel.
-First of all the basic correlation statistics for the three comparisons are calculated. The product-moment correlation statistic is used here as the most common statistic for correlation in networks [@MEGHANATHAN2021339]:
+The resulting graphs from the QAP tests can be viewed below. It can be immediately seen that the correlation between both networks in all four tests is very significant. The correlation between the full networks (an edge between MEPs if they agree at least once) has a high correlation of 0.641 (p-value = 0.000). However, upon examination this is likely due to the very high number of edges in the initial network- if all MEPs agree with the other MEPs on at least one vote then the whole network will be connected. This is reflected in the high densities of these graphs (0.964 and 0.977). This would explain the very high level of association as the probability is therefore very high that there will be a matching edge in the other network. 
 
+The result from the thresholded networks is perhaps then more interesting.There is a lower but still significant correlation of voting agreement in the 35% networks of 0.346 (p-value= 0.000) and a slightly higher correlation with the 95% network of 0.397 (p-value= 0.000). The decrease in correlation compared to the initial network will be due to us now comparing far sparser networks, there is less chance that two MEPs agree 35% or 95% of the time so therefore a lower probability that a pair of MEPs will have an edge between them in both networks. However, the higher correlation in the 95% graph compared to the 35% graph is likely due to the high threshold set. While the 35% thresholded networks could still include pairs of MEPs who agreed with each other by chance 35% of the time this is extremely unlikely with the 95% network. These networks therefore focus on very specific voting agreement. An example of this voting agreement can be seen by examining the edges present in the 95% graphs as in both networks nearly all members of the The Progressive Alliance of Socialists and Democrats party completely agree with each other. This is an example of the behaviour that can cause the association in the networks noted here.
 
-```{r echo=FALSE}
-paste('Correlation of full networks (without weighting):', sprintf(sna::gcor(w_network_climate_nw,w_network_industry_nw,mode='graph'), fmt = '%#.3f'), sep=" ")
-paste('Correlation of 35% threshold network:', sprintf(sna::gcor(network_climate_35perc_nw,network_industry_35perc_nw,mode='graph'), fmt = '%#.3f'), sep=" ")
-paste('Correlation of 95% threshold network:', sprintf(sna::gcor(network_climate_95perc_nw,network_industry_95perc_nw,mode='graph'), fmt = '%#.3f'),sep=" ")
-c_m <- network::as.sociomatrix(w_network_climate_nw,matrix.type='adjacency',attrname='weight')
-i_m <- network::as.sociomatrix(w_network_industry_nw,matrix.type='adjacency',attrname='weight')
-paste('Correlation of full weighted networks:', sprintf(sna::gcor(c_m, i_m,mode='graph'), fmt = '%#.3f'), sep=" ")
-```
-
-Interestingly, in contrast to the prediction, the correlation from the initial graph is significantly higher than the correlation between the two thresholded networks. However, upon examination this is likely due to the very high number of edges in the initial network- if all MEPs agree with the other MEPs on at least one vote then the whole network will be connected. This is reflected in the high densities of these graphs (0.964 and 0.977). This would explain the very high level of association as the probability is therefore very high that there will be a matching edge in the other network. The result from the thresholded networks is perhaps then more interesting. The correlation of the weighted graph is very low. However, nothing about the correlation of these graphs can be concluded without knowing how significant each association result is compared with the result from the null hypothesis. The QAP test is therefore carried out for this.
+Finally, the most interesting result is perhaps the QAP results from the weighted networks. As opposed to the tests carried out on the binary networks this test also includes the information about the amount of agreement (measured as a percentage) between the two MEPs. Unlike the other QAP graphs, here there is an overlap between the result observed in the networks and the permuted graphs in the QAP test. However, the correlation between the two graphs is still highly significant with a correlation of 0.03 (p-value:0.004) 
 
 ```{r echo=FALSE}
-mepCor <- sna::qaptest(list(w_network_climate_nw, w_network_industry_nw), 
+par(mfrow = c(2,2), cex=0.6)
+mepCor <- sna::qaptest(list(w_network_soc_clim_nw, w_network_ind_clim_nw), 
                        FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph', reps = 1000)
 sum_mepCor <- summary(mepCor)
-sum_mepCor
 sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
-```
-
-```{r echo=FALSE}
-mepCor35 <- sna::qaptest(list(network_climate_35perc_nw, network_industry_35perc_nw), 
+mepCor35 <- sna::qaptest(list(network_soc_clim_35_nw, network_ind_clim_35_nw), 
                        FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph',reps = 1000)
 sum_mepCor35 <- summary(mepCor35)
-sum_mepCor35
 sna::plot.qaptest(mepCor35, xlim=c(min(sum_mepCor35[[2]])-0.005,sum_mepCor35[[1]]))
-```
-```{r echo=FALSE}
-mepCor95 <- sna::qaptest(list(network_climate_95perc_nw, network_industry_95perc_nw), 
+mepCor95 <- sna::qaptest(list(network_soc_clim_95_nw, network_ind_clim_95_nw), 
                        FUN = sna::gcor, g1 = 1, g2 = 2, mode='graph', reps = 1000)
 sum_mepCor95 <- summary(mepCor95)
-sum_mepCor95
 sna::plot.qaptest(mepCor95, xlim=c(min(sum_mepCor95[[2]])-0.005,sum_mepCor95[[1]]))
-```
-```{r echo=FALSE}
-mepCor <- sna::qaptest(list(c_m, i_m), 
+s_m <- network::as.sociomatrix(w_network_soc_clim_nw,matrix.type='adjacency',attrname='weight')
+i_m <- network::as.sociomatrix(w_network_ind_clim_nw,matrix.type='adjacency',attrname='weight')
+mepCor <- sna::qaptest(list(s_m, i_m), 
                        FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph', reps = 1000)
 sum_mepCor <- summary(mepCor)
-sum_mepCor
 sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
 ```
 
-From the results it can be seen that all of these correlation results are very significantly significant. For all of these graphs based on the p-values there would be a 0.2% chance or less of observing these correlations based on chance alone.The significance of each correlation result is also put into scale in the diagram. While the full graph had the highest correlation statistic, the statistic is only around three times greater than the correlation from the created simulated graphs. In contrast, the correlation of the 95% networks is over 12 times larger than the highest correlation of the simulated graphs. This perhaps indicates that there is more association between actors with lots of agreement in both networks.
-The most interesting graph is perhaps the QAP results from the weighted networks. While the association between the graphs is still significant, there is an overlap between the result observed in the networks and the permuted graphs in the QAP test. 
-From the results it can therefore be concluded that there is an association between how pairs of MEPs agreed in the climate motion and industry motion for both weighted agreement, and with thresholds for incidental agreement and almost total agreement.This therefore provides evidence in line with the first hypothesis of this paper.
+From the results it can therefore be concluded that there is an association between how pairs of MEPs agreed in the social climate bill and the industrial climate bill for both weighted agreement, with thresholds for incidental agreement and almost total agreement.This therefore provides evidence in line with the first hypothesis of this paper.
 
 
 ### ERGM 
