@@ -552,8 +552,8 @@ s_m <- network::as.sociomatrix(w_network_soc_clim_nw,matrix.type='adjacency',att
 i_m <- network::as.sociomatrix(w_network_ind_clim_nw,matrix.type='adjacency',attrname='weight')
 mepCor <- sna::qaptest(list(s_m, i_m), 
                        FUN = sna::gcor, g1 = 1, g2 = 2,mode='graph', reps = 1000)
-sum_mepCor <- summary(mepCor)
-sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor[[2]])-0.005,sum_mepCor[[1]]))
+sum_mepCor_w <- summary(mepCor)
+sna::plot.qaptest(mepCor, xlim=c(min(sum_mepCor_w[[2]])-0.005,sum_mepCor_w[[1]]))
 ```
 
 From the results it can therefore be concluded that there is an association between how pairs of MEPs agreed in the social climate bill and the industrial climate bill for both weighted agreement, with thresholds for incidental agreement and almost total agreement.This therefore provides evidence in line with the first hypothesis of this paper.
@@ -674,6 +674,28 @@ Can you give suggestions for future work in this area?
 
 
 # Appendix
+
+## Detailed QAP results
+
+```{r}
+print('QAP results for full networks')
+sum_mepCor
+print('QAP results for 35% thresholded networks')
+sum_mepCor35 
+print('QAP results for 95% thresholded networks')
+sum_mepCor95
+print('QAP results for weighted networks')
+sum_mepCor_w
+```
+
+
+
+
+
+
+
+
+
 Document on the Coal & Steel vote: https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
 Document on the impacts of climate change: https://www.europarl.europa.eu/doceo/document/A-9-2021-0115_EN.html
 <!--
