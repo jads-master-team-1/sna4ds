@@ -1,5 +1,5 @@
 Call:
-ergm::ergm(formula = network_climate ~ edges + isolates + gwdegree(decay = 0.5, 
+ergm::ergm(formula = climate_net ~ edges + isolates + gwdegree(decay = 0.5, 
     fixed = FALSE) + nodematch("country"), control = ergm::control.ergm(MCMC.burnin = 5000, 
     MCMC.samplesize = 10000, seed = random_seed, MCMLE.maxit = 60, 
     parallel = 4), verbose = TRUE, check.degeneracy = TRUE)
@@ -91,6 +91,8 @@ gwdegree#7           0    0    0.16    3       1.00
 gwdegree#8           0    0    0.03    1       1.00
 gwdegree#9           0    0    0.01    1       1.00
 nodematch.country  527  519  528.67  541       0.96
+null device 
+          1 
 Sample statistics summary:
 
 Iterations = 16232448:71831552
@@ -217,3 +219,5 @@ Individual P-values (lower = worse):
 Joint P-value (lower = worse):  0.9433774 .
 
 MCMC diagnostics shown here are from the last round of simulation, prior to computation of final parameter estimates. Because the final estimates are refinements of those used for this simulation run, these diagnostics may understate model performance. To directly assess the performance of the final model on in-model statistics, please use the GOF command: gof(ergmFitObject, GOF=~model).
+null device 
+          1 
