@@ -1,0 +1,129 @@
+Call:
+ergm::ergm(formula = climate_net ~ edges)
+
+Maximum Likelihood Results:
+
+      Estimate Std. Error MCMC % z value Pr(>|z|)    
+edges -3.56771    0.01229      0  -290.4   <1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+     Null Deviance: 344023  on 248160  degrees of freedom
+ Residual Deviance:  62412  on 248159  degrees of freedom
+ 
+AIC: 62414  BIC: 62424  (Smaller is better. MC Std. Err. = 0)
+
+Goodness-of-fit for degree 
+
+          obs min  mean max MC p-value
+degree0   567   0  0.00   0       0.00
+degree1     6   0  0.00   0       0.00
+degree2     6   0  0.00   0       0.00
+degree3     4   0  0.03   1       0.00
+degree4     5   0  0.09   3       0.00
+degree5     0   0  0.23   5       1.00
+degree6     0   0  0.51   7       1.00
+degree7     0   0  1.13  12       0.88
+degree8     0   0  2.49  19       0.40
+degree9     0   0  5.45  29       0.06
+degree10    0   1  8.53  42       0.00
+degree11    0   5 14.42  60       0.00
+degree12    0   8 20.51  63       0.00
+degree13    0  12 29.17  76       0.00
+degree14    0  21 38.23  67       0.00
+degree15    0  30 45.78  61       0.00
+degree16    0  38 52.97  71       0.00
+degree17    0  32 60.77  78       0.00
+degree18    0  30 59.87  83       0.00
+degree19    0  20 59.94  96       0.00
+degree20    0  13 57.54  86       0.00
+degree21    0   9 53.09  72       0.00
+degree22    0   8 42.99  70       0.00
+degree23    0   3 34.36  52       0.00
+degree24    0   5 27.82  44       0.00
+degree25    0   0 22.04  35       0.02
+degree26    0   0 15.96  29       0.04
+degree27    0   0 11.73  24       0.06
+degree28    0   0  8.43  19       0.10
+degree29    0   0  6.41  17       0.10
+degree30    0   0  4.42  14       0.12
+degree31    0   0  2.97  13       0.32
+degree32    0   0  2.24  10       0.36
+degree33    0   0  1.75  12       0.70
+degree34    0   0  1.33  15       1.00
+degree35    0   0  1.13  11       1.00
+degree36    0   0  1.14  13       1.00
+degree37    0   0  0.96  11       1.00
+degree38    0   0  0.77   8       1.00
+degree39    0   0  1.00  16       1.00
+degree40    0   0  0.78  11       1.00
+degree41    0   0  0.72  14       1.00
+degree42    0   0  0.79  12       1.00
+degree43    0   0  0.78  12       1.00
+degree44    0   0  0.58  10       1.00
+degree45    0   0  0.64  12       1.00
+degree46    0   0  0.41   9       1.00
+degree47    0   0  0.41  14       1.00
+degree48    0   0  0.33   9       1.00
+degree49    0   0  0.22   6       1.00
+degree50    0   0  0.30   8       1.00
+degree51    0   0  0.12   4       1.00
+degree52    0   0  0.18   6       1.00
+degree53    0   0  0.13   4       1.00
+degree54    0   0  0.09   5       1.00
+degree55    0   0  0.05   2       1.00
+degree56    0   0  0.05   2       1.00
+degree57    0   0  0.07   3       1.00
+degree58    0   0  0.04   3       1.00
+degree59    0   0  0.03   2       1.00
+degree60    0   0  0.03   2       1.00
+degree61    0   0  0.02   1       1.00
+degree62    0   0  0.02   2       1.00
+degree63    0   0  0.01   1       1.00
+degree116 117   0  0.00   0       0.00
+
+Goodness-of-fit for edgewise shared partner 
+
+        obs  min    mean  max MC p-value
+esp0      3 3083 3895.42 4195       0.00
+esp1      6 1159 2002.10 2232       0.00
+esp2      6  327  568.63  742       0.00
+esp3     10   72  126.23  396       0.00
+esp4      0    4   38.35  302       0.00
+esp5      0    0   24.55  282       0.48
+esp6      0    0   19.72  274       1.00
+esp7      0    0   17.69  260       1.00
+esp8      0    0   15.65  266       1.00
+esp9      0    0   13.74  266       1.00
+esp10     0    0   11.65  257       1.00
+esp11     0    0    9.22  282       1.00
+esp12     0    0    7.31  237       1.00
+esp13     0    0    5.59  234       1.00
+esp14     0    0    4.25  204       1.00
+esp15     0    0    2.90  149       1.00
+esp16     0    0    1.75  107       1.00
+esp17     0    0    1.21   71       1.00
+esp18     0    0    0.74   58       1.00
+esp19     0    0    0.38   28       1.00
+esp20     0    0    0.14   10       1.00
+esp21     0    0    0.11   10       1.00
+esp22     0    0    0.06    5       1.00
+esp23     0    0    0.01    1       1.00
+esp25     0    0    0.01    1       1.00
+esp115 6786    0    0.00    0       0.00
+
+Goodness-of-fit for minimum geodesic distance 
+
+       obs    min      mean    max MC p-value
+1     6811   6612   6767.41   7001       0.52
+2        0  84149  97384.44 100400       0.00
+3        0 140691 143615.71 152577       0.00
+4        0    121    392.44   4609       0.00
+Inf 241349      0      0.00      0       0.00
+
+Goodness-of-fit for model statistics 
+
+       obs        min       mean        max MC p-value 
+   6811.00    6612.00    6767.41    7001.00       0.52 
+null device 
+          1 

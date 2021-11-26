@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.1.1",
+    "Version": "4.1.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -15,6 +15,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "e4c04affc2cac20c8fec18385cd14691"
+    },
+    "DEoptimR": {
+      "Package": "DEoptimR",
+      "Version": "1.0-9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "feae038aefb289b48ea8254094f33732"
     },
     "DescTools": {
       "Package": "DescTools",
@@ -81,16 +88,15 @@
     },
     "SNA4DS": {
       "Package": "SNA4DS",
-      "Version": "0.11.4",
+      "Version": "0.11.6",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "SNAnalyst",
       "RemoteRepo": "SNA4DS",
       "RemoteRef": "main",
-      "RemoteSha": "345675ee004f90ccddf9aac105c4f586d1d66e5a",
-      "Remotes": "github::rstudio-education/gradethis, github::SNAnalyst/SNA4DSData",
-      "Hash": "a2a1d36d39b379f415b07b45a7b30786"
+      "RemoteSha": "dd96297127ee233fcfe1d37bdca19ea7bdf35fce",
+      "Hash": "e9a124272de06eb5b75ed5743633a025"
     },
     "SNA4DSData": {
       "Package": "SNA4DSData",
@@ -333,6 +339,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "bb0eec2fe32e88d9e2836c2f73ea2077"
+    },
+    "ergm": {
+      "Package": "ergm",
+      "Version": "4.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "6010266226f21ade9e51f381f83b967d"
     },
     "evaluate": {
       "Package": "evaluate",
@@ -583,6 +596,13 @@
       "Repository": "CRAN",
       "Hash": "c0bfaec475ad944110cf686397c3246d"
     },
+    "lpSolveAPI": {
+      "Package": "lpSolveAPI",
+      "Version": "5.5.2.0-17.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f21a3e5a2844bf0f2f4299a2882e5d9b"
+    },
     "magick": {
       "Package": "magick",
       "Version": "2.7.3",
@@ -603,6 +623,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "61e4a10781dd00d7d81dd06ca9b94e95"
+    },
+    "memoise": {
+      "Package": "memoise",
+      "Version": "2.0.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a0bc51650201a56d00a4798523cc91b3"
     },
     "mgcv": {
       "Package": "mgcv",
@@ -812,6 +839,13 @@
       "Repository": "CRAN",
       "Hash": "515f341d3affe0de9e4a7f762efb0456"
     },
+    "rle": {
+      "Package": "rle",
+      "Version": "0.9.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f84d8f430c496bb5c6769fed95705562"
+    },
     "rmarkdown": {
       "Package": "rmarkdown",
       "Version": "2.11",
@@ -825,6 +859,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "d2e1277195d221e6118d8a77dda2e877"
+    },
+    "robustbase": {
+      "Package": "robustbase",
+      "Version": "0.93-9",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e7b310bebca9aca51848b0a366a427cf"
     },
     "rootSolve": {
       "Package": "rootSolve",
@@ -979,6 +1020,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "043daa786f4d254f0031534150e28d42"
+    },
+    "trust": {
+      "Package": "trust",
+      "Version": "0.1-8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "f50614d2145ba1012b62ff75f2129d5b"
     },
     "utf8": {
       "Package": "utf8",

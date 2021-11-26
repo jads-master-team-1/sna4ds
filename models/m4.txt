@@ -1,0 +1,223 @@
+Call:
+ergm::ergm(formula = climate_net ~ edges + isolates + gwdegree(decay = 0.5, 
+    fixed = FALSE) + nodematch("country"), control = ergm::control.ergm(MCMC.burnin = 5000, 
+    MCMC.samplesize = 10000, seed = random_seed, MCMLE.maxit = 60, 
+    parallel = 4), verbose = TRUE, check.degeneracy = TRUE)
+
+Monte Carlo Maximum Likelihood Results:
+
+                  Estimate Std. Error MCMC % z value Pr(>|z|)    
+edges               5.5163     0.1993      0  27.677   <1e-04 ***
+isolates            5.1790     0.4560      0  11.357   <1e-04 ***
+gwdegree           -9.8234     0.2765      0 -35.526   <1e-04 ***
+gwdegree.decay     26.9286    20.1213    100   1.338    0.181    
+nodematch.country   1.7012     0.2771      0   6.139   <1e-04 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+     Null Deviance: 344023  on 248160  degrees of freedom
+ Residual Deviance:  33782  on 248155  degrees of freedom
+ 
+AIC: 33792  BIC: 33844  (Smaller is better. MC Std. Err. = 151.6)
+
+Goodness-of-fit for degree 
+
+          obs min   mean max MC p-value
+degree0   567 555 565.96 574       1.00
+degree1     6   0   6.43  13       1.00
+degree2     6   1   6.74  14       1.00
+degree3     4   1   4.68  11       0.94
+degree4     5   0   2.67   7       0.32
+degree5     0   0   0.95   4       0.74
+degree6     0   0   0.37   2       1.00
+degree7     0   0   0.16   3       1.00
+degree8     0   0   0.03   1       1.00
+degree9     0   0   0.01   1       1.00
+degree112   0   0   0.10   1       1.00
+degree113   0   0   0.66   4       1.00
+degree114   0   0   3.96  11       0.04
+degree115   0   1  22.12  39       0.00
+degree116 117  42  59.16  83       0.00
+degree117   0  15  24.77  38       0.00
+degree118   0   0   5.30  13       0.06
+degree119   0   0   0.84   5       0.92
+degree120   0   0   0.07   1       1.00
+degree121   0   0   0.02   1       1.00
+
+Goodness-of-fit for edgewise shared partner 
+
+        obs  min    mean  max MC p-value
+esp0      3    0    6.51   13       0.26
+esp1      6    2   13.65   28       0.18
+esp2      6    3   14.03   33       0.26
+esp3     10    0   10.52   28       0.96
+esp4      0    0    4.62   20       0.76
+esp5      0    0    2.20   12       1.00
+esp6      0    0    1.12   21       1.00
+esp7      0    0    0.26    8       1.00
+esp8      0    0    0.07    7       1.00
+esp108    0    0    0.09    2       1.00
+esp109    0    0    1.00    8       1.00
+esp110    0    0    9.10   61       0.64
+esp111    0    0   55.50  195       0.04
+esp112    0    0  249.90  596       0.02
+esp113    0    0  941.74 1884       0.02
+esp114    0  229 2445.19 2991       0.00
+esp115 6786 1388 3034.91 6533       0.00
+esp116    0    7   24.86   83       0.00
+esp117    0    0    0.18    2       1.00
+
+Goodness-of-fit for minimum geodesic distance 
+
+       obs    min      mean    max MC p-value
+1     6811   6789   6815.45   6854       0.82
+2        0   1614   2557.25   3832       0.00
+3        0     84    232.75    508       0.00
+4        0      0      0.21     17       1.00
+Inf 241349 236985 238554.34 239645       0.00
+
+Goodness-of-fit for model statistics 
+
+                   obs  min    mean  max MC p-value
+edges             6811 6789 6815.45 6854       0.82
+isolates           567  555  565.96  574       1.00
+gwdegree#1           6    0    6.43   13       1.00
+gwdegree#2           6    1    6.74   14       1.00
+gwdegree#3           4    1    4.68   11       0.94
+gwdegree#4           5    0    2.67    7       0.32
+gwdegree#5           0    0    0.95    4       0.74
+gwdegree#6           0    0    0.37    2       1.00
+gwdegree#7           0    0    0.16    3       1.00
+gwdegree#8           0    0    0.03    1       1.00
+gwdegree#9           0    0    0.01    1       1.00
+nodematch.country  527  519  528.67  541       0.96
+null device 
+          1 
+Sample statistics summary:
+
+Iterations = 16232448:71831552
+Thinning interval = 4096 
+Number of chains = 4 
+Sample size per chain = 13575 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+                        Mean        SD  Naive SE Time-series SE
+edges              0.2432228 12.942287 5.554e-02      3.266e-01
+isolates           0.2067219  4.371201 1.876e-02      9.672e-02
+gwdegree          -0.5107984 11.934298 5.121e-02      2.724e-01
+gwdegree.decay    -0.0001786  0.002687 1.153e-05      5.915e-05
+nodematch.country  0.0042910  5.302927 2.276e-02      1.272e-01
+
+2. Quantiles for each variable:
+
+                        2.5%       25%        50%    75%     97.5%
+edges             -24.000000 -9.000000  0.0000000 9.0000 27.000000
+isolates           -9.000000 -3.000000  0.0000000 3.0000  8.000000
+gwdegree          -22.999465 -8.999791 -0.9999767 6.9998 23.999442
+gwdegree.decay     -0.005028 -0.002057 -0.0002286 0.0016  0.005485
+nodematch.country  -9.000000 -4.000000  0.0000000 3.0000 11.000000
+
+
+Are sample statistics significantly different from observed?
+               edges   isolates    gwdegree gwdegree.decay nodematch.country Overall (Chi^2)
+diff.      0.2432228 0.20672192 -0.51079843  -0.0001786457       0.004290976              NA
+test stat. 0.7487424 2.15180240 -1.88550185  -3.0354607893       0.034032644    18.142117202
+P-val.     0.4540125 0.03141292  0.05936212   0.0024016845       0.972851119     0.002851718
+
+Sample statistics cross-correlations:
+                       edges   isolates   gwdegree gwdegree.decay nodematch.country
+edges              1.0000000 -0.7999973  0.9230885      0.9024780         0.6822207
+isolates          -0.7999973  1.0000000 -0.8644858     -0.7632066        -0.5923446
+gwdegree           0.9230885 -0.8644858  1.0000000      0.9780339         0.7297433
+gwdegree.decay     0.9024780 -0.7632066  0.9780339      1.0000000         0.7207647
+nodematch.country  0.6822207 -0.5923446  0.7297433      0.7207647         1.0000000
+
+Sample statistics auto-correlation:
+Chain 1 
+              edges  isolates  gwdegree gwdegree.decay nodematch.country
+Lag 0     1.0000000 1.0000000 1.0000000      1.0000000         1.0000000
+Lag 4096  0.9256253 0.9063614 0.9137967      0.8728087         0.9245221
+Lag 8192  0.8586141 0.8296171 0.8363812      0.7795414         0.8571527
+Lag 12288 0.8010313 0.7619716 0.7703659      0.7086795         0.7965392
+Lag 16384 0.7503476 0.7025079 0.7123306      0.6496224         0.7413571
+Lag 20480 0.7032577 0.6454945 0.6579908      0.5978692         0.6886875
+Chain 2 
+              edges  isolates  gwdegree gwdegree.decay nodematch.country
+Lag 0     1.0000000 1.0000000 1.0000000      1.0000000         1.0000000
+Lag 4096  0.9306813 0.9096990 0.9199169      0.8832732         0.9335540
+Lag 8192  0.8698747 0.8356073 0.8498583      0.7988683         0.8737272
+Lag 12288 0.8172549 0.7717520 0.7893838      0.7338439         0.8199270
+Lag 16384 0.7723433 0.7168765 0.7376312      0.6822562         0.7711735
+Lag 20480 0.7320415 0.6650538 0.6914292      0.6392750         0.7267531
+Chain 3 
+              edges  isolates  gwdegree gwdegree.decay nodematch.country
+Lag 0     1.0000000 1.0000000 1.0000000      1.0000000         1.0000000
+Lag 4096  0.9264648 0.9047115 0.9150683      0.8775261         0.9278985
+Lag 8192  0.8651679 0.8272929 0.8446573      0.7932558         0.8623234
+Lag 12288 0.8125362 0.7621276 0.7842328      0.7274378         0.8034997
+Lag 16384 0.7634045 0.7022903 0.7279506      0.6708278         0.7500093
+Lag 20480 0.7190150 0.6489004 0.6772447      0.6198429         0.7010655
+Chain 4 
+              edges  isolates  gwdegree gwdegree.decay nodematch.country
+Lag 0     1.0000000 1.0000000 1.0000000      1.0000000         1.0000000
+Lag 4096  0.9358984 0.9179051 0.9255210      0.8898919         0.9379484
+Lag 8192  0.8819321 0.8508648 0.8633797      0.8129971         0.8830558
+Lag 12288 0.8339917 0.7938045 0.8083678      0.7534513         0.8322319
+Lag 16384 0.7908642 0.7431575 0.7590308      0.7039756         0.7844606
+Lag 20480 0.7521679 0.6973879 0.7150025      0.6619190         0.7376953
+
+Sample statistics burn-in diagnostic (Geweke):
+Chain 1 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+          1.06778          -0.59308          -0.21960          -0.43640           0.01693 
+
+Individual P-values (lower = worse):
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+        0.2856189         0.5531253         0.8261851         0.6625459         0.9864964 
+Joint P-value (lower = worse):  0.1314131 .
+Chain 2 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+          -0.5822            1.1037           -0.5841           -0.3751           -0.1696 
+
+Individual P-values (lower = worse):
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+        0.5604523         0.2697419         0.5591716         0.7075661         0.8653261 
+Joint P-value (lower = worse):  0.3681412 .
+Chain 3 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+          -0.6469           -1.0861            0.9818            0.9600            0.6316 
+
+Individual P-values (lower = worse):
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+        0.5176858         0.2774350         0.3261872         0.3370561         0.5276512 
+Joint P-value (lower = worse):  0.7749192 .
+Chain 4 
+
+Fraction in 1st window = 0.1
+Fraction in 2nd window = 0.5 
+
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+          -0.9980            1.2443           -1.0780           -1.0763           -0.5837 
+
+Individual P-values (lower = worse):
+            edges          isolates          gwdegree    gwdegree.decay nodematch.country 
+        0.3182759         0.2134047         0.2810270         0.2818001         0.5594049 
+Joint P-value (lower = worse):  0.9433774 .
+
+MCMC diagnostics shown here are from the last round of simulation, prior to computation of final parameter estimates. Because the final estimates are refinements of those used for this simulation run, these diagnostics may understate model performance. To directly assess the performance of the final model on in-model statistics, please use the GOF command: gof(ergmFitObject, GOF=~model).
+null device 
+          1 

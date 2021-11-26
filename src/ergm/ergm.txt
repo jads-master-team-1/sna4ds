@@ -1,0 +1,70 @@
+ERGM Modeling:
+
+Literature:
+  - Cranmer, S., & Desmarais, B. (2011). Inferential Network Analysis with
+    Exponential Random Graph Models. Political Analysis, 19(1), 66-86.
+    doi: 10.1093/pan/mpq037
+      - Structural Effects:
+          - asymmetric: Adds one network statistic to the model equal to the number
+            of pairs of actors for which exactly one of (i,j) or (j,i) exists.
+          - ctriple: Adds one statistic to the model, equal to the number of cyclic
+            triples in the network, defined as a set of edges of the form {(i,j),
+            (j,k), (k,i)}.
+          - ttriple: Adds one statistic to the model, equal to the number of
+            transitive triples in the network, defined as a set of edges {(i,j),
+            (j,k), (i,k)}.
+
+  - Cherepnalkoski, D., Karpf, A., Mozetič, I., & Grčar, M. (2016). Cohesion
+    and Coalition Formation in the European Parliament: Roll-Call Votes and
+    Twitter Activities. PLOS ONE, 11(11), e0166586.
+    doi: 10.1371/journal.pone.0166586
+      - Structural Effects:
+          - edgecov: Adds one statistic to the model, equal to the sum of the
+            covariate values for each edge appearing in the network.
+
+  - Fischer, M., Varone, F., Gava, R., & Sciarini, P. (2019). How MPs ties to
+    interest groups matter for legislative co-sponsorship. Social Networks, 57,
+    34–42. https://doi.org/10.1016/j.socnet.2018.12.001
+      - Structural Effects:
+          - mutal: In binary ERGMs, equal to the number of pairs of actors i
+            and j for which (i,j) and (j,i) both exist.
+          - gwesp(decay = 0.5, fixed = TRUE): This term adds one network
+            statistic to the model equal to the geometrically weighted dyadwise
+            shared partner distribution with decay parameter decay parameter,
+            which should be non-negative.
+          - edgecov: Adds one statistic to the model, equal to the sum of the
+            covariate values for each edge appearing in the network.
+
+  - Leifeld, P., & Schneider, V. (2012). Information Exchange in Policy
+    Networks. American Journal of Political Science, 56(3), 731–744.
+    https://doi.org/10.1111/j.1540-5907.2011.00580.x
+      - Structural Effects:
+          - mutual: In binary ERGMs, equal to the number of pairs of actors i
+            and j for which (i,j) and (j,i) both exist.
+          - gwesp(0.1, fixed = TRUE): This term is just like gwdsp except it
+            adds a statistic equal to the geometrically weighted edgewise (not
+            dyadwise) shared partner distribution with decay parameter decay
+            parameter, which should be non-negative.
+          - gwdsp(0.1, fixed = TRUE): This term adds one network statistic to the
+            model equal to the geometrically weighted dyadwise shared partner 
+            distribution with decay parameter decay parameter, which should be
+            non-negative.
+          - edgecov: Adds one statistic to the model, equal to the sum of the
+            covariate values for each edge appearing in the network.
+
+Tips:
+  - Check descriptives to specify structural terms
+  - Increase sample size -> increase computation time
+  - Decrease sample size -> model will run forever cannot fit model
+  - Always specify iterations
+
+Links:
+  - https://cran.r-project.org/web/packages/ergm/vignettes/ergm-term-crossRef.html
+
+Terms:
+  - isolates: Isolates
+  - altkstar(0.5, fixed = FALSE): Alternating k-star
+  - gwdegree(decay = 0.5, fixed = FALSE): Geometrically weighted degree distribution
+  - gwdsp(decay = 0.5, fixed = FALSE): Geometrically weighted dyadwise shared partner distribution
+  - gwesp(decay = 0.5, fixed = FALSE): Geometrically weighted edgewise shared partner distribution
+  - gwnsp(decay = 0.5, fixed = FALSE): Geometrically weighted nonedgewise shared partner distribution
