@@ -9,9 +9,9 @@ author:
 - name: Laurens Priem (1274328)
 - name: Bram Delisse (2065006)
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
   Enter author note here.
@@ -161,7 +161,7 @@ edges_soc_clim$agreement_percent <- round(edges_soc_clim$agreement / 44, digits 
 edges_ind_clim$agreement_percent <- round(edges_ind_clim$agreement / 16, digits = 2)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE}
 # Create weighted networks
 w_edges_soc_clim <- edges_soc_clim[edges_soc_clim[, "agreement"] >= 1, c("mep1", "mep2")]
 w_net_soc_clim <- igraph::graph_from_data_frame(w_edges_soc_clim, vertices = mep, directed = FALSE)
@@ -423,7 +423,7 @@ plot_statistic(igraph::diameter,
                "Agreement Threshold",
                "Diameter",
                "Diameter vs. Agreement Threshold")
-mtext("Climate Motion", side = 3, line = -18, outer = TRUE)
+mtext("Climate Motion", side = 3, line = -19, outer = TRUE)
 par(mfrow = c(1, 1))
 
 # Industry climate bill
@@ -458,7 +458,7 @@ plot_statistic(igraph::diameter,
                "Agreement Threshold",
                "Diameter",
                "Diameter vs. Agreement Threshold")
-mtext("Industry Motion", side = 3, line = -18, outer = TRUE)
+mtext("Industry Motion", side = 3, line = -19, outer = TRUE)
 par(mfrow = c(1, 1))
 ```
 
@@ -700,7 +700,8 @@ Can you give suggestions for future work in this area?
 
 ## Detailed QAP results
 
-```{r}
+<!-- TODO: put these results in a table -->
+```{r echo=FALSE}
 print("QAP results for full networks")
 sum_mep_cor
 
