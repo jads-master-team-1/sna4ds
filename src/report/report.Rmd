@@ -9,9 +9,9 @@ author:
 - name: Laurens Priem (1274328)
 - name: Bram Delisse (2065006)
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 authornote: |
   Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
   Enter author note here.
@@ -89,7 +89,7 @@ tab_statistic <- function(net, caption) {
 plot_statistic <- function(fun, edges, num_votes, xlab, ylab, title) {
   df <- data.frame(agreement = integer(), statistic = double())
   
-  for (i in 1:num_votes) {
+  for (i in 0:num_votes) {
     edges_filter <- edges[edges[, "agreement"] > i, c("mep1", "mep2")]
     net_filter <- igraph::graph_from_data_frame(edges_filter, vertices = mep, directed = FALSE)
     stat_filter <- fun(net_filter)
@@ -148,13 +148,13 @@ mep <- read.csv("../../data/MEP_data.csv", header = T, sep = ",")
 edges_soc_clim <- read.csv("../../data/edges_for_against_social.csv", header = T, sep = ",")
 edges_ind_clim <- read.csv("../../data/edges_for_against_industry.csv", header = T, sep = ",")
 
-# Drop columns
-mep <- mep[c("MEP", "group_abbv", "country")]
-
 # Rename columns
 colnames(mep) <- c("mep", "party", "country")
 colnames(edges_soc_clim) <- c("mep1", "mep2", "agreement")
 colnames(edges_ind_clim) <- c("mep1", "mep2", "agreement")
+
+# Drop columns
+mep <- mep[c("mep", "party", "country")]
 
 # Create column
 edges_soc_clim$agreement_percent <- round(edges_soc_clim$agreement / 44, digits = 2)
@@ -170,6 +170,12 @@ w_net_soc_clim  <- igraph::set_edge_attr(w_net_soc_clim , "weight", value = edge
 w_edges_ind_clim <- edges_ind_clim[edges_ind_clim[, "agreement"] >= 1, c("mep1", "mep2")]
 w_net_ind_clim <- igraph::graph_from_data_frame(w_edges_ind_clim, vertices = mep, directed = FALSE)
 w_net_ind_clim  <- igraph::set_edge_attr(w_net_ind_clim , "weight", value = edges_ind_clim$agreement_percent)
+
+u_edges_soc_clim <- edges_soc_clim[edges_soc_clim[, "agreement"] >= 1, c("mep1", "mep2")]
+u_net_soc_clim <- igraph::graph_from_data_frame(w_edges_soc_clim, vertices = mep, directed = FALSE)
+
+u_edges_ind_clim <- edges_ind_clim[edges_ind_clim[, "agreement"] >= 1, c("mep1", "mep2")]
+u_net_ind_clim <- igraph::graph_from_data_frame(w_edges_ind_clim, vertices = mep, directed = FALSE)
 
 # Create unweighted networks
 uw_edges_soc_clim_35 <- edges_soc_clim[edges_soc_clim[, "agreement_percent"] >= 0.35, c("mep1", "mep2")]
@@ -384,9 +390,10 @@ In order to get a better overview of the dataset, the five-number summary is com
 The summary statistics of the graph already point to a high level of similarity in structure. They both have very high density and transitivity. They also have the same path length and diameter, likely due to the many connections between nodes in both graphs.
 
 ```{r echo=FALSE}
-tab_statistic(w_net_soc_clim, "Statistics for weighted climate network")
-tab_statistic(w_net_ind_clim, "Statistics for weighted industry network")
+tab_statistic(u_net_soc_clim, "Statistics for weighted climate network")
+tab_statistic(u_net_ind_clim, "Statistics for weighted industry network")
 ```
+
 
 As previously discussed, to begin the ERGM testing it was required to transform the networks from weighted networks to binary networks. This required the choice of thresholds. Therefore to aid this process, the five-number summary was plotted for the networks using all possible absolute number thresholds (see plots below).Histograms of the spread of agreement are also plotted below to provide context for the other statistics.
 There will therefore be an edge between two parliament members if they have a minimum agreement equal or above the threshold. The lowest threshold for an edge in these graphs is therefore one, meaning that the MEP's agreed on one and only one subvote in the bill. For low level of agreement this could therefore mean that MEP's only agreed very few times. Therefore not all edges are a result of causal relationships or represent a significant amount of agreement. The aim was therefore to set thresholds so as to create a network of the most important, non-random relationships. The plots below are therefore examined to try and determine the most appropriate thresholds.
