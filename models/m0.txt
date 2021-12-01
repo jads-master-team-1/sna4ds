@@ -1,5 +1,5 @@
 Call:
-ergm::ergm(formula = climate_net ~ edges)
+ergm::ergm(formula = uw_net_soc_clim_100_nw ~ edges)
 
 Maximum Likelihood Results:
 
@@ -125,5 +125,3 @@ Goodness-of-fit for model statistics
 
        obs        min       mean        max MC p-value 
    6811.00    6612.00    6767.41    7001.00       0.52 
-null device 
-          1 

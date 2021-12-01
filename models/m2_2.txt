@@ -1,6 +1,6 @@
 Call:
-ergm::ergm(formula = climate_net ~ edges + isolates + altkstar(0.5, 
-    fixed = TRUE), control = ergm::control.ergm(MCMC.burnin = 5000, 
+ergm::ergm(formula = uw_net_soc_clim_100_nw ~ edges + isolates + 
+    altkstar(0.5, fixed = TRUE), control = ergm::control.ergm(MCMC.burnin = 5000, 
     MCMC.samplesize = 10000, seed = random_seed, MCMLE.maxit = 60, 
     parallel = 4), verbose = TRUE, check.degeneracy = TRUE)
 
@@ -255,8 +255,7 @@ Goodness-of-fit for model statistics
 edges        6811 481 1147.76 6637          0
 isolates      567 568  572.97  582          0
 altkstar.0.5 6806 480 1145.90 6635          0
-null device 
-          1 
+
 Sample statistics summary:
 
 Iterations = 4829184:19558400
@@ -377,5 +376,3 @@ Individual P-values (lower = worse):
 Joint P-value (lower = worse):  0 .
 
 MCMC diagnostics shown here are from the last round of simulation, prior to computation of final parameter estimates. Because the final estimates are refinements of those used for this simulation run, these diagnostics may understate model performance. To directly assess the performance of the final model on in-model statistics, please use the GOF command: gof(ergmFitObject, GOF=~model).
-null device 
-          1 
