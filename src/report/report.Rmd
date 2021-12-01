@@ -109,7 +109,7 @@ plot_network_agreement <- function(edges, threshold, layout) {
   net <- igraph::graph_from_data_frame(edges, vertices = mep, directed = FALSE)
   
   # Plot network
-  net_isolates = which(igraph::degree(net) == 0)
+  net_isolates <- which(igraph::degree(net) == 0)
   net_visualization <- igraph::delete.vertices(net, net_isolates)
   net_visualization <- add_party_colors(net_visualization)
   
@@ -129,7 +129,7 @@ plot_network_agreement_percent <- function(edges, percent_threshold, layout) {
   net <- igraph::graph_from_data_frame(edges, vertices = mep, directed = FALSE)
   
   # Plot network
-  net_isolates = which(igraph::degree(net) == 0)
+  net_isolates <- which(igraph::degree(net) == 0)
   net_visualization <- igraph::delete.vertices(net, net_isolates)
   net_visualization <- add_party_colors(net_visualization)
   
@@ -578,7 +578,6 @@ tab_statistic(uw_net_soc_clim_35, "Statistics for climate network with threshold
 tab_statistic(uw_net_soc_clim_95, "Statistics for climate network with threshold 95%")
 ```
 
-
 ```{r echo=FALSE}
 par(mfrow=c(1, 2))
 plot_network_agreement_percent(edges_ind_clim, 0.35, igraph::layout_with_graphopt)
@@ -663,7 +662,8 @@ par(mfrow = c(1, 1))
 
 From the results it can therefore be concluded that there is an association between how pairs of MEP's agreed in the social climate bill and the industrial climate bill for both weighted agreement, with thresholds for incidental agreement and almost total agreement.This therefore provides evidence in line with the first hypothesis of this paper.
 
-### ERGM 
+### ERGM
+
 <!--
 ERGM Description (about 1000) – 2.5 POINTS
 
@@ -674,9 +674,51 @@ in plain English
 the points evaluated in this other part)
 -->
 ```{r echo=FALSE}
-
+# Load models from cache
+m0 <- readRDS("../../models/m0.rds")
+m0_fit <- readRDS("../../models/m0_fit.rds")
+m2_1 <- readRDS("../../models/m2_1.rds")
+m2_1_fit <- readRDS("../../models/m2_1_fit.rds")
+m2_2 <- readRDS("../../models/m2_2.rds")
+m2_2_fit <- readRDS("../../models/m2_2_fit.rds")
+m4 <- readRDS("../../models/m4.rds")
+m4_fit <- readRDS("../../models/m4_fit.rds")
 ```
 
+<!-- TODO: @Laurens update hypothesis with expectation and add explanation why -->
+This section analyses whether members of the European parliament are more likely to agree on sociological climate topics if they come from the same country regardless of their party. ERGM is used to answer this research question since edge formation is being investigated in one network. The influence of the country on edge formation in the network is measured using Markovian terms, in combination with structural terms to capture the essence of the network. It is expected that country has a positive/negative effect on agreement between MEP's in the European parliament.
+
+ERGM models are part of the exponential random graph model family. These models can be used to decide the cause of an observed relational phenom in a network. ERGM’s make use of Monte Carlo Maximum Likelihood estimation. In simple terms this means that ERGM’s generate a series of matrices representing the network, differing one edge at the time. Then the Metropolis Hastings or Gibbs sampler algorithm is used to decide which entries change state. Only the state that increases the likelihood of observing the given network is retained, after which the simulation progresses. ERGM’s are built sequentially meaning that after a term is added to the model formula, the model will be carefully evaluated using the Goodness-of-Fit Metrics and the MCMC Diagnostics before proceeding.
+
+<!-- TODO: @Colette add threshold determination and elaborate why -->
+The network used is the sociological climate bill network with a 100% threshold. This network is an undirected unweighted network containing 705 vertices (MEP’s) and 6811 edges. As explained in the previous sections an edge is formed between two MEP’s if they vote the same on every roll call in the bill.
+
+Structural terms are a requirement for ERGM’s to properly fit the network. There are about 176 different structural terms, each term captures a different type of relation in the network or builds upon another structural term. To properly pick structural terms the network in question needs to be analyzed in detail. The first structural term analyzed is degree which immediately shows an interesting result (see appendix), there are 567 vertices with degree 0 (isolates). It can also be seen that there are 117 vertices with degree 116 indicating a very dense community within the network. Further inspection shows that the 117 vertices with degree 116 are all from the S&D, indicating that this particular party has a very strict voting policy. The second structural term analyzed is kstar, it might be that there is one party leader in the S&D community that instructs all the other party members to vote a certain way. By investigating the results it can be observed that there are stars present in the network (see appendix).
+
+<!-- TODO: @Laurens update hypothesis with expectation -->
+To answer the question if country has a positive/negative effect on agreement between MEP’s in the European parliament a Markovian effect needs to be used. Markovian effects are effects that happen in a small neighbourhood of a network. In the case of this hypothesis the effect of vertices characterized by a specific category (country) belonging to a certain attribute form ties with other nodes characterized by the same category (country) needs to be investigated. To investigate this relation the nodematch exogenous term can be used.
+
+<!-- TODO: @Laurens update hypothesis with expectation -->
+A total of four models were fitted to answer this research question (see appendix). The first model (m0) only contains an intercept: edges. This model managed to converge in about 5 seconds but performance is not great as indicated by the Goodness-of-Fit Metrics. However, this is expected because this model does not contain any of the structural effects and will therefore be used as a baseline model to compare the other models against. The second model (m1) contains the intercept and an structural term to account for the large amount of isolates in the network: edges + isolates. This model immediately crashed, throwing a degeneracy error. Model 2.1 (m2_1) and model 2.2 (m2_2) build upon this model including gwdegree or altkstars as structural terms. The curved variants of these two terms are used since the network that is being investigated is too large to use regular terms. Model 2.1 converged in about 2 minutes showing good Goodness-of-Fit Metrics and MCMC Diagnostics (see appendix). Model 2.2 failed to converge within the set iteration limit (60) and was therefore discarded. Model 3 (m3) tests an alternative hypothesis if party membership has a positive on agreement between MEP’s in the European Parliament, by including nodematch(“party”) alongside the terms used in model 2.1. However this model failed to converge within the time limit of 45 minutes set by the group and therefore these results cannot be interpreted. The final model 4 (m4) test the main research question: If country has a positive/negative effect on agreement between MEP's in the European parliament. The model converged about 2 minutes showing promising results in the output as well as the Goodness-of-Fit Metrics and MCMC Diagnostics.
+
+```{r echo=FALSE, results="asis"}
+texreg::knitreg(list(m0, m2_1, m2_2, m4),
+                custom.model.names = c("Model 0 (m0)", "Model 2.1 (m2_1)", "Model 2.2 (m2_2)", "Model 4 (m4)"),
+                custom.gof.rows = list(GOF = c("FAIL", "PASS", "PASS", "PASS"),
+                                       MCMC = c("-", "PASS", "FAIL", "PASS")))
+```
+
+By analysing the Goodness-of-Fit Metrics it can be observed that the model has quite a decent fit. The line mostly goes through all the blue points and stays within the boundaries. The results for the model statistics show a little weird behaviour but this can be explained by reanalysing the results for degree (see appendix). There are no vertices between degree5 and degree116, which is also highlighted by the flat line in the plot between these two values. Before degree5 and after degree116 the line moves between the error boundaries showing a decent result. The MCMC Diagnostics for model 4 are looking fine, the chains are mixing well for all model terms and the distributions are nicely centered around the zero. Proceeding with analysing the actual results from the model it can be observed that nodematch(“country”) is statistically significant and by interpreting the coefficient the conclusion can be drawn that there is an 84% probability that two MEP’s agree on a sociological climate bill if they are from the same country.
+
+```{r echo=FALSE}
+knitr::kable(SNA4DS::Ef_int(m4, type = "prob"), caption = "Model 4 (m4)")
+
+par(mfrow = c(2, 2))
+plot(m4_fit)
+par(mfrow = c(1, 1))
+
+invisible(capture.output(ergm::mcmc.diagnostics(m4, which = "plots")))
+```
 
 ## Conclusion
 <!--
@@ -690,6 +732,10 @@ address 0.5 POINTS here
 Who benefits from your findings?
 
 What does remain an open problem?
+  - Run ERGM with nodematch("party") to check whether party influences edge
+    formation and whether the probability of forming an edge if two MEP's are
+    from the same party is statistically signficantly higher than if they are
+    from the same country -> ERGM currently does not work with nodematch("party") 
 
 Can you give suggestions for future work in this area?
 -->
@@ -726,8 +772,69 @@ print("QAP results for weighted networks")
 sum_mep_cor_w
 ```
 
-Document on the Coal & Steel vote: https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
-Document on the impacts of climate change: https://www.europarl.europa.eu/doceo/document/A-9-2021-0115_EN.html
+## Detailed ERGM analysis
+
+### Structural effects
+
+```{r echo=FALSE}
+print("network ~ isolates")
+summary(uw_net_soc_clim_100_nw ~ isolates)
+
+print("network ~ degree(0:120)")
+summary(uw_net_soc_clim_100_nw ~ degree(0:120))
+
+print("network ~ kstar(0:120)")
+summary(uw_net_soc_clim_100_nw ~ kstar(0:120))
+```
+
+## Detailed ERGM results
+
+### Model 0 (m0)
+
+```{r echo=FALSE}
+par(mfrow = c(2, 2))
+plot(m0_fit)
+par(mfrow = c(1, 1))
+```
+
+### Model 2.1 (m2_1)
+
+```{r echo=FALSE}
+par(mfrow = c(2, 2))
+plot(m2_1_fit)
+par(mfrow = c(1, 1))
+
+invisible(capture.output(ergm::mcmc.diagnostics(m2_1, which = "plots")))
+```
+
+### Model 2.2 (m2_2)
+
+```{r echo=FALSE}
+par(mfrow = c(2, 2))
+plot(m2_2_fit)
+par(mfrow = c(1, 1))
+
+invisible(capture.output(ergm::mcmc.diagnostics(m2_2, which = "plots")))
+```
+
+### Model 4 (m4)
+
+```{r echo=FALSE}
+par(mfrow = c(2, 2))
+plot(m4_fit)
+par(mfrow = c(1, 1))
+
+invisible(capture.output(ergm::mcmc.diagnostics(m4, which = "plots")))
+```
+
+## Coal & Steel Vote Document
+
+https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
+
+## Impacts of Climate Change Document
+
+https://www.europarl.europa.eu/doceo/document/A-9-2021-0115_EN.html
+
 <!--
 Sources of introduction
 --> 
