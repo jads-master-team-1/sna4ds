@@ -710,7 +710,7 @@ texreg::knitreg(list(m0, m2_1, m2_2, m4),
 
 By analysing the Goodness-of-Fit Metrics it can be observed that the model has quite a decent fit. The line mostly goes through all the blue points and stays within the boundaries. The results for the model statistics show a little weird behaviour but this can be explained by reanalysing the results for degree (see appendix). There are no vertices between degree5 and degree116, which is also highlighted by the flat line in the plot between these two values. Before degree5 and after degree116 the line moves between the error boundaries showing a decent result. The MCMC Diagnostics for model 4 are looking fine, the chains are mixing well for all model terms and the distributions are nicely centered around the zero. Proceeding with analysing the actual results from the model it can be observed that nodematch(“country”) is statistically significant and by interpreting the coefficient the conclusion can be drawn that there is an 84% probability that two MEP’s agree on a sociological climate bill if they are from the same country.
 
-```{r echo=FALSE, results=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE}
 knitr::kable(SNA4DS::Ef_int(m4, type = "prob"), caption = "Model 4 (m4)")
 
 par(mfrow = c(2, 2))
