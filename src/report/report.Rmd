@@ -526,8 +526,14 @@ With this data in mind, the networks models were created, visualised and tested 
 All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 35%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
 
 ```{r echo=FALSE}
-p1 <- hist(edges_soc_clim$agreement_percent)
-p2 <- hist(edges_ind_clim$agreement_percent)
+p1 <- hist(edges_soc_clim$agreement_percent,
+           xlab = "Agreement Frequency",
+           ylab = "Frequency",
+           main = "Climate Agreement Percentage Distribution")
+p2 <- hist(edges_ind_clim$agreement_percent,
+           xlab = "Agreement Frequency",
+           ylab = "Frequency",
+           main = "Industy Agreement Percentage Distribution")
 
 # First histogram
 plot(p1,
