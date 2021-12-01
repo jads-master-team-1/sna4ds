@@ -9,46 +9,55 @@ threshold <- 1.0
 
 ## Load data
 mep <- read.csv("./data/MEP_data.csv", header = TRUE, sep = ",")
-edges <- read.csv("./data/edges_for_against_climate.csv",
-                  header = TRUE,
-                  sep = ",")
+edges_soc_clim <- read.csv("./data/edges_for_against_social.csv",
+                           header = TRUE,
+                           sep = ",")
+edges_ind_clim <- read.csv("./data/edges_for_against_industry.csv",
+                           header = TRUE,
+                           sep = ",")
 
-## Add columns
-edges$AgreementPercentage <- round(edges$Agreement / 44, digits = 2)
+# Drop columns
+mep <- mep[c("MEP", "group_abbv", "country")]
+
+# Rename columns
+colnames(mep) <- c("mep", "party", "country")
+colnames(edges_soc_clim) <- c("mep1", "mep2", "agreement")
+colnames(edges_ind_clim) <- c("mep1", "mep2", "agreement")
+
+# Create column
+edges_soc_clim$agreement_percent <- round(edges_soc_clim$agreement / 44, digits = 2)
+edges_ind_clim$agreement_percent <- round(edges_ind_clim$agreement / 16, digits = 2)
 
 ## Create network
-##
-## Attributes: vertex.names, country, group_abbv
-##
-edges <- edges[edges[, "AgreementPercentage"] >= threshold, c("MEP_1","MEP_2")]
-climate_graph <- igraph::graph_from_data_frame(edges,
-                                               vertices = mep,
-                                               directed = FALSE)
+uw_edges_soc_clim_100 <- edges_soc_clim[edges_soc_clim[, "agreement_percent"] >= threshold, c("mep1","mep2")]
+uw_net_soc_clim_100 <- igraph::graph_from_data_frame(uw_edges_soc_clim_100,
+                                                     vertices = mep,
+                                                     directed = FALSE)
 
 ## Convert network
-climate_net <- intergraph::asNetwork(climate_graph)
+uw_net_soc_clim_100_nw <- intergraph::asNetwork(uw_net_soc_clim_100)
 
 ## Check terms
 
 ### Isolates
-summary(climate_net ~ isolates)
+summary(uw_net_soc_clim_100_nw ~ isolates)
 
 ### Degree
-summary(climate_net ~ degree(0:120))
+summary(uw_net_soc_clim_100_nw ~ degree(0:120))
 
 ### Triangles
-summary(climate_net ~ triangles)
+summary(uw_net_soc_clim_100_nw ~ triangles)
 
 ### Triad Census
-summary(climate_net ~ triadcensus)
+summary(uw_net_soc_clim_100_nw ~ triadcensus)
 
 ### KStar
-summary(climate_net ~ kstar(0:120))
+summary(uw_net_soc_clim_100_nw ~ kstar(0:120))
 
 ## Create ERGM
 
 ### Edges (1sec - CONVERGED)
-m0 <- ergm::ergm(climate_net ~ edges)
+m0 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges)
 
 sink("./models/m0.txt")
 
@@ -58,7 +67,9 @@ summary(m0)
 #### Goodness of Fit
 (m0_fit <- ergm::gof(m0))
 png("./models/m0_gof.png", width = 1152, height = 585, units = "px")
+par(mfrow = c(2, 2))
 plot(m0_fit)
+par(mfrow = c(1, 1))
 dev.off()
 
 sink()
@@ -68,7 +79,7 @@ saveRDS(m0, file = "./models/m0.rds")
 saveRDS(m0_fit, file = "./models/m0_fit.rds")
 
 ### Isolates (5sec - ERROR (number of edges exceeds that in observed))
-m1 <- ergm::ergm(climate_net ~ edges + isolates,
+m1 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates,
                  check.degeneracy = TRUE,
                  control = ergm::control.ergm(MCMC.burnin = 5000,
                                               MCMC.samplesize = 10000,
@@ -78,7 +89,7 @@ m1 <- ergm::ergm(climate_net ~ edges + isolates,
                  verbose = TRUE)
 
 ### Edges + Isolates + GWDegree (2min - CONVERGED)
-m2_1 <- ergm::ergm(climate_net ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE),
+m2_1 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE),
                    check.degeneracy = TRUE,
                    control = ergm::control.ergm(MCMC.burnin = 5000,
                                                 MCMC.samplesize = 10000,
@@ -95,7 +106,9 @@ summary(m2_1)
 #### Goodness of Fit
 (m2_1_fit <- ergm::gof(m2_1))
 png("./models/m2_1_gof.png", width = 1152, height = 585, units = "px")
+par(mfrow = c(2, 2))
 plot(m2_1_fit)
+par(mfrow = c(1, 1))
 dev.off()
 
 #### MCMC Diagnostics
@@ -110,7 +123,7 @@ saveRDS(m2_1, file = "./models/m2_1.rds")
 saveRDS(m2_1_fit, file = "./models/m2_1_fit.rds")
 
 ### Edges + Isolates + AltKStar (10min - NOT CONVERGED (estimation did not converge))
-m2_2 <- ergm::ergm(climate_net ~ edges + isolates + altkstar(0.5, fixed = TRUE),
+m2_2 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + altkstar(0.5, fixed = TRUE),
                    check.degeneracy = TRUE,
                    control = ergm::control.ergm(MCMC.burnin = 5000,
                                                 MCMC.samplesize = 10000,
@@ -127,7 +140,9 @@ summary(m2_2)
 #### Goodness of Fit
 (m2_2_fit <- ergm::gof(m2_2))
 png("./models/m2_2_gof.png", width = 1152, height = 585, units = "px")
+par(mfrow = c(2, 2))
 plot(m2_2_fit)
+par(mfrow = c(1, 1))
 dev.off()
 
 #### MCMC Diagnostics
@@ -141,9 +156,9 @@ sink()
 saveRDS(m2_2, file = "./models/m2_2.rds")
 saveRDS(m2_2_fit, file = "./models/m2_2_fit.rds")
 
-### Edges + Isolates + GWDegree + nodematch("group_abbv") (45min - NO PROGRESS)
-m3 <- ergm::ergm(climate_net ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
-                   nodematch("group_abbv"),
+### Edges + Isolates + GWDegree + nodematch("party") (45min - NO PROGRESS)
+m3 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
+                   nodematch("party"),
                  check.degeneracy = TRUE,
                  control = ergm::control.ergm(MCMC.burnin = 5000,
                                               MCMC.samplesize = 10000,
@@ -160,7 +175,9 @@ summary(m3)
 #### Goodness of Fit
 (m3_fit <- ergm::gof(m3))
 png("./models/m3_gof.png", width = 1152, height = 585, units = "px")
+par(mfrow = c(2, 2))
 plot(m3_fit)
+par(mfrow = c(1, 1))
 dev.off()
 
 #### MCMC Diagnostics
@@ -175,7 +192,7 @@ saveRDS(m3, file = "./models/m3.rds")
 saveRDS(m3_fit, file = "./models/m3_fit.rds")
 
 ### Edges + Isolates + GWDegree + nodematch("country") (2min - CONVERGED)
-m4 <- ergm::ergm(climate_net ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
+m4 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
                    nodematch("country"),
                  check.degeneracy = TRUE,
                  control = ergm::control.ergm(MCMC.burnin = 5000,
@@ -193,7 +210,9 @@ summary(m4)
 #### Goodness of Fit
 (m4_fit <- ergm::gof(m4))
 png("./models/m4_gof.png", width = 1152, height = 585, units = "px")
+par(mfrow = c(2, 2))
 plot(m4_fit)
+par(mfrow = c(1, 1))
 dev.off()
 
 #### MCMC Diagnostics
