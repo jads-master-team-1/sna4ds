@@ -774,6 +774,152 @@ The topic of the research is to describe the level of cohesion among 705 members
 
 # Appendix
 
+## Dataset creation code
+
+### Scraping code (VoteWatch)
+
+```python
+from urllib.request import Request, urlopen
+
+import pandas as pd
+
+def scrapeWebsite(url):
+    #Website to be requested
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    xhtml = urlopen(req).read()
+
+    string = xhtml.decode('utf-8')
+    title = string.split('<div class="div_tabled_info_full">')[1].split('<')[0]
+    new_url = string.split('var source_individual_votes = "')[1].split('"')[0]
+
+    req = Request(new_url, headers={'User-Agent': 'Mozilla/5.0'})
+    xhtml = urlopen(req).read()
+
+    df = pd.read_json(xhtml, orient='records')
+
+    df['MEP'] = df['all_votes'].astype(str).str.split("mep_name_link': 'https://www.votewatch.eu/en/term9-").str[1].str.split(".html").str[0].str.replace("-", " ").str.title()
+    df['group_abbv'] = df['all_votes'].astype(str).str.split("grup': '").str[1].str.split("'").str[0]
+    df['country'] = df['all_votes'].astype(str).str.split("euro_tara_nume': '").str[1].str.split("'").str[0]
+    df[title] = df['all_votes'].astype(str).str.split("euro_vot_valoare_text': '").str[1].str.split("'").str[0]
+    df = df.drop(['all_votes'], axis=1)
+    return df
+    
+# website for motion to be scraped- this was adapted for the motions used
+website = 'https://www.votewatch.eu/en/term9-the-impacts-of-climate-change-on-vulnerable-populations-in-developing-countries-motion-for-resolutio.html'
+
+# range updated based on number of votes
+for i in range(1,45):
+    if i == 1:
+        url = website
+    else:
+        url = website[:-5] + '-' + str(i) + website[-5:]
+    
+    newdf = scrapeWebsite(url)
+    
+    if i == 1:
+        df = newdf
+    else:
+        df = df.merge(newdf, on=['MEP', 'group_abbv', 'country'])
+
+# Fixing data issue
+df = df.replace('Didn&#39;t vote', "Didn't vote") 
+df.head()
+
+# Saving results to csv
+df.to_csv(r'mepdata.csv', index = False)
+
+# Checking number of rows
+df_len = len(df)
+if df_len == 705:
+  print("The dataset has {} rows which equals the expected 705 MEPs".format(df_len))
+else:
+  print("The dataset has {} rows which is not equal to the  expected 705 MEPs".format(df_len))
+
+# Checking for missing data
+if df.isnull().values.any() | df.eq('').values.any():
+  print('The dataset has missing values')
+else:
+  print('The dataset has no missing values')
+
+# Checking no issues with duplicates
+if df["MEP"].is_unique:
+  print('The MEP column has no duplicates')
+else:
+  print('There are duplicate values in the MEP column')
+```
+
+### Create edges
+
+```python
+from urllib.request import Request, urlopen
+
+import pandas as pd
+
+def scrapeWebsite(url):
+    #Website to be requested
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    xhtml = urlopen(req).read()
+
+    string = xhtml.decode('utf-8')
+    title = string.split('<div class="div_tabled_info_full">')[1].split('<')[0]
+    new_url = string.split('var source_individual_votes = "')[1].split('"')[0]
+
+    req = Request(new_url, headers={'User-Agent': 'Mozilla/5.0'})
+    xhtml = urlopen(req).read()
+
+    df = pd.read_json(xhtml, orient='records')
+
+    df['MEP'] = df['all_votes'].astype(str).str.split("mep_name_link': 'https://www.votewatch.eu/en/term9-").str[1].str.split(".html").str[0].str.replace("-", " ").str.title()
+    df['group_abbv'] = df['all_votes'].astype(str).str.split("grup': '").str[1].str.split("'").str[0]
+    df['country'] = df['all_votes'].astype(str).str.split("euro_tara_nume': '").str[1].str.split("'").str[0]
+    df[title] = df['all_votes'].astype(str).str.split("euro_vot_valoare_text': '").str[1].str.split("'").str[0]
+    df = df.drop(['all_votes'], axis=1)
+    return df
+
+# website for motion to be scraped- this was adapted for the motions used
+website = 'https://www.votewatch.eu/en/term9-the-impacts-of-climate-change-on-vulnerable-populations-in-developing-countries-motion-for-resolutio.html'
+
+# range updated based on number of votes
+for i in range(1,45):
+    if i == 1:
+        url = website
+    else:
+        url = website[:-5] + '-' + str(i) + website[-5:]
+    
+    newdf = scrapeWebsite(url)
+    
+    if i == 1:
+        df = newdf
+    else:
+        df = df.merge(newdf, on=['MEP', 'group_abbv', 'country'])
+
+# Fixing data issue
+df = df.replace('Didn&#39;t vote', "Didn't vote") 
+df.head()
+
+# Saving results to csv
+df.to_csv(r'mepdata.csv', index = False)
+
+# Checking number of rows
+df_len = len(df)
+if df_len == 705:
+  print("The dataset has {} rows which equals the expected 705 MEPs".format(df_len))
+else:
+  print("The dataset has {} rows which is not equal to the  expected 705 MEPs".format(df_len))
+
+# Checking for missing data
+if df.isnull().values.any() | df.eq('').values.any():
+  print('The dataset has missing values')
+else:
+  print('The dataset has no missing values')
+
+# Checking no issues with duplicates
+if df["MEP"].is_unique:
+  print('The MEP column has no duplicates')
+else:
+  print('There are duplicate values in the MEP column')
+```
+
 ## Detailed QAP results
 
 <!-- TODO: put these results in a table -->
