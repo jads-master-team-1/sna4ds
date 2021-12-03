@@ -254,39 +254,29 @@ topics of the following sections.
 
 The European Parliament (EP) is composed of 705 members, all elected officials. While these officials are elected to represent the European people as a whole, they are often also a member of a national party of one of the European Union (EU) member states. The officials of national parties then form European groups in the EP based on the ideology of the national parties.
 
-An interesting political clash to investigate is between ideology and national interest. European groups are formed based on a common ideology, yet all its internal members also have to take national interest into account. Probably it is the case that for certain bills that are closely connected to the ideology of a group, unity inside that European group is very high. At the same time, bills that are further apart from the ideology and where national interest play a larger role may lead to a different and more varied voting behavior for the group. For instance, we expect a high level of unity inside the Greens group when they are voting on a bill related to industrial climate effects. At the same time, such a group might be more influenced by national interests when it votes on a bill related to sociological climate effects relating to inequality of CO2 emissions.
+An interesting political clash to investigate is between ideology and national interest. European groups are formed based on a common ideology, yet all its internal members also have to take national interest into account. It is probable that for certain bills that are closely connected to the ideology of a group, unity inside that European group is very high. At the same time, bills that are further apart from the ideology and where national interest play a larger role may lead to a different and more varied voting behavior for the group. For instance, we expect a high level of unity inside the Greens group when they are voting on a bill related to industrial climate effects. At the same time, such a group might be more influenced by national interests when it votes on a bill related to sociological climate effects relating to inequality of CO2 emissions.
 
 Most of the climate debate is centered around reducing CO2 emissions and transitioning from fossil fuels to renewable energy sources, yet little attention has been given to how climate change is affecting the world in a sociological way. Take for example the effect of climate change on indigenous peoples, they produce hardly any greenhouse gases, yet they are impacted heavily because they do not have the resources to protect against flooding and they are highly dependent on land for farming and living. For this research paper we would like to investigate the cohesion of agreement within European countries on the sociological bill related to climate effects on vulnerable populations in developing countries. There we might be able to distinguish different voting behaviour for different countries that may also relate to the development of a certain country (take for example The Netherlands vs Romania). Since the bill on sociological climate effects is a relatively new point of discussion with respect to the heavily discussed industrial climate bill, we will first evaluate whether the voting behaviour with regard to these two bill is consistently using the following research question:
 
-_RQ1: “What is the correlation between the network from the climate bill and the network from the industry bill?”_
+_RQ1: “What is the correlation between the network from the sociological climate bill and the network from the industry climate bill?”_
 
-Along with the research question, the following hypothesis is formulated:
+Research on parliaments has shown that political parties are decisive for influencing MEPs voting behaviour [@Muller2000]. The party groups unite individual MEPS, organize the agenda and determine the procedure of the parliament [@Kopecky1996]. This research suggets that the European groups do heavily influence the voting behaviour of the individual MEPs. Assuming that the voting behaviour of the MEPS is influenced by their respective groups, and the fact that the composition of the European groups is the same for for both votes, it is expected that the MEPs vote similarly over both votes. Using this logic, the following hypothesis is formulated:
 
 _H1: “We expect a high level of correlation”._
 
-<!--
-Should we perhaps specify exactly what we mean with "high level of cohesion/correlation"? What is high?
--->
+Although the purpose of the European groups is to have unity in the voting behavior of its members, it can be the case that the interests from certain national parties clash with those from the European group. For instance, the European Christen Democrats group (EPP) has been in a big dispute with Hungary's Fidesz party, eventually even leading to the national party leaving the group after being threatened to get kicked out [@de_la_baume_orbans_2021].
 
-The purpose of the European group is to have unity in the voting behavior of its members. However, it can be the case that the interests from certain national parties clash with those from the European group. For instance, the European Christen Democrats group (EPP) has been in a big dispute with Hungary's Fidesz party, eventually even leading to the national party leaving the group after being threatened to get kicked out [@de_la_baume_orbans_2021]. 
+Given potential clashes between national and European interests, we are interested to investigate the unity and dynamics inside European countries for the sociological climate bill. As such, we have formulated the following research question:
 
-Given potential clashes between national and European interests, we are very interested to investigate the unity and dynamics inside European countries for the sociological climate bill. As such, we have formulated the following research question:
+_RQ2: “What is the cohesion of agreement, based on the sociological climate bill, for MEPs with the same nationality?”_
 
-<!--
-Proceeding with analysing the actual results from the model it can be observed that nodematch(“country”) is statistically significant and by interpreting the coefficient the conclusion can be drawn that there is an 84% probability that two MEP’s agree on a sociological climate bill if they are from the same country.
+As stated before, the European groups are expected to strongly influence the voting behaviour of the individual members of the European Parliament (MEPs). However, other research indicates that MEPs keep a national orientation, what can be linked to the distributive theory, which states that re-election is the main goal of legislators [@Scully2005, @Weingast_and_Marschall1988]. This suggests that MEPs not only vote according to the European group interest, but also according to the national party interest. Following this reasoning, the following hypothesis is formulated:
 
-This section test the question whether members of the European parliament are more likely to agree on sociological climate topics if they come from the same country regardless of their party.
--->
-
-_RQ2: “How likely are MEPs, regardless of their party, to agree if they come from the same European country based on the sociological climate bill?”_
-
-Along with the research question, the following hypothesis is formulated:
-
-_H2: “We expect a high level of cohesion for both bills”._
+_H2: “We expect a high level of cohesion.”_
 
 Here we define cohesion in line with the definition provided by [@cherepnalkoski_karpf_mozetic_grcar_2016] who view cohesion as the propensity to vote in the same manner within the same group, here the same European parliamentary group.
 
-Our work is going to contribute to the field by providing additional insight into the voting behaviors of given members of the European Parliament (MEP's). Our data being recent (2021) can suggest whether voting patterns have remained similar over time in comparison to other studies such as [@Eveland2013; @Schneider2007; @Nicoll_Victor2017]. 
+Our work is going to contribute to the field by providing additional insight into the voting behaviors of given MEPs. Our data being recent (2021) can suggest whether voting patterns have remained similar over time in comparison to other studies such as [@Eveland2013; @Schneider2007; @Nicoll_Victor2017]. 
 
 The study will give possible factors that influence the final voting outcome for a given bill. The tools deployed to tackle this problem are described in further sections. They will allow to compare objectively using statistical tools, for instance ERGM. The creation of these models allow a better understanding of which factors influence the formation and dissociation of coalitions and political party cohesions.
 
@@ -294,11 +284,7 @@ The study will give possible factors that influence the final voting outcome for
 
 The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands [@cherepnalkoski_karpf_mozetic_grcar_2016]. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
 
-### Proceeding of report's parts
-
-Firstly the methodology is explained. Some general comments are made on the obtention of the data, exploratory results under the form of plots. 
-Secondly, an explanation of the exact manner of how the network and its modelling is constructed.
-Thirdly, an interpretation of the modelling results of the networks, how it relates and partially answers the research question given previously.
+The report proceeds as follows. Firstly the methodology is explained. Some general comments are made on the obtention of the data, exploratory results under the form of plots. Secondly, an explanation of the exact manner of how the network and its modelling is constructed. Thirdly, an interpretation of the modelling results of the networks, how it relates and partially answers the research question given previously.
 
 ## Methodology
 
