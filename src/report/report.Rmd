@@ -32,11 +32,12 @@ draft: no
 documentclass: "apa6"
 classoption: "man"
 output:
-  html_document:
-    df_print: paged
   papaja::apa6_pdf:
-    toc: yes
-    keep_tex: yes
+    fig_captions: yes
+    number_sections: no
+  html_document:
+    fig_caption: yes
+    number_sections: no
 ---
 
 ```{r setup, include = FALSE}
@@ -848,73 +849,58 @@ else:
 ### A.2 Create edges
 
 ```python
-from urllib.request import Request, urlopen
-
 import pandas as pd
+import os
+from pathlib import Path
 
-def scrapeWebsite(url):
-    #Website to be requested
-    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-    xhtml = urlopen(req).read()
+df = pd.read_csv(os.path.join(Path(os.getcwd()).parents[1],'data','MEP_social.csv')) 
 
-    string = xhtml.decode('utf-8')
-    title = string.split('<div class="div_tabled_info_full">')[1].split('<')[0]
-    new_url = string.split('var source_individual_votes = "')[1].split('"')[0]
-
-    req = Request(new_url, headers={'User-Agent': 'Mozilla/5.0'})
-    xhtml = urlopen(req).read()
-
-    df = pd.read_json(xhtml, orient='records')
-
-    df['MEP'] = df['all_votes'].astype(str).str.split("mep_name_link': 'https://www.votewatch.eu/en/term9-").str[1].str.split(".html").str[0].str.replace("-", " ").str.title()
-    df['group_abbv'] = df['all_votes'].astype(str).str.split("grup': '").str[1].str.split("'").str[0]
-    df['country'] = df['all_votes'].astype(str).str.split("euro_tara_nume': '").str[1].str.split("'").str[0]
-    df[title] = df['all_votes'].astype(str).str.split("euro_vot_valoare_text': '").str[1].str.split("'").str[0]
-    df = df.drop(['all_votes'], axis=1)
-    return df
-
-# website for motion to be scraped- this was adapted for the motions used
-website = 'https://www.votewatch.eu/en/term9-the-impacts-of-climate-change-on-vulnerable-populations-in-developing-countries-motion-for-resolutio.html'
-
-# range updated based on number of votes
-for i in range(1,45):
-    if i == 1:
-        url = website
-    else:
-        url = website[:-5] + '-' + str(i) + website[-5:]
-    
-    newdf = scrapeWebsite(url)
-    
-    if i == 1:
-        df = newdf
-    else:
-        df = df.merge(newdf, on=['MEP', 'group_abbv', 'country'])
-
-# Fixing data issue
-df = df.replace('Didn&#39;t vote', "Didn't vote") 
 df.head()
 
-# Saving results to csv
-df.to_csv(r'mepdata.csv', index = False)
+# Creating index column
+df.reset_index(inplace=True)
+df = df.rename(columns = {'index':'index_no'})
 
-# Checking number of rows
-df_len = len(df)
-if df_len == 705:
-  print("The dataset has {} rows which equals the expected 705 MEPs".format(df_len))
-else:
-  print("The dataset has {} rows which is not equal to the  expected 705 MEPs".format(df_len))
+# Function to compare two MEPs to check their agreement
+def compare_row(row1, row2):
+    # Initial agreement is 0
+    count = 0
+    for elem, elem2 in zip(row1[4:], row2[4:]):
+        # Only checks for agreement if first MEP has voted for or against (abstain/ not present not considered as something that can be agreed on)
+        if (elem == 'For') | (elem == 'Against'):
+            # If the two MEPs agree on this vote then increment count by 1
+            if elem == elem2:
+                count = count + 1
+    # Return final count of agreement for the two MEPs
+    return count
 
-# Checking for missing data
-if df.isnull().values.any() | df.eq('').values.any():
-  print('The dataset has missing values')
-else:
-  print('The dataset has no missing values')
+# Creating new dataframe to hold weighted edges
+edges = pd.DataFrame(columns=['MEP_1', 'MEP_2', 'Agreement'])
 
-# Checking no issues with duplicates
-if df["MEP"].is_unique:
-  print('The MEP column has no duplicates')
+# Iterate through each MEP row
+for index, row in df.iterrows():
+    # Printing MEP index to track progress
+    print(row.index_no)
+    # Iterating through MEP rows again
+    for index2, row2 in df.iterrows():
+        # Only comparing rows if the index of the first MEP is lower than the index of the second MEP
+        # To avoid checking MEPs against themselves and not to compare pairs of MEPs twice
+        if row.index_no < row2.index_no:
+            # Calculating weight of edge
+            agreement = compare_row(row, row2)
+            # Adding names of MEPs and agreement to dataframe
+            edges.loc[len(edges.index)] = [row.MEP, row2.MEP,agreement]
+
+# Printing final output
+edges.head()
+
+if len(edges) == 248160:
+    print('Correct number of edges')
 else:
-  print('There are duplicate values in the MEP column')
+    print('Something went wrong')
+
+# Saving edges to csv
+edges.to_csv(r'edges_for_against_industry.csv', index = False)
 ```
 
 \newpage
@@ -936,6 +922,8 @@ print("QAP results for weighted networks")
 sum_mep_cor_w
 ```
 
+\newpage
+
 ## C. Detailed ERGM analysis
 
 ### C.1 Structural effects
@@ -951,6 +939,7 @@ print("network ~ kstar(0:120)")
 summary(uw_net_soc_clim_100_nw ~ kstar(0:120))
 ```
 
+\newpage
 
 ## D. Detailed ERGM results
 
@@ -992,9 +981,13 @@ par(mfrow = c(1, 1))
 invisible(capture.output(ergm::mcmc.diagnostics(m4, which = "plots")))
 ```
 
+\newpage
+
 ## E. Coal & Steel Vote Document
 
 https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
+
+\newpage
 
 ## F. Impacts of Climate Change Document
 
@@ -1012,9 +1005,7 @@ Lee, Jeongyoon. (2019). The Oxford handbook of political networks: edited by Jen
 Cherepnalkoski D, Karpf A, Mozetič I, Grčar M (2016) Cohesion and Coalition Formation in the European Parliament: Roll-Call Votes and Twitter Activities. PLoS ONE 11(11): e0166586. https://doi.org/10.1371/journal.pone.0166586
 
 UNIVERSIDAD AUTONOMA DE BARCELONA (2021, 2026) A Network Science Approach to Social Cohesion in European Societies https://cordis.europa.eu/project/id/101020038
--->
 
-<!--
 Sources of vulnerable populations:
 
 Least developed countries expert group - United Nations Climate Change Secretariat (2018) Considerations regarding vulnerable groups, communities and ecosystems in the context of the national adaptiations plans https://unfccc.int/sites/default/files/resource/Considerations%20regarding%20vulnerable.pdf 
