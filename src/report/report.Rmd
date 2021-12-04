@@ -447,8 +447,6 @@ For QAP it was decided to evaluate the 35% and 95% thresholds for full coverage 
 ### Testing created networks
 With these thresholds and data in mind, the networks models were created, visualised and explored.  Summary statistics for these networks were also computed.  The most prominent differences shown here are in graph density and diameter of the graphs. The centrality charts for these networks were also computed but failed to show significant results due to the scale of the network. The only point of note is the range of degree which can be seen already in the degree distribution. All of these plots, tables and visualizations can be found in the appendix.
 
-All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 35%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
-
 
 
 
