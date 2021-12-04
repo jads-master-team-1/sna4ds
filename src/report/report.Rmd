@@ -32,11 +32,11 @@ draft: no
 documentclass: "apa6"
 classoption: "man"
 output:
-  papaja::apa6_pdf:
-    fig_captions: yes
-    number_sections: no
   html_document:
     fig_caption: yes
+    number_sections: no
+  papaja::apa6_pdf:
+    fig_captions: yes
     number_sections: no
 ---
 
@@ -55,7 +55,7 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 # w: weighted
 # uw: unweighted
 # soc: sociological bill
-# ind: industry bill
+# ind: industrial bill
 # clim: climate
 # nw: network object
 
@@ -233,7 +233,7 @@ What are your research questions and hypotheses?
 What are your results and the main conclusion?
 -->
 
-This study aims to investigate the cohesion of agreement for voting of members of the European Parliament (MEPs). The research is conducted on two separate bills with multiple votes, a sociological and industrial climate bill, voted on by the EP on May 18th 2021. Social network analysis models are used to answer two research questions. Firstly, QAP is used to find the correlation between the network from the sociological climate bill and the network from the industry climate bill. Literature suggests that the MEPs voting behaviour is heavily influenced by their European groups, therefore it is expected that there is a high level of correlation between both bills. Secondly, an ERGM model is used to investigate the influence of nationality on the MEPs voting behaviour on the sociological climate bill. Combining findings from different studies, it is expected that there will be a high level of cohesion between MEPs of the same nationality. It is found that there is an association between how pairs of MEPs agreed on both bills. Furthermore, it is found that for the sociological climate bill there is an 84% chance that MEPs with the same nationality vote similarly.
+This study aims to investigate the cohesion of agreement for voting of members of the European Parliament (MEPs). The research is conducted on two separate bills with multiple votes, a sociological climate bill and an industrial climate bill, voted on by the EP on May 18th 2021. Social network analysis models are used to answer two research questions. Firstly, QAP is used to find the correlation between the network from the sociological climate bill and the network from the industrial climate bill. Literature suggests that the MEPs voting behaviour is heavily influenced by their European groups, therefore it is expected that there is a high level of correlation between both bills. Secondly, an ERGM model is used to investigate the influence of nationality on the MEPs voting behaviour on the sociological climate bill. Combining findings from different studies, it is expected that there will be a high level of cohesion between MEPs of the same nationality. It is found that there is an association between how pairs of MEPs agreed on both bills. Furthermore, it is found that for the sociological climate bill there is an 84% chance that MEPs with the same nationality vote similarly.
 
 \newpage
 
@@ -263,15 +263,15 @@ topics of the following sections.
 
 ## 1.1 Topic of choice and literature review
 
-The European Parliament (EP) is composed of 705 members, all elected officials. While these officials are elected to represent the European people as a whole, they are often also a member of a national party of one of the European Union (EU) member states. The officials of national parties then form European groups in the EP based on the ideology of the national parties.
+The European Parliament (EP) is composed of 705 members (MEPs), all elected officials. While these officials are elected to represent the European people as a whole, they are often also a member of a national party of one of the European Union (EU) member states. The officials of national parties then form European groups in the EP based on the ideology of the national parties.
 
 An interesting political clash to investigate is between ideology and national interest. European groups are formed based on a common ideology, yet all its internal members also have to take national interest into account. It is probable that for certain bills that are closely connected to the ideology of a group, unity inside that European group is very high. At the same time, bills that are further apart from the ideology and where national interest play a larger role may lead to a different and more varied voting behavior for the group. For instance, we expect a high level of unity inside the Greens group when they are voting on a bill related to industrial climate effects. At the same time, such a group might be more influenced by national interests when it votes on a bill related to sociological climate effects relating to inequality of CO2 emissions.
 
 Most of the climate debate is centered around reducing CO2 emissions and transitioning from fossil fuels to renewable energy sources, yet little attention has been given to how climate change is affecting the world in a sociological way. Take for example the effect of climate change on indigenous peoples, they produce hardly any greenhouse gases, yet they are impacted heavily because they do not have the resources to protect against flooding and they are highly dependent on land for farming and living. For this research paper we would like to investigate the cohesion of agreement within European countries on the sociological bill related to climate effects on vulnerable populations in developing countries. There we might be able to distinguish different voting behaviour for different countries that may also relate to the development of a certain country (take for example The Netherlands vs Romania). Since the bill on sociological climate effects is a relatively new point of discussion with respect to the heavily discussed industrial climate bill, we will first evaluate whether the voting behaviour with regard to these two bill is consistently using the following research question:
 
-_RQ1: “What is the correlation between the network from the sociological climate bill and the network from the industry climate bill?”_
+_RQ1: “What is the correlation between the network from the sociological climate bill and the network from the industrial climate bill?”_
 
-Research on parliaments has shown that political parties are decisive for influencing MEPs voting behaviour [@Muller2000]. The party groups unite individual MEPS, organize the agenda and determine the procedure of the parliament [@Kopecky1996]. This research suggets that the European groups do heavily influence the voting behaviour of the individual MEPs. Assuming that the voting behaviour of the MEPS is influenced by their respective groups, and the fact that the composition of the European groups is the same for for both votes, it is expected that the MEPs vote similarly over both votes. Using this logic, the following hypothesis is formulated:
+Research on parliaments has shown that political parties are decisive for influencing MEPs voting behaviour [@Muller2000]. The party groups unite individual MEPs, organize the agenda and determine the procedure of the parliament [@Kopecky1996]. This research suggets that the European groups do heavily influence the voting behaviour of the individual MEPs. Assuming that the voting behaviour of the MEPs is influenced by their respective groups, and the fact that the composition of the European groups is the same for for both votes, it is expected that the MEPs vote similarly over both votes. Using this logic, the following hypothesis is formulated:
 
 _H1: “We expect a high level of correlation”._
 
@@ -281,7 +281,7 @@ Given potential clashes between national and European interests, we are interest
 
 _RQ2: “What is the cohesion of agreement, based on the sociological climate bill, for MEPs with the same nationality?”_
 
-As stated before, the European groups are expected to strongly influence the voting behaviour of the individual members of the European Parliament (MEPs). However, other research indicates that MEPs keep a national orientation, what can be linked to the distributive theory, which states that re-election is the main goal of legislators [@Scully2005, @Weingast_and_Marschall1988]. This suggests that MEPs not only vote according to the European group interest, but also according to the national party interest. Following this reasoning, the following hypothesis is formulated:
+As stated before, the European groups are expected to strongly influence the voting behaviour of the individual members of the European Parliament. However, other research indicates that MEPs keep a national orientation, what can be linked to the distributive theory, which states that re-election is the main goal of legislators [@Scully2005, @Weingast_and_Marschall1988]. This suggests that MEPs not only vote according to the European group interest, but also according to the national party interest. Following this reasoning, the following hypothesis is formulated:
 
 _H2: “We expect a high level of cohesion.”_
 
@@ -293,9 +293,9 @@ The study will give possible factors that influence the final voting outcome for
 
 ### 1.1.1 Roll-call votes
 
-The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a climate-related motion and 16 from an industry-related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands [@cherepnalkoski_karpf_mozetic_grcar_2016]. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
+The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions concerning different political areas of interest (45 from a sociological-climate related motion and 16 from an industrial-climate related motion). Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name. Roll-call votes are only held under certain conditions, for example, when requested by a significant number of MEPs or if it is impossible to determine a majority from a show of hands [@cherepnalkoski_karpf_mozetic_grcar_2016]. These votes are documented in the minutes of that day’s parliament session and are accessible on the European parliament site.
 
-The report proceeds as follows. Firstly the methodology is explained. Some general comments are made on the obtention of the data, exploratory results under the form of plots. Secondly, an explanation of the exact manner of how the network and its modelling is constructed. Thirdly, an interpretation of the modelling results of the networks, how it relates and partially answers the research question given previously.
+The report proceeds as follows. Firstly the methodology is explained. Some general comments are made on obtention of the data, along with exploratory results under the form of plots. Secondly, an explanation of the exact manner of how the network and its modelling is constructed. Thirdly, an interpretation of the modelling results of the networks, how it relates and partially answers the research questions given previously.
 
 \newpage
 
@@ -333,7 +333,7 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 ### 2.1.1 Source of data and collection
 
-As the dataset for this research two votes of the European Parliament, both on May 18th 2021, are scraped from the VoteWatch.eu website. The code used to scrape the data can be found in the appendix<!--ADD REFERENCE TO APPENDIX-->. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 44 roll-calls. The second vote is named "Research Fund for Coal and Steel", and has 16 roll-calls. The full official document of the votes can be found in the Appendix<!--ADD REFERENCE TO APPENDIX-->. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to a great extend [@noauthor_votewatchmethodology_nodate]. The foundation, however, lays in them automatically scraping the the voting data from the European Parliaments own website.
+As the dataset for this research two votes of the European Parliament, both on May 18th 2021, are scraped from the VoteWatch.eu website. The code used to scrape the data can be found in the appendix<!--ADD REFERENCE TO APPENDIX-->. The first vote is named "The impacts of climate change on vulnerable populations in developing countries", and has 45 roll-calls. The second vote is named "Research Fund for Coal and Steel", and has 16 roll-calls. The full official document of the votes can be found in the appendix<!--ADD REFERENCE TO APPENDIX-->. VoteWatch is a non-profit organization with the goal of providing insight into the European Parliament and their decision making for European citizens. VoteWatch describes their methodology on their website to a great extend [@noauthor_votewatchmethodology_nodate]. The foundation, however, lays in them automatically scraping the voting data from the European Parliaments own website.
 
 The two analysed votes are purposefully chosen in order to analyze the potential difference in the network effects within the European Parliament for different areas of politics. Stereo typically, political views on climate change on the one hand, and coal & steel industry on the other hand are often adverse, which make these votes interesting to analyze. Furthermore, the votes took place on the same date, which eliminates influence of various possible external parameters. Some examples of such parameters are the date of the vote, the composition of the parliament, or short-lived political ideologies.
 
@@ -391,149 +391,67 @@ Results Description (about 2000 words)
 
 A decision was needed to be made regarding the nature of the edges in the network. One technique could be that agreement between MEPs would be summed creating a weighted edge equaling the number of times the two MEPs agreed in the bill. This network can be used for our first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges, however due to the scale of the network in question (705 nodes) this was not considered feasible during the time-period of this research and could be considered as a future area of research based on the results of this paper.
 
-Therefore, in order to create a binary network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote [@cherepnalkoski_karpf_mozetic_grcar_2016]. In this research it was also decided that each edge should represent agreement between two MEPs. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see @cranmer_desmarais_2011, and thus implenting a so called threshold. More about this threshold is explained later in the results. 
+Therefore, in order to create a binary network of agreement between MEPs a decision was required to determine what conditions would create an edge between a pair of MEPs. Previous research has created networks from each individual roll-call vote where an edge equals agreement in that particular vote [@cherepnalkoski_karpf_mozetic_grcar_2016]. In this research it was also decided that each edge should represent agreement between two MEPs. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement is therefore only considered valid in this research if they both voted for or against. However, being able to make conclusions from this method requires an ERGM model to be created for each roll-call vote and then the results combined using a meta-analysis method. Therefore, given the time restrictions of this project, a decision was made to create an edge between individuals based on agreement in a certain number of votes or more following the approach adopted in previous papers, see @cranmer_desmarais_2011, and thus implenting a so called threshold. More about this threshold is explained later in the results. The networks created in this research, using the above mentioned methods, are all unimodal networks. 
 
 ## 3.2 Descriptive measures
 
-In order to get a better overview of the dataset, the five-number summary is computed for both the climate motion and the industry motion. The following two tables show these statistics for the two weighted networks where there is an edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph we just show the number of nodes and edges rather than the dyad-cencus since this would not provide any additional information.The centrality chart for these networks was also examined but was difficult to interpret given number of nodes included. Additionally, the centrality chart pointed towards the low centrality of the graphs which is easy to confirm with the statistics below. Due to the high transivity and density of the graph, there are not many specific nodes that are more/less central in the graphs.
+In order to get a better overview of the dataset, the five-number summary is computed for both the sociological climate motion and the industrial climate motion. The following two tables show these statistics for the two weighted networks where there is an edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph we just show the number of nodes and edges rather than the dyad-cencus since this would not provide any additional information.The centrality chart for these networks was also examined but was difficult to interpret given number of nodes included. Additionally, the centrality chart pointed towards the low centrality of the graphs which is easy to confirm with the statistics below. Due to the high transivity and density of the graph, there are not many specific nodes that are more/less central in the graphs.
 
 The summary statistics of the graph already point to a high level of similarity in structure. They both have very high density and transitivity. They also have the same path length and diameter, likely due to the many connections between nodes in both graphs.
 
 ```{r echo=FALSE}
-tab_statistic(u_net_soc_clim, "Statistics for weighted climate network")
-tab_statistic(u_net_ind_clim, "Statistics for weighted industry network")
+tab_statistic(u_net_soc_clim, "Statistics for weighted sociological climate network")
+tab_statistic(u_net_ind_clim, "Statistics for weighted industrial climate network")
 ```
 
 As previously discussed, to begin the ERGM testing it was required to transform the networks from weighted networks to binary networks. This required the choice of thresholds. Therefore to aid this process, the five-number summary was plotted for the networks using all possible absolute number thresholds (see plots below).Histograms of the spread of agreement are also plotted below to provide context for the other statistics.
-There will therefore be an edge between two parliament members if they have a minimum agreement equal or above the threshold. The lowest threshold for an edge in these graphs is therefore one, meaning that the MEPs agreed on one and only one subvote in the bill. For low level of agreement this could therefore mean that MEPs only agreed very few times. Therefore not all edges are a result of causal relationships or represent a significant amount of agreement. The aim was therefore to set thresholds so as to create a network of the most important, non-random relationships. The plots below are therefore examined to try and determine the most appropriate thresholds.
+There will therefore be an edge between two parliament members if they have a minimum agreement equal or above the threshold. The lowest threshold for an edge in these graphs is therefore one, meaning that the MEPs agreed on one and only one subvote in the bill. For low level of agreement this could therefore mean that MEPs only agreed very few times. Therefore not all edges are a result of causal relationships or represent a significant amount of agreement. The aim was therefore to set thresholds so as to create a network of the most important, non-random relationships. Frequency plots (displayed in the appendix) are therefore examined to try and determine the most appropriate thresholds, which will be explored in further detail in the next sections.
 For clarity the thresholds considered here are absolute numbers of votes on which the MEPs agree on. Since every MEP has the opportunity to be both present and vote on each motion for each resolution then this is considered to be a clear and fair method for testing levels of agreement.
 
-```{r echo=FALSE}
-# Social climate bill
-hist(edges_soc_clim$agreement,
-     col = "lightblue",
-     xlab = "Agreement",
-     ylab = "Frequency",
-     main = "MEP Agreement Distribution")
 
-par(mfrow = c(2, 2), cex = 0.6)
-plot_statistic(igraph::transitivity,
-               edges_soc_clim,
-               44,
-               "Agreement Threshold",
-               "Global Transitivity",
-               "Transitivity vs. Agreement Threshold")
-plot_statistic(igraph::edge_density,
-               edges_soc_clim,
-               44,
-               "Agreement Threshold",
-               "Network Density",
-               "Network Density vs. Agreement Threshold")
-plot_statistic(igraph::mean_distance,
-               edges_soc_clim,
-               44,
-               "Agreement Threshold",
-               "Average Path Length",
-               "Average Path Length vs. Agreement Threshold")
-plot_statistic(igraph::diameter,
-               edges_soc_clim,
-               44,
-               "Agreement Threshold",
-               "Diameter",
-               "Diameter vs. Agreement Threshold")
-mtext("Climate Motion", side = 3, line = -19, outer = TRUE)
-par(mfrow = c(1, 1))
+### 3.2.1 Sociological Climate Motion
 
-# Industry climate bill
-hist(edges_ind_clim$agreement,
-     col = "lightblue",
-     xlab = "Agreement",
-     ylab = "Frequency",
-     main = "MEP Agreement Distribution")
+The graphs for the social climate motion initially show a dense network with a short average path length. This can be explained by the fact that with the full dataset, almost all members of the EP are connected to each other through at least one voting agreement. This is logical, given that they would just need to agree on one vote. However, this is not the most relevant information for this research. 
 
-par(mfrow = c(2, 2), cex = 0.6)
-plot_statistic(igraph::transitivity,
-               edges_ind_clim,
-               44,
-               "Agreement Threshold",
-               "Global Transitivity",
-               "Transitivity vs. Agreement Threshold")
-plot_statistic(igraph::edge_density,
-               edges_ind_clim,
-               44,
-               "Agreement Threshold",
-               "Network Density",
-               "Network Density vs. Agreement Threshold")
-plot_statistic(igraph::mean_distance,
-               edges_ind_clim,
-               44,
-               "Agreement Threshold",
-               "Average Path Length",
-               "Average Path Length vs. Agreement Threshold")
-plot_statistic(igraph::diameter,
-               edges_ind_clim,
-               44,
-               "Agreement Threshold",
-               "Diameter",
-               "Diameter vs. Agreement Threshold")
-mtext("Industry Motion", side = 3, line = -19, outer = TRUE)
-par(mfrow = c(1, 1))
-```
-
-### 3.2.1 Climate Motion
-
-The graphs for the climate motion initially show a dense network with a short average path length. This can be explained by the fact that with the full dataset, almost all members of the EP are connected to each other through at least one voting agreement. This is logical, given that they would just need to agree on one vote. However, this is not the most relevant information for this research. 
-
-Instead, two key points of change are noted in the graphs: agreement between 12-18 and agreement above 38. For expample,it is observed from the transitivity measure figure that at an agreement threshold of 15, there is a drop in transitivity. This signals that there is a reduction in clusters when a threshold of 15 is set. Similarly, the network density plot shows a vast decline around the threshold of 15, indicating a large reduction of edges. This behaviour can be seen when plotting the graphs (see plots below- MEPs have been plotted with their European party clearer to make clustering behaviour more obvious) as clearer subcommunities begin to appear. The median amount of agreement between MEPs in this dataset of 17 also underlines this range being a significant point in the network. 
+Instead, two key points of change are noted in the graphs: agreement between 12-18 and agreement above 38. For expample,it is observed from the transitivity measure figure that at an agreement threshold of 15, there is a drop in transitivity. This signals that there is a reduction in clusters when a threshold of 15 is set. Similarly, the network density plot shows a vast decline around the threshold of 15, indicating a large reduction of edges. This behaviour can be seen when plotting the graphs (displayed in the appendix - MEPs have been plotted with their European party clearer to make clustering behaviour more obvious) as clearer subcommunities begin to appear. The median amount of agreement between MEPs in this dataset of 17 also underlines this range being a significant point in the network. 
 
 Additionally, a small drop in transitivity and density can be observed at an agreement threshold above 38 as well. This is interesting to observe, since at an agreement threshold of 38 and above, the MEPs agree on almost all votes. The density plot also shows, that there are fewer connections left, indicating that a smaller proportion of MEPs agree with each other at this significant level.This is clear when comparing the relevant plot where initially at a threshold of 38 there is still one large community. When the threshold is raised to 44 then this community has fractured into much smaller sub-groups
 
-```{r echo=FALSE}
-par(mfrow = c(1, 2))
-plot_network_agreement(edges_soc_clim, 12, igraph::layout_with_lgl)
-plot_network_agreement(edges_soc_clim, 17, igraph::layout_with_lgl)
-par(mfrow = c(1, 1))
 
-par(mfrow = c(1, 2))
-plot_network_agreement(edges_soc_clim, 38, igraph::layout_with_graphopt)
-plot_network_agreement(edges_soc_clim, 44, igraph::layout_with_graphopt)
-par(mfrow = c(1, 1))
-```
+### 3.2.2 Industrial Climate Motion
 
-### 3.2.2 Industry Motion
+As for the industrial climate motion, a dense network with a short average path length can be observed as well for the full network. Again, all members are connected to each other through some voting agreement. As such, it becomes even more important to eliminate the random voting agreements in order to visualise the most important relationships between members of the European Parliament. 
 
-As for the industry motion, a dense network with a short average path length can be observed as well for the full network. Again, all members are connected to each other through some voting agreement. As such, it becomes even more important to eliminate the random voting agreements in order to visualise the most important relationships between members of the European Parliament. 
+The transitivity clearly shows two key drops between 3-5 and 11-14. This signals that there is a reduction in clusters. Similarly, the density plot also signals a drop in density at a threshold of 4 and 13, indicating that many connections disappear at these stages. This matches the results from the histogram as there are many pairs of MEPs with agreement around these levels. The changes to the network are modelled in visualisations displayed in the appendix, particularly in the comparison of the threshold of 3 and 5 where there has been a clear fracturing into subcommunities.
 
-The transitivity clearly shows two key drops between 3-5 and 11-14. This signals that there is a reduction in clusters. Similarly, the density plot also signals a drop in density at a threshold of 4 and 13, indicating that many connections disappear at these stages.This matches the results from the histogram as there are many pairs of MEPs with agreement around these levels. The changes to the network are modelled in the visualisations below, particularly in the comparison of the threshold of 3 and 5 where there has been a clear fracturing into subcommunities.
+In contrast to the social climate motion the median in agreement in this data is 13 showing a much higher average amount of agreement in this network. This is likely due to the high number of MEPs (around 5000) pairs that are in total agreement across all votes.
 
-In contrast to the climate motion the median in agreement in this data is 13 showing a much higher average amount of agreement in this network.This is likely due to the high number of MEPs (around 5000) pairs that are in total agreement across all votes.
-
-```{r echo=FALSE}
-par(mfrow = c(1, 2))
-plot_network_agreement(edges_ind_clim, 3, igraph::layout_with_lgl)
-plot_network_agreement(edges_ind_clim, 5, igraph::layout_with_lgl)
-par(mfrow = c(1, 1))
-
-par(mfrow = c(1, 2))
-plot_network_agreement(edges_ind_clim, 11, igraph::layout_with_graphopt)
-plot_network_agreement(edges_ind_clim, 14, igraph::layout_with_graphopt)
-par(mfrow = c(1, 1))
-```
 
 <!-- The piece below should be under Threshold determination? Or can we leave it out??-->
-For the climate motion, it can be assumed that by setting the threshold slightly past 15 will eliminate random edges between members of the EP. As for the threshold of 39, it would be interesting to observe given that the remaining connections capture extreme agreement, relevant to our research. As for the industry motion, it can be concluded that a threshold of 4 definitely removes the first set of random voting agreements. Additionally, a threshold of 13 also removes a large set of edges between members of the European Parliament, but it is yet to be evaluated whether these are random agreements or not. Instead, the threshold of 13 actually captures connections with extreme agreement. Therefore it would be interesting to use the number of voting agreements of 4 and 13 as thresholds for the remaining of our research.
+
+For the social climate motion, it can be assumed that by setting the threshold slightly past 15 will eliminate random edges between members of the EP. As for the threshold of 39, it would be interesting to observe given that the remaining connections capture extreme agreement, relevant to our research. As for the industrial climate motion, it can be concluded that a threshold of 4 definitely removes the first set of random voting agreements. Additionally, a threshold of 13 also removes a large set of edges between members of the European Parliament, but it is yet to be evaluated whether these are random agreements or not. Instead, the threshold of 13 actually captures connections with extreme agreement. Therefore it would be interesting to use the number of voting agreements of 4 and 13 as thresholds for the remaining of our research.
+
 
 ## 3.3 Threshold determination
 
-Following the descriptive analysis, an appropriate threshold had to be determined. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by examining the networks for a selection of thresholds, comparing density and the resulting ERGM model.
+Following the descriptive analysis, an appropriate threshold had to be determined. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by examining the networks for a selection of thresholds, comparing density, transitivity and other important statistics.
 
-As previously discussed, in the previous descriptive analysis both datasets had two specific ranges where the structure of the network significantly changed. The decision was therefore made to set the threshold for the networks used in this paper just above these ranges. This was chosen as it was considered likely that the more frequent levels of agreement between MEPs were likely by chance- particularly at lower levels.
+As previously discussed in the descriptive analysis section, both datasets had two specific ranges where the structure of the network significantly changed. The decision was therefore made to set the threshold for the networks used in this paper just above these ranges. This was chosen as it was considered likely that the more frequent levels of agreement between MEPs were likely by chance- particularly at lower levels.
 
-In order to be able to compare the analysis of both networks it was considered desirable to use the same thresholds on both. Therefore percentage thresholds were identified to be used: above 35% agreement and above 95% agreement. These both relate to the two ranges identified in the descriptive models above and their respective medians.See the histogram below (climate frequency in peach and industry frequency in lilac, pink where they overlap) for an illustration of the dynamics focused on by setting these thresholds.
+### QAP Thresholds
+In order to be able to compare the analysis of both networks it was considered desirable to use the same thresholds on both networks. Therefore percentage thresholds were identified to be used: above 35% agreement and above 95% agreement. These both relate to the two ranges identified in the descriptive models above and their respective medians.See the histogram below (social climate frequency in peach and industrial climate frequency in lilac, pink where they overlap) for an illustration of the dynamics focused on by setting these thresholds.
 
-With this data in mind, the networks models were created, visualised and tested with the ERGM (see plots and degree distribution of selected networks below). Summary statistics for these networks were also computed (see below). The most prominent differences shown here are in graph density and diameter of the graphs. The centrality charts for these networks were also computed but again failed to show significant results due to the scale of the network. The only point of note is the range of degree which can be seen already in the degree distribution plotted below.
+### ERGM Threshold
+For QAP it was decided to evaluate the 35% and 95% thresholds for full coverage and also to see if there is a different association at different level of agreement. For the ERGM however, it was decided to use a 100% threshold for agreement in order to thoroughly investigate agreement within European countries. This way, extreme agreement can be analysed, giving a good and clear indication of the cohesion within countries. Using a 100% agreement threshold to form edges between MEPs, the network created is an undirected unweighted network containing 705 vertices (MEP’s) and 6811 edges. As explained in the previous sections an edge is formed between two MEP’s if they vote the same on every roll call in the bill.
+
+### Testing created networks
+With these thresholds and data in mind, the networks models were created, visualised and explored.  Summary statistics for these networks were also computed.  The most prominent differences shown here are in graph density and diameter of the graphs. The centrality charts for these networks were also computed but failed to show significant results due to the scale of the network. The only point of note is the range of degree which can be seen already in the degree distribution. All of these plots, tables and visualizations can be found in the appendix.
 
 All selected networks were all separately tested to ensure the best chance of finding a converging ERGM model. It is also possible that different dynamics might be in play in the model for occasional agreement (above 35%) in comparison to almost total agreement (above 95%) which can be tested with these models. 
+
+
+
+
 
 ```{r echo=FALSE}
 p1 <- hist(edges_soc_clim$agreement_percent,
@@ -551,7 +469,7 @@ plot(p1,
      xlim = c(0, 1),
      xlab = "Agreement Frequency",
      ylab = "Frequency",
-     main = "Edges Climate & Industry w/ Selected Thresholds")
+     main = "Edges Social & Industrial bills w/ Selected Thresholds")
 
 # Second histogram
 plot(p2 , col = rgb(0, 0, 1, 1/4), xlim = c(0, 1), add = TRUE)
@@ -559,77 +477,29 @@ plot(p2 , col = rgb(0, 0, 1, 1/4), xlim = c(0, 1), add = TRUE)
 # Threshold lines
 abline(v = 0.35, col = "blue", lwd = 3)
 abline(v = 0.95, col = "blue", lwd = 3)
+abline(v = 1.0, col = "blue", lwd = 3)
 
 # Legend
 legend(x = -0.0325,
        y = 40000,
-       legend = c("Climate", "Industry"),
+       legend = c("Social", "Industrial"),
        col = c("red", "blue"),
        lty = 1,
        lwd = 5)
 ```
 
-```{r echo=FALSE}
-par(mfrow=c(1, 2))
-plot_network_agreement_percent(edges_soc_clim, 0.35, igraph::layout_with_graphopt)
-hist(igraph::degree(uw_net_soc_clim_35),
-     ylim = c(0, 600),
-     xlab = "Degree",
-     ylab = "Frequency",
-     main = "Degree Distribution, Threshold: 35%")
-par(mfrow = c(1, 1))
-
-par(mfrow = c(1, 2))
-plot_network_agreement_percent(edges_soc_clim, 0.95, igraph::layout_with_graphopt)
-hist(igraph::degree(uw_net_soc_clim_95),
-     ylim = c(0, 600),
-     xlab = "Degree",
-     ylab = "Frequency",
-     main = "Degree Distribution, Threshold: 95%")
-par(mfrow = c(1, 1))
-```
-
-```{r echo=FALSE}
-tab_statistic(uw_net_soc_clim_35, "Statistics for climate network with threshold 35%")
-tab_statistic(uw_net_soc_clim_95, "Statistics for climate network with threshold 95%")
-```
-
-```{r echo=FALSE}
-par(mfrow=c(1, 2))
-plot_network_agreement_percent(edges_ind_clim, 0.35, igraph::layout_with_graphopt)
-hist(igraph::degree(uw_net_ind_clim_35),
-     ylim = c(0, 600),
-     xlab = "Degree",
-     ylab = "Frequency",
-     main = "Degree Distribution, Threshold: 35%")
-par(mfrow = c(1, 1))
-
-par(mfrow = c(1, 2))
-plot_network_agreement_percent(edges_ind_clim, 0.95, igraph::layout_with_graphopt)
-hist(igraph::degree(uw_net_ind_clim_95),
-     ylim = c(0, 600),
-     xlab = "Degree",
-     ylab = "Frequency",
-     main = "Degree Distribution, Threshold: 95%")
-par(mfrow = c(1, 1))
-```
-
-```{r echo=FALSE}
-tab_statistic(uw_net_ind_clim_35, "Statistics for industry network with threshold 35%")
-tab_statistic(uw_net_ind_clim_95, "Statistics for industry network with threshold 95%")
-```
 
 ## 3.4 QAP test
 
-In this section the correlation between the the climate vote network and the industry vote network was analysed with QAP-tests to give an initial indication of the answer to the first research question. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used. Calculating the correlation therefore involves comparing the existence of an edge (and its weight if included) between two MEPs in the first network with the existence of an edge between the same two MEPs in the second network.
+In this section the correlation between the social climate vote network and the industrial climate vote network was analysed with QAP-tests to give an initial indication of the answer to the first research question. A QAP test can be used here as both networks cover the same group of MEPs, therefore the linear subspace method can be used. Calculating the correlation therefore involves comparing the existence of an edge (and its weight if included) between two MEPs in the first network with the existence of an edge between the same two MEPs in the second network.
 
 A QAP test involves permuting both networks multiple times and each time calculating the correlation of the two networks to create a distribution of correlations. This is then compared to the correlations of the original networks to see if the statistic that is calculated on the original graphs is extreme for a graph controlled by this size and structure. This likelihood of observing this statistic is reflected in the p-value returned. This therefore uses the original graph and creates a distribution based for comparison of what the association would be under the null hypothesis of there being no association. The product-moment correlation statistic is used here as the most common statistic for correlation in networks [@MEGHANATHAN2021339].
 
-QAP tests were carried out on the full network, the 35% threshold network, the 95% threshold network and with the weighted networks for full coverage and also to see if there is a different association at different level of agreement. For example, it is possible that there could be less correlation with lower thresholds due to random noise that could come from a chance agreement between two MEPs. In contrast, in the the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance. This is particularly true in this case as it can be expected that if an MEP has a strong opinion on what should be done regarding the human impact of climate change that they would also have strong opinions about what could be done in industry that might improve/ worsen the climate issue. 
+QAP tests were carried out on the full network, the 35% threshold network, the 95% threshold network and with the weighted networks for full coverage and also to see if there is a different association at different level of agreement. For example, it is possible that there could be less correlation with lower thresholds due to random noise that could come from a chance agreement between two MEPs. In contrast, in the comparison of the two 95% networks we expect an extremely high level of correlation as the agreement is not then likely by chance. This is particularly true in this case as it can be expected that if an MEP has a strong opinion on what should be done regarding the human impact of climate change that they would also have strong opinions about what could be done in industry that might improve/ worsen the climate issue. 
 
 The resulting graphs from the QAP tests can be viewed below. It can be immediately seen that the correlation between both networks in all four tests is very significant. The correlation between the full networks (an edge between MEPs if they agree at least once) has a high correlation of 0.641 (p-value = 0.000). However, upon examination this is likely due to the very high number of edges in the initial network- if all MEPs agree with the other MEPs on at least one vote then the whole network will be connected. This is reflected in the high densities of these graphs (0.964 and 0.977). This would explain the very high level of association as the probability is therefore very high that there will be a matching edge in the other network. 
 
-The result from the thresholded networks is perhaps then more interesting. There is a lower but still significant correlation of voting agreement in the 35% networks of 0.346 (p-value= 0.000) and a slightly higher correlation with the 95% network of 0.397 (p-value= 0.000). The decrease in correlation compared to the initial network will be due to us now comparing far sparser networks, there is less chance that two MEPs agree 35% or 95% of the time so therefore a lower probability that a pair of MEPs will have an edge between them in both networks. However, the higher correlation in the 95% graph compared to the 35% graph is likely due to the high threshold set. While the 35% thresholded networks could still include pairs of MEPs who agreed with each other by chance 35% of the time this is extremely unlikely with the 95% network. These networks therefore focus on very specific voting agreement. An example of this voting agreement can be seen by examining the edges present in the 95% graphs as in both networks nearly all members of the The Progressive Alliance of Socialists and Democrats party completely agree with each other. This is an example of the behaviour that can cause the association in the networks noted here.
+The result from the thresholded networks is perhaps then more interesting. There is a lower but still significant correlation of voting agreement in the 35% networks of 0.346 (p-value= 0.000) and a slightly higher correlation with the 95% network of 0.397 (p-value= 0.000). The decrease in correlation compared to the initial network will be due to us now comparing far sparser networks, there is less chance that two MEPs agree 35% or 95% of the time so therefore a lower probability that a pair of MEPs will have an edge between them in both networks. However, the higher correlation in the 95% graph compared to the 35% graph is likely due to the high threshold set. While the 35% thresholded networks could still include pairs of MEPs who agreed with each other by chance 35% of the time this is extremely unlikely with the 95% network. These networks therefore focus on very specific voting agreement. An example of this voting agreement can be seen by examining the edges present in the 95% graphs as in both networks nearly all members of the Progressive Alliance of Socialists and Democrats party completely agree with each other. This is an example of the behaviour that can cause the association in the networks noted here.
 
 Finally, the most interesting result is perhaps the QAP results from the weighted networks. As opposed to the tests carried out on the binary networks this test also includes the information about the amount of agreement (measured as a percentage) between the two MEPs. Unlike the other QAP graphs, here there is an overlap between the result observed in the networks and the permuted graphs in the QAP test. However, the correlation between the two graphs is still highly significant with a correlation of 0.03 (p-value:0.004) 
 
@@ -676,7 +546,9 @@ sna::plot.qaptest(mep_cor_w, xlim = c(min(sum_mep_cor_w[[2]]) - 0.005, sum_mep_c
 par(mfrow = c(1, 1))
 ```
 
-From the results it can therefore be concluded that there is an association between how pairs of MEPs agreed in the social climate bill and the industrial climate bill for both weighted agreement, with thresholds for incidental agreement and almost total agreement. This therefore provides evidence in line with the first hypothesis of this paper.
+From the results it can therefore be concluded that there is an association between how pairs of MEPs agreed in the sociological climate bill and the industrial climate bill for both weighted agreement, with thresholds for incidental agreement and almost total agreement. This therefore provides evidence in line with the first hypothesis of this paper, which states that there is high correlation between the sociologcial climate bill and the industrial climate bill.
+
+
 
 ## 3.5 ERGM
 
@@ -706,10 +578,6 @@ In this section the cohesion of agreement, based on the sociological climate bil
 
 ERGM models are part of the exponential random graph model family. These models can be used to decide the cause of an observed relational phenom in a network. ERGMs make use of Monte Carlo Maximum Likelihood estimation. In other words, the ERGMs generate a series of matrices representing the network, differing one edge at the time. Then the Metropolis Hastings or Gibbs sampler algorithm is used to decide which entries change state. Only the state that increases the likelihood of observing the given network is retained, after which the simulation progresses. ERGMs are built sequentially meaning that after a term is added to the model formula, the model will be carefully evaluated using the Goodness-of-Fit Metrics and the MCMC Diagnostics before proceeding.
 
-<!-- Bram: I think we should move the paragraph below to the threshold section -->
-For QAP it was decided to evaluate the 35% and 95% thresholds for full coverage and also to see if there is a different association at different level of agreement. For the ERGM however, it was decided to use a 100% threshold for agreement in order to thoroughly investigate agreement within European countries. This way, extreme agreement can be analysed, giving a good and clear indication of the cohesion within countries. Using a 100% agreement threshold to form edges between MEPs, the network created is an undirected unweighted network containing 705 vertices (MEP’s) and 6811 edges. As explained in the previous sections an edge is formed between two MEP’s if they vote the same on every roll call in the bill.
-<!-- Bram: above piece for threshold -->
-
 Structural terms are a requirement for ERGM’s to properly fit the network. There are 176 different structural terms, each term captures a different type of relation in the network or builds upon another structural term. To properly pick structural terms the network in question needs to be analyzed in detail. The first structural term analyzed is degree which immediately shows the interesting result that there are 567 vertices with degree 0 (isolates) (see appendix). It can also be seen that there are 117 vertices with degree 116 indicating a very dense community within the network. Further inspection shows that the 117 vertices with degree 116 are all from the S&D, indicating that this particular party has a very strict voting policy. The second structural term analyzed is kstar, it might be that there is one party leader in the S&D community that instructs all the other party members to vote a certain way. By investigating the results it can be observed that there are stars present in the network (see appendix).
 
 A total of four models were fitted to answer this research question (see appendix for models). The first model (m0) only contains an intercept: edges. This model managed to converge in about 5 seconds but performance is not great as indicated by the Goodness-of-Fit Metrics. This was expected because the model does not contain any of the structural effects and will therefore be used as a baseline model to compare the other models against. The second model (m1) contains the intercept and an structural term to account for the large amount of isolates in the network: edges + isolates. This model crashed, throwing a degeneracy error. Model 2.1 (m2_1) and model 2.2 (m2_2) build upon this model including gwdegree or altkstars as structural terms. The curved variants of these two terms are used since the network that is being investigated is too large to use regular terms. Model 2.1 converged in about 2 minutes showing good Goodness-of-Fit Metrics and MCMC Diagnostics (see appendix). Model 2.2 failed to converge within the set iteration limit (60) and was therefore discarded. Model 3 (m3) tests an alternative hypothesis if party membership has a positive on agreement between MEP’s in the European Parliament, by including nodematch(“party”) alongside the terms used in model 2.1. However this model failed to converge within the time limit of 45 minutes set by the group and therefore these results cannot be interpreted. The final model 4 (m4) test the second research question: What is the cohesion of agreement, based on the sociological climate bill, for MEPs with the same nationality. The model converged about 2 minutes showing promising results in the output as well as the Goodness-of-Fit Metrics and MCMC Diagnostics.
@@ -721,7 +589,7 @@ texreg::knitreg(list(m0, m2_1, m2_2, m4),
                                        MCMC = c("-", "PASS", "FAIL", "PASS")))
 ```
 
-By analysing the Goodness-of-Fit Metrics it can be observed that the model has a decent fit. The line mostly goes through all the blue points and stays within the boundaries. The results for the model statistics show a little weird behaviour but this can be explained by reanalysing the results for degree (see appendix). There are no vertices between degree5 and degree116, which is also highlighted by the flat line in the plot between these two values. Before degree5 and after degree116 the line moves between the error boundaries showing a decent result. The MCMC Diagnostics for model 4 are looking fine, the chains are mixing well for all model terms and the distributions are nicely centered around the zero. Proceeding with analysing the actual results from the model it can be observed that nodematch(“country”) is statistically significant and by interpreting the coefficient the conclusion can be drawn that there is an 84% probability that two MEP’s agree on a sociological climate bill if they are from the same country.
+By analysing the Goodness-of-Fit Metrics it can be observed that the model has a decent fit. The line mostly goes through all the blue points and stays within the boundaries. The results for the model statistics show a little weird behaviour but this can be explained by reanalysing the results for degree (see appendix). There are no vertices between degree5 and degree116, which is also highlighted by the flat line in the plot between these two values. Before degree5 and after degree116 the line moves between the error boundaries showing a decent result. The MCMC Diagnostics for model 4 are looking fine, the chains are mixing well for all model terms and the distributions are nicely centered around the zero. Proceeding with analysing the actual results from the model it can be observed that nodematch(“country”) is statistically significant and by interpreting the coefficient the conclusion can be drawn that there is an 84% probability that two MEP’s agree on a sociological climate bill if they are from the same country. This is in line with the initial hypothesis of this research, which states that there is a high level of cohesion between the sociological climate bill and the industrial climate bill.
 
 ```{r echo=FALSE}
 knitr::kable(SNA4DS::Ef_int(m4, type = "prob"), caption = "Model 4 (m4)")
@@ -755,7 +623,9 @@ What does remain an open problem?
 Can you give suggestions for future work in this area?
 -->
 
-The topic of the research is to describe the level of cohesion among 705 members of the European parliament (MEP) according to their political and national affiliation using an undirected network collected from two environmental-related bills. Given the QAP results, it can be seen that the voting behavior is statistically; significantly similar given the correlation result. Consequently, the ERGM which was only ran on the sociological-climate act, could be assumed to be generalizable enough for both networks. It appears from the latter analysis that MEPs within a country vote almost identically to one another at 84%. Given that there are at least three political parties in one country, it can be deducted that MEPs vote in priority in respect to national interests, then according to their political party. The absence of a MEP that votes against all political belonging proves that voting behavior is strongly influenced by connections. Intuitively, someone’s reactions which cannot be predicted is a dangerous political dissident. MEPs would distance themselves from that person to avoid any unofficial retaliation from others. The ERGM could not be ran for political parties to dimensionality-related issues. This is where the limitations  of this research start. Firstly, accessing a supercomputer or paying for servers to run simulations could multiply the number of models that could be ran. Secondly, some questions still remain unanswered. For example, do MEPs abstain or make themselves absent when an internal conflict appear between voting in respect to their duty as a national representant and personal belief. Thirdly, more data. An example would be with personal information about these MEPs. It could be scraped off the internet and processed. This could lead to more interesting amylases and see whether some characteristics are correlated to a certain voting behavior. This would continue with scraping more voting results on a plethora of political concerns. Fourthly, more advanced statistical network analysis tools could be deployed. Lastly, isolates, absentees, abstainers are the most interesting MEPs to study. The reason behind that position could be revealed. This investigation would need a manual peeling of internet in search of subtle details to find out their true agenda which may take months. Internal political gossips could be taken into account yet their retrieval can be time-consuming while necessitating a political degree. Additionally to the research, lots of voting session will have to be taken into account exploding the dimensionality. 
+The topic of the research is to describe the level of cohesion among 705 members of the European parliament according to their political and national affiliation using an undirected network collected from two environmental-related bills. Given the QAP results, it can be seen that the voting behavior is significantly similar given the correlation result. Consequently, the ERGM which was only ran on the sociological-climate bill, could be assumed to be generalizable enough for both networks. It appears from the latter analysis that MEPs within a country vote almost identically to one another at 84%. Given that there are at least three political parties in one country, it can be deducted that MEPs vote in priority in respect to national interests, then according to their political party. The absence of a MEP that votes against all political belonging proves that voting behavior is strongly influenced by connections.  
+
+During the research process several (modeling) limitations were encounteed, as well as interesting areas for future research. Firstly, accessing a supercomputer or paying for servers to run simulations could multiply the number of models that could be ran. Secondly, some questions still remain unanswered. For example, do MEPs abstain or make themselves absent when an internal conflict appear between voting in respect to their duty as a national representant and personal belief. Thirdly, more data. An example would be with personal information about these MEPs. It could be scraped off the internet and processed. This could lead to more interesting analyses and explain whether some characteristics are correlated to a certain voting behavior. This would continue with scraping more voting results on a plethora of political concerns. Fourthly, more advanced statistical network analysis tools could be deployed. Lastly, isolates, absentees, and abstainers are interesting MEPs not investigated in this research. The reason behind those positions could be revealed in future research. This investigation would need a manual peeling of internet in search of subtle details to find out their true agenda which may take months. Internal political gossips could be taken into account yet their retrieval can be time-consuming while necessitating a political degree. Additionally to the research, lots of voting session will have to be taken into account exploding the dimensionality. 
 
 \newpage
 
@@ -905,7 +775,251 @@ edges.to_csv(r'edges_for_against_industry.csv', index = False)
 
 \newpage
 
-## B. Detailed QAP results
+## B. Network analysis
+
+### B.1 Descriptive measures
+```{r echo=FALSE}
+# Social climate bill
+hist(edges_soc_clim$agreement,
+     col = "lightblue",
+     xlab = "Agreement",
+     ylab = "Frequency",
+     main = "MEP Agreement Distribution")
+
+par(mfrow = c(2, 2), cex = 0.6)
+plot_statistic(igraph::transitivity,
+               edges_soc_clim,
+               44,
+               "Agreement Threshold",
+               "Global Transitivity",
+               "Transitivity vs. Agreement Threshold")
+plot_statistic(igraph::edge_density,
+               edges_soc_clim,
+               44,
+               "Agreement Threshold",
+               "Network Density",
+               "Network Density vs. Agreement Threshold")
+plot_statistic(igraph::mean_distance,
+               edges_soc_clim,
+               44,
+               "Agreement Threshold",
+               "Average Path Length",
+               "Average Path Length vs. Agreement Threshold")
+plot_statistic(igraph::diameter,
+               edges_soc_clim,
+               44,
+               "Agreement Threshold",
+               "Diameter",
+               "Diameter vs. Agreement Threshold")
+mtext("Social Climate Motion", side = 3, line = -19, outer = TRUE)
+par(mfrow = c(1, 1))
+
+# Industry climate bill
+hist(edges_ind_clim$agreement,
+     col = "lightblue",
+     xlab = "Agreement",
+     ylab = "Frequency",
+     main = "MEP Agreement Distribution")
+
+par(mfrow = c(2, 2), cex = 0.6)
+plot_statistic(igraph::transitivity,
+               edges_ind_clim,
+               44,
+               "Agreement Threshold",
+               "Global Transitivity",
+               "Transitivity vs. Agreement Threshold")
+plot_statistic(igraph::edge_density,
+               edges_ind_clim,
+               44,
+               "Agreement Threshold",
+               "Network Density",
+               "Network Density vs. Agreement Threshold")
+plot_statistic(igraph::mean_distance,
+               edges_ind_clim,
+               44,
+               "Agreement Threshold",
+               "Average Path Length",
+               "Average Path Length vs. Agreement Threshold")
+plot_statistic(igraph::diameter,
+               edges_ind_clim,
+               44,
+               "Agreement Threshold",
+               "Diameter",
+               "Diameter vs. Agreement Threshold")
+mtext("Industrial Climate Motion", side = 3, line = -19, outer = TRUE)
+par(mfrow = c(1, 1))
+```
+
+
+### B.2 Sociological climate bill
+```{r echo=FALSE}
+par(mfrow = c(1, 2))
+plot_network_agreement(edges_soc_clim, 3, igraph::layout_with_lgl)
+plot_network_agreement(edges_soc_clim, 5, igraph::layout_with_lgl)
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement(edges_soc_clim, 11, igraph::layout_with_graphopt)
+plot_network_agreement(edges_soc_clim, 14, igraph::layout_with_graphopt)
+par(mfrow = c(1, 1))
+```
+
+### B.3 Industrial climate bill
+```{r echo=FALSE}
+par(mfrow = c(1, 2))
+plot_network_agreement(edges_ind_clim, 3, igraph::layout_with_lgl)
+plot_network_agreement(edges_ind_clim, 5, igraph::layout_with_lgl)
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement(edges_ind_clim, 11, igraph::layout_with_graphopt)
+plot_network_agreement(edges_ind_clim, 14, igraph::layout_with_graphopt)
+par(mfrow = c(1, 1))
+```
+
+### B.4 Threshold determination
+
+```{r echo=FALSE}
+par(mfrow=c(1, 2))
+plot_network_agreement_percent(edges_soc_clim, 0.35, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_soc_clim_35),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 35%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_soc_clim, 0.95, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_soc_clim_95),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 95%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_soc_clim, 1.0, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_soc_clim_100),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 100%")
+par(mfrow = c(1, 1))
+```
+
+```{r echo=FALSE}
+tab_statistic(uw_net_soc_clim_35, "Statistics for social climate network with threshold 35%")
+tab_statistic(uw_net_soc_clim_95, "Statistics for social climate network with threshold 95%")
+tab_statistic(uw_net_soc_clim_95, "Statistics for social climate network with threshold 100%")
+```
+
+```{r echo=FALSE}
+par(mfrow=c(1, 2))
+plot_network_agreement_percent(edges_ind_clim, 0.35, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_ind_clim_35),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 35%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_ind_clim, 0.95, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_ind_clim_95),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 95%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_ind_clim, 1.0, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_ind_clim_100),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 100%")
+par(mfrow = c(1, 1))
+```
+
+```{r echo=FALSE}
+tab_statistic(uw_net_ind_clim_35, "Statistics for industrial climate network with threshold 35%")
+tab_statistic(uw_net_ind_clim_95, "Statistics for industrial climate with threshold 95%")
+tab_statistic(uw_net_ind_clim_100, "Statistics for industrial climate with threshold 100%")
+```
+```{r echo=FALSE}
+par(mfrow=c(1, 2))
+plot_network_agreement_percent(edges_soc_clim, 0.35, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_soc_clim_35),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 35%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_soc_clim, 0.95, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_soc_clim_95),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 95%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_soc_clim, 1.0, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_soc_clim_100),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 100%")
+par(mfrow = c(1, 1))
+```
+
+```{r echo=FALSE}
+tab_statistic(uw_net_soc_clim_35, "Statistics for social climate network with threshold 35%")
+tab_statistic(uw_net_soc_clim_95, "Statistics for social climate network with threshold 95%")
+tab_statistic(uw_net_soc_clim_95, "Statistics for social climate network with threshold 100%")
+```
+
+```{r echo=FALSE}
+par(mfrow=c(1, 2))
+plot_network_agreement_percent(edges_ind_clim, 0.35, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_ind_clim_35),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 35%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_ind_clim, 0.95, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_ind_clim_95),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 95%")
+par(mfrow = c(1, 1))
+
+par(mfrow = c(1, 2))
+plot_network_agreement_percent(edges_ind_clim, 1.0, igraph::layout_with_graphopt)
+hist(igraph::degree(uw_net_ind_clim_100),
+     ylim = c(0, 600),
+     xlab = "Degree",
+     ylab = "Frequency",
+     main = "Degree Distribution, Threshold: 100%")
+par(mfrow = c(1, 1))
+```
+
+```{r echo=FALSE}
+tab_statistic(uw_net_ind_clim_35, "Statistics for industrial climate network with threshold 35%")
+tab_statistic(uw_net_ind_clim_95, "Statistics for industrial climate with threshold 95%")
+tab_statistic(uw_net_ind_clim_100, "Statistics for industrial climate with threshold 100%")
+```
+
+
+## C. Detailed QAP results
 
 <!-- TODO: put these results in a table -->
 ```{r echo=FALSE}
@@ -924,9 +1038,9 @@ sum_mep_cor_w
 
 \newpage
 
-## C. Detailed ERGM analysis
+## D. Detailed ERGM analysis
 
-### C.1 Structural effects
+### D.1 Structural effects
 
 ```{r echo=FALSE}
 print("network ~ isolates")
@@ -941,9 +1055,9 @@ summary(uw_net_soc_clim_100_nw ~ kstar(0:120))
 
 \newpage
 
-## D. Detailed ERGM results
+## E. Detailed ERGM results
 
-### D.1 Model 0 (m0)
+### E.1 Model 0 (m0)
 
 ```{r echo=FALSE}
 par(mfrow = c(2, 2))
@@ -951,7 +1065,7 @@ plot(m0_fit)
 par(mfrow = c(1, 1))
 ```
 
-### D.2 Model 2.1 (m2_1)
+### E.2 Model 2.1 (m2_1)
 
 ```{r echo=FALSE}
 par(mfrow = c(2, 2))
@@ -961,7 +1075,7 @@ par(mfrow = c(1, 1))
 invisible(capture.output(ergm::mcmc.diagnostics(m2_1, which = "plots")))
 ```
 
-### D.3 Model 2.2 (m2_2)
+### E.3 Model 2.2 (m2_2)
 
 ```{r echo=FALSE}
 par(mfrow = c(2, 2))
@@ -971,7 +1085,7 @@ par(mfrow = c(1, 1))
 invisible(capture.output(ergm::mcmc.diagnostics(m2_2, which = "plots")))
 ```
 
-### D.4 Model 4 (m4)
+### E.4 Model 4 (m4)
 
 ```{r echo=FALSE}
 par(mfrow = c(2, 2))
@@ -983,13 +1097,13 @@ invisible(capture.output(ergm::mcmc.diagnostics(m4, which = "plots")))
 
 \newpage
 
-## E. Coal & Steel Vote Document
+## F. Coal & Steel Vote Document
 
 https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
 
 \newpage
 
-## F. Impacts of Climate Change Document
+## G. Impacts of Climate Change Document
 
 https://www.europarl.europa.eu/doceo/document/A-9-2021-0115_EN.html
 
