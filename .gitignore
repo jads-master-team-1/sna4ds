@@ -127,10 +127,12 @@ $RECYCLE.BIN/
 ### Custom ###
 # Report output
 src/report/report.html
+src/report/report.log
 src/report/report.pdf
 src/report/report.tex
-src/report/report.log
+src/report/report.ttt
 src/report/report_files/
+src/report/report_cache/
 
 # Scratch script
 src/scratch.R
