@@ -3,20 +3,26 @@ title: "Cohesion within the European Parliament: a social network analysis"
 shorttitle: "Cohesion within the European Parliament"
 author:
   - name: "Iona Donaldson (2064159)"
+    affiliation: "1"
   - name: "Colette van Happen (2069244)"
+    affiliation: "1"
   - name: "Olivier Spinnler (2007452)"
+    affiliation: "1"
   - name: "Tom de Wildt (2068292)"
+    affiliation: "1"
   - name: "Laurens Priem (1274328)"
+    affiliation: "1"
   - name: "Bram Delisse (2065006)"
+    affiliation: "1"
 affiliation:
   - id: "1"
     institution: "Jheronimus Academy of Data Science"
-keywords: "European Parliament, MEP, cohesion, country, party"
+keywords: "European Parliament, MEP, cohesion, country, party, sna, qap, ergm"
 wordcount: 4948
 bibliography: r-references.bib
 toc: yes
 toc_float: yes
-floatsintext: no
+floatsintext: yes
 figurelist: no
 tablelist: no
 footnotelist: no
@@ -35,6 +41,7 @@ output:
 ---
 
 ```{r setup, include = FALSE}
+library("dplyr")
 library("papaja")
 r_refs("r-references.bib")
 ```
@@ -44,7 +51,8 @@ r_refs("r-references.bib")
 set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
-```{r echo=FALSE}
+
+```{r utility-functions, cache=TRUE, echo=FALSE}
 # Common abbreviations:
 # w: weighted
 # uw: unweighted
@@ -81,7 +89,7 @@ tab_statistic <- function(net, caption) {
   tab <- rbind(cn, num_nodes, num_edges, trans, dens, avg_path, diam)
   rownames(tab) <- NULL
   
-  knitr::kable(tab, caption = caption)
+  return(tab)
 }
 
 # Function to create plot of network statistic
@@ -142,15 +150,15 @@ plot_network_agreement_percent <- function(edges, percent_threshold, layout) {
 }
 ```
 
-```{r echo=FALSE}
+```{r import-data, cache=TRUE, echo=FALSE}
 # Load data
 mep <- read.csv("../../data/MEP_data.csv", header = T, sep = ",")
 edges_soc_clim <- read.csv("../../data/edges_for_against_social.csv", header = T, sep = ",")
 edges_ind_clim <- read.csv("../../data/edges_for_against_industry.csv", header = T, sep = ",")
 
 # Saving vote data for statistics
-ind_clim_votes <- dplyr::select(mep,4:19)
-soc_clim_votes <- dplyr::select(mep,20:63)
+ind_clim_votes <- select(mep,4:19)
+soc_clim_votes <- select(mep,20:63)
 
 # Rename columns
 colnames(mep) <- c("mep", "party", "country")
@@ -160,13 +168,12 @@ colnames(edges_ind_clim) <- c("mep1", "mep2", "agreement")
 # Drop unneeded columns for this analysis
 mep <- mep[c("mep", "party", "country")]
 
-
 # Create column for percentage of agreement
 edges_soc_clim$agreement_percent <- round(edges_soc_clim$agreement / 44, digits = 2)
 edges_ind_clim$agreement_percent <- round(edges_ind_clim$agreement / 16, digits = 2)
 ```
 
-```{r echo=FALSE, warning=FALSE}
+```{r create-igraph-networks, cache=TRUE, dependson="import-data", echo=FALSE, warning=FALSE}
 # Create weighted networks
 w_edges_soc_clim <- edges_soc_clim[edges_soc_clim[, "agreement"] >= 1, c("mep1", "mep2")]
 w_net_soc_clim <- igraph::graph_from_data_frame(w_edges_soc_clim, vertices = mep, directed = FALSE)
@@ -202,7 +209,7 @@ uw_edges_ind_clim_100 <- edges_ind_clim[edges_ind_clim[, "agreement_percent"] >=
 uw_net_ind_clim_100 <- igraph::graph_from_data_frame(uw_edges_ind_clim_100, vertices = mep, directed = FALSE)
 ```
 
-```{r echo=FALSE}
+```{r create-network-networks, cache=TRUE, dependson="create-igraph-networks", echo=FALSE}
 # Convert weighted networks
 w_net_soc_clim_nw <- intergraph::asNetwork(w_net_soc_clim)
 w_net_ind_clim_nw <- intergraph::asNetwork(w_net_ind_clim)
@@ -287,6 +294,8 @@ _RQ2: “What is the cohesion of agreement, based on the voting agreement networ
 
 As stated before, the European groups are expected to strongly influence the voting behaviour of the individual members of the European Parliament. However, other research highlights that MEPs maintain a national orientation, which can be linked to the distributive theory, which states that re-election is the main goal of legislators [@Scully2005, @Weingast_and_Marschall1988]. This suggests that MEPs not only vote according to the European group interest, but also according to the national party interest in order to maintain popularity with their electorate. Following this reasoning and the previously mentioned call for unity, the following hypothesis is formulated:
 
+\newpage
+
 _H2: “We expect a high level of cohesion on the national level.”_
 
 Our work will contribute to the field by providing additional insight into the voting behaviors of given MEPs, specifically on the national level, in contrast to the previous focus on the party-level. Furthermore, the recent nature of these votes during 2021 in the Ninth European Parliament can suggest whether voting patterns have remained similar over time adding to earlier studies, see @Eveland2013; @Schneider2007; @Nicoll_Victor2017. 
@@ -331,11 +340,11 @@ Dataset Description (about 500 words) 1 POINT (+ BONUS)
 
 The analysis conducted in this paper is carried out over a set of 61 roll-call votes from two motions for European Parliament resolutions. Roll-call votes are votes conducted in the European parliament where the vote (or absence of vote in some cases) of an MEP is recorded along with their name [@cherepnalkoski_karpf_mozetic_grcar_2016].
 
-The results from these votes were scraped from the VoteWatch.eu website on 20th October 2021. VoteWatch is a non-profit organisation with the goal of providing insight into the European Parliament and their decision making [@noauthor_votewatchmethodology_nodate]. The code used to scrape the data can be found in the appendix see [A.1 Scraping code (VoteWatch)]. The sociologically focused bill has 45 roll-call votes while the more industrially focused bill has 16. The full official documents of the votes can be found in the appendix, see [H. Impacts of Climate Change Document] and [G. Coal & Steel Vote Document]. The appendix also contains some descriptive measures of the data, see [B. Data summary].
+The results from these votes were scraped from the VoteWatch.eu website on 20th October 2021. VoteWatch is a non-profit organisation with the goal of providing insight into the European Parliament and their decision making [@noauthor_votewatchmethodology_nodate]. The code used to scrape the data can be found in the appendix see [A. Scraping code (VoteWatch)]. The sociologically focused bill has 45 roll-call votes while the more industrially focused bill has 16. The full official documents of the votes can be found in the appendix, see [H. Impacts of Climate Change Document] and [G. Coal & Steel Vote Document]. The appendix also contains some descriptive measures of the data, see [B. Data summary].
 
-The edges to be created from this data were created using a Python script written for the purpose, this can also be found in the appendix, see [A.2 Create edges].
+The edges to be created from this data were created using a Python script written for the purpose, this can also be found in the appendix, see [A. Scraping code (VoteWatch)].
 
-## 2.1.2 Creation of the networks
+### 2.1.2 Creation of the networks
 
 To conduct the analytical tests required for the research questions, networks had to be created. Using weighted edges equaling the number of times the two MEPs agreed on each vote in the bill was an option. A weighted network was suitable for the first research question using a QAP-test to look at correlation. However, for the second research question, a traditional ERGM model can only handle binary edges. More recent ERGM techniques can cope with weighted edges, however due to the scale of the network in question (705 nodes) this was not considered feasible during the time-period of this research and could be considered as a future area of research.
 
@@ -343,7 +352,7 @@ Therefore, in order to create a binary network of agreement between MEPs a decis
 
 It also had to be defined what was classed as agreement in a vote between two MEPs. While it is clear that two MEPs are in agreement if they both vote for or both against a motion, this is less clear in the case of abstaining, being absent or just not voting. This could be due to disagreement with the motion, perhaps an unwillingness to go against your party but could also be due to a personal issue, logistical problem or lack of information. It is therefore not possible to say if these MEPs have the same opinion about the vote. An agreement was therefore only considered valid in this research if they both voted for or against. 
 
-## 2.1.3 Network descriptive measures
+### 2.1.3 Network descriptive measures
 
 In order to get a better overview of the dataset, the five-number summary was computed for both the sociological climate motion and the industrial climate networks The following two tables show these statistics for the two full networks where there is an edge between MEPs if they agree in at least one sub-vote. As this is an undirected graph only the number of nodes and edges is shown rather than the dyad-cencus as this would not provide any additional information.The networks are unimodal given MEPs link only to other MEPs.
 
@@ -351,9 +360,9 @@ The centrality chart for these networks was also examined but was difficult to i
 
 The summary statistics of the graph already point to a high level of similarity in structure. They both have very high density and transitivity. They also have the same path length and diameter, likely due to the many connections between nodes in both graphs.
 
-```{r echo=FALSE}
-tab_statistic(u_net_soc_clim, "Statistics for full sociological climate network")
-tab_statistic(u_net_ind_clim, "Statistics for full industrial climate network")
+```{r, cache=TRUE, dependson=c("utility-functions", "create-igraph-networks"), echo=FALSE}
+papaja::apa_table(tab_statistic(u_net_soc_clim), caption = "Statistics for full sociological climate network", placement = "H")
+papaja::apa_table(tab_statistic(u_net_ind_clim), caption = "Statistics for full industrial climate network", placement = "H")
 ```
 
 ### 2.1.4 Usefulness of data for research questions and potential biases
@@ -378,6 +387,8 @@ methods you chose better for this case?
 
 The first research question looks at the correlation between the network from the sociological climate bill and the network from the industrial climate bill. A QAP correlation test was determined to be the most appropriate method to use for this purpose. QAP is similar to CUG, in that it uses statistical simulation to generate a distribution of hypothetical networks. However, with QAP permutations of the networks themselves are compared, similar to the practice of bootstrapping, which maintains the networks' structural properties. A QAP correlation test is the most suitable option as it is suitable for comparing two or more networks. A QAP linear model could be used to see how voting on one bill 'explains' voting in the other but would be redundant here given the lack of other networks to be included and the requirement to only check association.
 
+\newpage
+
 The second research question investigates the cohesion of agreement, based on the voting behaviour for the sociological climate bill, for MEPs with the same nationality. Two MEPs are connected if they vote the same way. As the aim of this research is to determine the importance of similar nationality in agreement (an edge in the network) between two MEPs, an exponential random graph model (ERGM) is chosen. An ERGM is a class of network models for performing causal inference which can be used to determine the causes leading to an observed network. The model can include endogenous (qualities within the network) and exogenous (qualities external to it). Nationality is a vertex-level attribute and is therefore included as an exogenous term. All terms used will also need to be undirected terms due to the nature of the network. The complexity and flexibility of ERGM makes this technique very suitable for verifying the research question. ERGMs, unlike simpler methods such as logistic regression, allow us to model how structural properties of the network itself can affect the probability of an edge forming.
 
 \newpage
@@ -398,9 +409,11 @@ The resulting graphs from the QAP tests can be viewed below (see [D. Detailed QA
 
 The results from the thresholded networks are then more interesting. There is a lower but still significant correlation of voting agreement in the 35% networks (top-right) of 0.346 (p-value= 0.000) and a slightly higher correlation with the 95% network (bottom-left) of 0.397 (p-value= 0.000). The decrease in correlation compared to the initial network is caused by comparing far sparser networks, there is less chance that two MEPs agree 35% or 95% of the time. However, the higher correlation in the 95% graph compared to the 35% graph is likely due to the high threshold set. While the 35% thresholded networks could still include pairs of MEPs who agreed with each other by chance 35% of the time this is extremely unlikely with the 95% network. These networks therefore focus on very specific voting agreement. An example of this voting agreement can be seen by examining the edges present in the 95% graphs as in both networks nearly all members of the Progressive Alliance of Socialists and Democrats party (S&D) completely agree with each other. This is an example of the behaviour that can cause the association in the networks noted here.
 
+\newpage
+
 Finally, the most complete result is perhaps the QAP results from the weighted networks (bottom-right). As opposed to the tests carried out on the binary networks this test also includes the information about the amount of agreement (measured as a percentage) between the two MEPs. Unlike the other QAP graphs, here there is an overlap between the result observed in the networks and the permuted graphs in the QAP test. However, the correlation between the two graphs is still highly significant with a correlation of 0.03 (p-value:0.004). While this correlation statistic is much lower than the previous values this is likely due to the introduction of weights and is an example of how the context of the networks involved needs to be included in the test in order to test the significance of the correlation statistic. This is the strength of the QAP test as it enable us to do this via permutations.
 
-```{r echo=FALSE}
+```{r results-qap, cache=TRUE, dependson="create-network-networks", echo=FALSE}
 par(mfrow = c(2, 2), cex = 0.6)
 mep_cor <- sna::qaptest(list(w_net_soc_clim_nw, w_net_ind_clim_nw),
                         FUN = sna::gcor,
@@ -457,7 +470,7 @@ in plain English
 the points evaluated in this other part)
 -->
 
-```{r echo=FALSE}
+```{r import-ergm, cache=TRUE, echo=FALSE}
 # Load models from cache
 m0 <- readRDS("../../models/m0.rds")
 m0_fit <- readRDS("../../models/m0_fit.rds")
@@ -469,34 +482,37 @@ m4 <- readRDS("../../models/m4.rds")
 m4_fit <- readRDS("../../models/m4_fit.rds")
 ```
 
-In this section the cohesion of agreement, based on the sociological climate bill, for MEPs with the same nationality was investigated using a total agreement network. This meant that there were only edges between MEPs if they completely agreed with each other. This was desirable in answering the research question as it focused the research on the network dynamics leading to complete cohesion (see [C.1.3 Percentage Threshold determination] for more detail and visualisations). The influence of MEP nationality on cohesion (edge formation in the network in this case) was measured using the exogenous term nodematch to check for homophily between nodes in terms of nationality.
+In this section the cohesion of agreement, based on the sociological climate bill, for MEPs with the same nationality was investigated using a total agreement network. This meant that there were only edges between MEPs if they completely agreed with each other. This was desirable in answering the research question as it focused the research on the network dynamics leading to complete cohesion (see [C.3 Percentage Threshold determination] for more detail and visualisations). The influence of MEP nationality on cohesion (edge formation in the network in this case) was measured using the exogenous term nodematch to check for homophily between nodes in terms of nationality.
 
 ERGM models are part of the exponential random graph model family. ERGMs make use of Monte Carlo Maximum Likelihood estimation by generating a series of matrices representing the network, differing one edge at the time. The Metropolis-Hastings or Gibbs sampler algorithm is used to decide which edges to change. The new state that increases the likelihood of observing the network in question is then used for the next step. ERGMs are built sequentially meaning that after a new term is added to the model formula, the model will be carefully evaluated using the Goodness-of-Fit Metrics and the MCMC Diagnostics before proceeding.
 
-Structural terms are a requirement for ERGM’s to properly fit the network. There are 176 different structural terms, each term captures a different type of relation or structure in the network. To properly pick structural terms the network in question needs to be analysed in detail. The first structural term analysed here was degree which immediately showed a remarkable feature of the graph: there are 567 vertices with degree 0 (isolates), see [E.1 Structural effects]. It can also be seen that there are 117 vertices with degree 116 indicating a very dense community within the network. Further inspection shows that the 117 vertices with degree 116 are all from the S&D party, indicating that at least in this area the party is very cohesive. The second structural term analysed is kstar, party leaders have been shown to affect cohesion in previous research so it is possible that more individuals will agree with party leaders [@bailer_schulz_selb_2009]. It can be observed  from the results that there are a large number of high-order stars present in the network, see [E.1 Structural effects].
+Structural terms are a requirement for ERGM’s to properly fit the network. There are 176 different structural terms, each term captures a different type of relation or structure in the network. To properly pick structural terms the network in question needs to be analysed in detail. The first structural term analysed here was degree which immediately showed a remarkable feature of the graph: there are 567 vertices with degree 0 (isolates), see [E. Detailed ERGM analysis]. It can also be seen that there are 117 vertices with degree 116 indicating a very dense community within the network. Further inspection shows that the 117 vertices with degree 116 are all from the S&D party, indicating that at least in this area the party is very cohesive. The second structural term analysed is kstar, party leaders have been shown to affect cohesion in previous research so it is possible that more individuals will agree with party leaders [@bailer_schulz_selb_2009]. It can be observed  from the results that there are a large number of high-order stars present in the network, see [E. Detailed ERGM analysis].
 
-A total of four models were fitted to answer the research question (see appendix for model plots). The first model (m0) only contains an intercept: edges. This model converged but produced poor performance as indicated by the Goodness-of-Fit Metrics, see [F.1 Model 0 (m0)]. This was expected because the model does not contain any of the structural effects and is therefore only used as a baseline. The second model (m1) contains the intercept and a structural term to account for the large amount of isolates in the network: edges + isolates. This model crashed, throwing a degeneracy error. Model 2.1 (m2_1) and model 2.2 (m2_2) built upon this model including gwdegree or altkstars as structural terms. The curved variants of these two terms are used since the network that is being investigated is too large to use regular terms. Model 2.1 converged and showed good Goodness-of-Fit Metrics and MCMC Diagnostics, see [F.2 Model 2.1 (m2_1)]. Model 2.2 failed to converge within the set iteration limit (60) and was therefore discarded. 
+A total of four models were fitted to answer the research question (see appendix for model plots). The first model (m0) only contains an intercept: edges. This model converged but produced poor performance as indicated by the Goodness-of-Fit Metrics, see [F.1 Model 0 (m0)]. This was expected because the model does not contain any of the structural effects and is therefore only used as a baseline. The second model (m1) contains the intercept and a structural term to account for the large amount of isolates in the network: edges + isolates. This model crashed, throwing a degeneracy error. Model 2.1 (m2_1) and model 2.2 (m2_2) built upon this model including gwdegree or altkstars as structural terms. The curved variants of these two terms are used since the network that is being investigated is too large to use regular terms. Model 2.1 converged and showed good Goodness-of-Fit Metrics and MCMC Diagnostics, see [F.3 Model 2.1 (m2_1)]. Model 2.2 failed to converge within the set iteration limit (60) and was therefore discarded. 
 
 Model 3 (m3) tested if party membership had a positive effect on agreement by also including nodematch(“party”). The intention of this model was to see if the results matched with previous research carried out in this area. However this model failed to converge within the time limit set by the group. Given this was not the focus of this research the model was not further investigated. The final model 4 (m4) tested the second research question: What is the cohesion of agreement, based on the sociological climate bill, for MEPs with the same nationality? The model converged showing promising results in the output as well as the Goodness-of-Fit plots and MCMC Diagnostics. The AIC and BIC of model 4 is in fact greater than those for model 2.1 but nodematch.country was the focus of the research so this model was still suitable.
 
-```{r echo=FALSE, results="asis"}
+```{r results-ergm, cache=TRUE, dependson="import-ergm", echo=FALSE, results="asis"}
 texreg::knitreg(list(m0, m2_1, m2_2, m4),
-                custom.model.names = c("Model 0 (m0)", "Model 2.1 (m2_1)", "Model 2.2 (m2_2)", "Model 4 (m4)"),
+                caption = "Models",
+                custom.model.names = c("Model 0 (m0)", "Model 2.1 (m2\\_1)", "Model 2.2 (m2\\_2)", "Model 4 (m4)"),
                 custom.gof.rows = list(GOF = c("FAIL", "PASS", "PASS", "PASS"),
                                        MCMC = c("-", "PASS", "FAIL", "PASS")))
 ```
 
+\newpage
+
 By analysing the Goodness-of-Fit plots it can be observed that the model has a decent fit. The line mostly goes through all the blue points and stays within the boundaries. The statistics show some strange behaviour which can be attributed to the previously noted properties of the graph. There are no vertices between degree5 and degree116, which is highlighted by the flat line in the plot between these two values. Before degree5 and after degree116 the line moves between the error boundaries showing an acceptable result. The MCMC Diagnostics for model 4 are also sufficient, the chains are mixing well for all model terms and the distributions are nicely centred around zero.
 Therefore proceeding with analysing the actual results from the model it can be observed that nodematch(“country”) is statistically significant. By interpreting the coefficient the conclusion can be drawn that complete agreement is more likely between MEPs from the same country. There was an 84% probability that two MEP’s coming from the same country predicts them completely agreeing while voting on the "The impacts of climate change on vulnerable populations in developing countries" bill. This is evidence supporting the second hypothesis of this research, which states that there is a high level of cohesion on the national level within the voting agreement network of the sociological climate bill.
 
-```{r echo=FALSE}
-knitr::kable(SNA4DS::Ef_int(m4, type = "prob"), caption = "Model 4 (m4)")
+```{r, cache=TRUE, dependson="import-ergm", echo=FALSE}
+papaja::apa_table(SNA4DS::Ef_int(m4, type = "prob"), caption = "Model 4 (m4)", placement = "H")
 
 par(mfrow = c(2, 2))
 plot(m4_fit)
 par(mfrow = c(1, 1))
 
-invisible(capture.output(ergm::mcmc.diagnostics(m4, which = "plots")))
+knitr::include_graphics("./fig/m4.png")
 ```
 
 \newpage
@@ -539,9 +555,7 @@ Nevertheless, the results from this research are invaluable for climate campaign
 
 # Appendix
 
-## A. Dataset creation code
-
-### A.1 Scraping code (VoteWatch)
+## A. Scraping code (VoteWatch)
 
 ```python
 from urllib.request import Request, urlopen
@@ -613,8 +627,6 @@ else:
   print('There are duplicate values in the MEP column')
 ```
 
-### A.2 Create edges
-
 ```python
 import pandas as pd
 import os
@@ -673,46 +685,70 @@ edges.to_csv(r'edges_for_against_industry.csv', index = False)
 \newpage
 
 ## B. Data summary
-```{r echo=FALSE}
-#Number of MEPs represented in data
-print('Number of MEPs in dataset')
+
+### B.1 Number of MEPs in dataset
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
 nrow(mep)
-# Spread of members of each European party in dataset
-print('Party membership')
-table(mep$party)
-# Spread of countries of each European party in dataset
-print('National representation')
-table(mep$country)
-# Number of roll-call votes in sociologically related climate vote
-print('Number of roll-call votes in sociologically related climate vote')
-ncol(soc_clim_votes)
-# Proportion of each vote in sociologically related climate vote
-print('Proportion of recorded votes in sociologically focused climate vote')
-table <- table(data.frame(x=unlist(soc_clim_votes)))
-prop.table(table)
-# Number of roll-call votes in industrially related climate vote
-print('Number of roll-call votes in industrially related climate vote')
-ncol(ind_clim_votes)
-# Proportion of each vote in sociologically related industrial vote
-print('Proportion of recorded votes in industrially focused climate vote')
-table <- table(data.frame(x=unlist(ind_clim_votes)))
-prop.table(table)
 ```
+
+### B.2 Party membership
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
+table(mep$party)
+```
+
+### B.3 National representation
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
+table(mep$country)
+```
+
+### B.4 Number of roll-call votes in sociologically related climate vote
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
+ncol(soc_clim_votes)
+```
+
+### B.5 Proportion of each vote in sociologically related climate vote
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
+prop.table(table(data.frame(x=unlist(soc_clim_votes))))
+```
+
+### B.6 Number of roll-call votes in industrially related climate vote
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
+ncol(ind_clim_votes)
+```
+
+### B.7 Proportion of recorded votes in industrially focused climate vote
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
+prop.table(table(data.frame(x=unlist(ind_clim_votes))))
+```
+
+\newpage
 
 ## C. Network analysis
 
-### C.1 Threshold determination
-### C.1.1 Sociological climate bill
-```{r echo=FALSE}
-# Social climate bill
-print('Histogram of spread of agreement of MEPs')
+### C.1 Sociological climate bill
+
+#### Histogram of spread of agreement of MEPs
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
 hist(edges_soc_clim$agreement,
      col = "lightblue",
      xlab = "Agreement",
      ylab = "Frequency",
      main = "MEP Agreement Distribution")
+```
 
-print('Network statistics at different threshold levels')
+\newpage
+
+#### Network statistics at different threshold levels
+
+```{r, cache=TRUE, dependson=c("utility-functions", "import-data"), echo=FALSE}
 par(mfrow = c(2, 2), cex = 0.6)
 plot_statistic(igraph::transitivity,
                edges_soc_clim,
@@ -748,8 +784,9 @@ Instead, two key points of change are noted in the graphs: agreement between 12-
 
 Additionally, a small drop in transitivity and density can be observed at an agreement threshold above 38 as well. This is interesting to observe, since at an agreement threshold of 38 and above, the MEPs agree on almost all votes. The density plot also shows, that there are fewer connections left, indicating that a smaller proportion of MEPs agree with each other at this significant level.This is clear when comparing the relevant plot where initially at a threshold of 38 there is still one large community. When the threshold is raised to 44 then this community has fractured into much smaller sub-groups
 
-```{r echo=FALSE}
-print('Visualiations of graphs at different threshold levels (isolates removed for clarity')
+#### Visualiations of graphs at different threshold levels (isolates removed for clarity)
+
+```{r, cache=TRUE, dependson=c("utility-functions", "import-data"), echo=FALSE}
 par(mfrow = c(1, 2))
 plot_network_agreement(edges_soc_clim, 12, igraph::layout_with_lgl)
 plot_network_agreement(edges_soc_clim, 17, igraph::layout_with_lgl)
@@ -761,17 +798,25 @@ plot_network_agreement(edges_soc_clim, 44, igraph::layout_with_graphopt)
 par(mfrow = c(1, 1))
 ```
 
-### C.1.2 Industrial climate bill
-```{r echo=FALSE}
-# Industry climate bill
-# print('Histogram of spread of agreement of MEPs')
+\newpage
+
+### C.2 Industrial climate bill
+
+#### Histogram of spread of agreement of MEPs
+
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
 hist(edges_ind_clim$agreement,
      col = "lightblue",
      xlab = "Agreement",
      ylab = "Frequency",
      main = "MEP Agreement Distribution")
+```
 
-print('Network statistics at different threshold levels')
+\newpage
+
+#### Network statistics at different threshold levels
+
+```{r, cache=TRUE, dependson=c("utility-functions", "import-data"), echo=FALSE}
 par(mfrow = c(2, 2), cex = 0.6)
 plot_statistic(igraph::transitivity,
                edges_ind_clim,
@@ -807,8 +852,9 @@ The transitivity clearly shows two key drops between 3-5 and 11-14. This signals
 
 In contrast to the social climate motion the median in agreement in this data is 13 showing a much higher average amount of agreement in this network. This is likely due to the high number of MEPs (around 5000) pairs that are in total agreement across all votes.
 
-```{r echo=FALSE}
-print('Visualiations of graphs at different threshold levels (isolates removed for clarity')
+#### Visualiations of graphs at different threshold levels (isolates removed for clarity)
+
+```{r, cache=TRUE, dependson=c("utility-functions", "import-data"), echo=FALSE}
 par(mfrow = c(1, 2))
 plot_network_agreement(edges_ind_clim, 3, igraph::layout_with_lgl)
 plot_network_agreement(edges_ind_clim, 5, igraph::layout_with_lgl)
@@ -820,13 +866,15 @@ plot_network_agreement(edges_ind_clim, 14, igraph::layout_with_graphopt)
 par(mfrow = c(1, 1))
 ```
 
-### C.1.3 Percentage Threshold determination
+\newpage
+
+### C.3 Percentage Threshold determination
 
 The text and plots below provide the reference material for determining the thresholds used to create the networks used in the QAP test and ERGM model.
 
 For a low threshold there will be many edges representing MEPs only agreeing on a small number of votes. Therefore its likely that a lot of edges at these thresholds would not be a result of causal relationships. The aim was therefore to set thresholds so as to create a network of the most important, non-random relationships. If the threshold would be too low then it would be more likely to cause degenerate graphs as most MEPs are likely to agree with each other on at least a few occasions leading to very dense graphs. On the other hand, if a too high threshold is selected then interesting network dynamics could be omitted by only including edges between MEPs who almost completely agree with each other. A balance therefore had to be found by examining the networks for a selection of thresholds, comparing density, transitivity and other important statistics. The interesting points for thresholds were first investigated in terms of agreement on an absolute number of votes. This was then translated into percentage agreement so that the threshold could be used across both bills.
 
-To aid with this process, the five-number summary was plotted for the networks using all possible absolute number thresholds. Histograms of the spread of agreement were also plotted to provide context for the other statistics. Finally, the networks were visualised at different points to see the dynamics at different thresholds. See see [C.1.1 Sociological climate bill] and [C.1.2 Industrial climate bill] for all plots and a detailed commentary about the changes in network statistics at different thresholds.
+To aid with this process, the five-number summary was plotted for the networks using all possible absolute number thresholds. Histograms of the spread of agreement were also plotted to provide context for the other statistics. Finally, the networks were visualised at different points to see the dynamics at different thresholds. See see [C.1 Sociological climate bill] and [C.2 Industrial climate bill] for all plots and a detailed commentary about the changes in network statistics at different thresholds.
 
 Both networks had two specific ranges where the structure of the network significantly changed just below the 35% point and 95% point. The decision was therefore made to set the threshold for the networks used in QAP to these percentage levels. This was chosen as it was considered likely that the more frequent levels of agreement between MEPs were likely by chance- particularly at lower levels. These 'chance' edges would therefore be removed. See the histogram below (social climate frequency in peach and industrial climate frequency in lilac, pink where they overlap) for an illustration of the dynamics focused on by setting these thresholds.
 
@@ -834,8 +882,7 @@ In contrast, for the ERGM, the decision was made to use a 100% threshold for agr
 
 With these thresholds and data in mind, the networks models were created, visualised and explored.  Summary statistics for these networks were also computed.  The most prominent differences identified were with the graph density and diameter of the graphs. The centrality charts for these networks were also computed but failed to show significant results due to the scale of the network. The only point of note is the range of degree which can be seen already in the degree distribution. All of these plots, tables and visualisations are available below.
 
-
-```{r echo=FALSE}
+```{r, cache=TRUE, dependson="import-data", echo=FALSE}
 p1 <- hist(edges_soc_clim$agreement_percent,plot=FALSE)
 p2 <- hist(edges_ind_clim$agreement_percent,plot=FALSE)
 
@@ -865,8 +912,11 @@ legend(x = -0.0325,
        lwd = 5)
 ```
 
-```{r echo=FALSE}
-print('Networks at different thresholds for the sociologically focused bill')
+\newpage
+
+#### Networks at different thresholds for the sociologically focused bill
+
+```{r, cache=TRUE, dependson=c("utility-functions", "import-data", "create-igraph-networks"), echo=FALSE}
 par(mfrow=c(1, 2))
 plot_network_agreement_percent(edges_soc_clim, 0.35, igraph::layout_with_graphopt)
 hist(igraph::degree(uw_net_soc_clim_35),
@@ -895,14 +945,17 @@ hist(igraph::degree(uw_net_soc_clim_100),
 par(mfrow = c(1, 1))
 ```
 
-```{r echo=FALSE}
-tab_statistic(uw_net_soc_clim_35, "Statistics for social climate network with threshold 35%")
-tab_statistic(uw_net_soc_clim_95, "Statistics for social climate network with threshold 95%")
-tab_statistic(uw_net_soc_clim_100, "Statistics for social climate network with threshold 100%")
+```{r, cache=TRUE, dependson=c("utility-functions", "create-igraph-networks"), echo=FALSE}
+papaja::apa_table(tab_statistic(uw_net_soc_clim_35), caption = "Statistics for social climate network with threshold 35%", placement = "H")
+papaja::apa_table(tab_statistic(uw_net_soc_clim_95), caption = "Statistics for social climate network with threshold 95%", placement = "H")
+papaja::apa_table(tab_statistic(uw_net_soc_clim_100), caption = "Statistics for social climate network with threshold 100%", placement = "H")
 ```
 
-```{r echo=FALSE}
-print('Networks at different thresholds for the industrially focused bill')
+\newpage
+
+#### Networks at different thresholds for the industrially focused bill
+
+```{r, cache=TRUE, dependson=c("utility-functions", "import-data", "create-igraph-networks"), echo=FALSE}
 par(mfrow=c(1, 2))
 plot_network_agreement_percent(edges_ind_clim, 0.35, igraph::layout_with_graphopt)
 hist(igraph::degree(uw_net_ind_clim_35),
@@ -920,28 +973,44 @@ hist(igraph::degree(uw_net_ind_clim_95),
      ylab = "Frequency",
      main = "Degree Distribution")
 par(mfrow = c(1, 1))
-
 ```
 
-```{r echo=FALSE}
-tab_statistic(uw_net_ind_clim_35, "Statistics for industrial climate network with threshold 35%")
-tab_statistic(uw_net_ind_clim_95, "Statistics for industrial climate with threshold 95%")
+```{r, cache=TRUE, dependson=c("utility-functions", "create-igraph-networks"), echo=FALSE}
+papaja::apa_table(tab_statistic(uw_net_ind_clim_35), caption = "Statistics for industrial climate network with threshold 35%", placement = "H")
+papaja::apa_table(tab_statistic(uw_net_ind_clim_95), caption = "Statistics for industrial climate with threshold 95%", placement = "H")
 ```
 
+\newpage
 
 ## D. Detailed QAP results
 
-```{r echo=FALSE}
-print("QAP results for full networks")
+### D.1 QAP results for full networks
+
+```{r, echo=FALSE}
 sum_mep_cor
+```
 
-print("QAP results for 35% thresholded networks")
+\newpage
+
+### D.2 QAP results for 35% thresholded networks
+
+```{r, echo=FALSE}
 sum_mep_cor_35
+```
 
-print("QAP results for 95% thresholded networks")
+\newpage
+
+### D.3 QAP results for 95% thresholded networks
+
+```{r, echo=FALSE}
 sum_mep_cor_95
+```
 
-print("QAP results for weighted networks")
+\newpage
+
+### D.4 QAP results for weighted networks
+
+```{r, echo=FALSE}
 sum_mep_cor_w
 ```
 
@@ -949,16 +1018,25 @@ sum_mep_cor_w
 
 ## E. Detailed ERGM analysis
 
-### E.1 Structural effects
+### E.1 Network ~ Isolates
 
-```{r echo=FALSE}
-print("network ~ isolates")
+```{r, echo=FALSE}
 summary(uw_net_soc_clim_100_nw ~ isolates)
+```
 
-print("network ~ degree(0:120)")
+\newpage
+
+### E.2 Network ~ Degree(0:120)
+
+```{r, echo=FALSE}
 summary(uw_net_soc_clim_100_nw ~ degree(0:120))
+```
 
-print("network ~ kstar(0:120)")
+\newpage
+
+### E.3 Network ~ KStar(0:120)
+
+```{r, echo=FALSE}
 summary(uw_net_soc_clim_100_nw ~ kstar(0:120))
 ```
 
@@ -968,40 +1046,107 @@ summary(uw_net_soc_clim_100_nw ~ kstar(0:120))
 
 ### F.1 Model 0 (m0)
 
-```{r echo=FALSE}
+```{r, cache=TRUE, dependson="load-ergm", echo=FALSE}
+# NOTE: model is loaded from a file since it takes a long time to run
+# m0 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges)
+
 par(mfrow = c(2, 2))
 plot(m0_fit)
 par(mfrow = c(1, 1))
 ```
 
-### F.2 Model 2.1 (m2_1)
+### F.2 Model 1 (m1)
 
-```{r echo=FALSE}
+```{r, cache=TRUE, dependson="load-ergm", echo=FALSE}
+# NOTE: model is loaded from a file since it takes a long time to run
+# m1 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates,
+#                  check.degeneracy = TRUE,
+#                  control = ergm::control.ergm(MCMC.burnin = 5000,
+#                                               MCMC.samplesize = 10000,
+#                                               seed = random_seed,
+#                                               MCMLE.maxit = 60,
+#                                               parallel = 4),
+#                  verbose = TRUE)
+```
+
+Failed to converge, degeneracy error.
+
+### F.3 Model 2.1 (m2_1)
+
+```{r, cache=TRUE, dependson="load-ergm", echo=FALSE}
+# NOTE: model is loaded from a file since it takes a long time to run
+# m2_1 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE),
+#                    check.degeneracy = TRUE,
+#                    control = ergm::control.ergm(MCMC.burnin = 5000,
+#                                                 MCMC.samplesize = 10000,
+#                                                 seed = random_seed,
+#                                                 MCMLE.maxit = 60,
+#                                                 parallel = 4),
+#                    verbose = TRUE)
+
 par(mfrow = c(2, 2))
 plot(m2_1_fit)
 par(mfrow = c(1, 1))
 
-invisible(capture.output(ergm::mcmc.diagnostics(m2_1, which = "plots")))
+knitr::include_graphics("./fig/m2_1.png")
 ```
 
-### F.3 Model 2.2 (m2_2)
+### F.4 Model 2.2 (m2_2)
 
-```{r echo=FALSE}
+```{r, cache=TRUE, dependson="load-ergm", echo=FALSE}
+# NOTE: model is loaded from a file since it takes a long time to run
+# m2_2 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + altkstar(0.5, fixed = TRUE),
+#                    check.degeneracy = TRUE,
+#                    control = ergm::control.ergm(MCMC.burnin = 5000,
+#                                                 MCMC.samplesize = 10000,
+#                                                 seed = random_seed,
+#                                                 MCMLE.maxit = 60,
+#                                                 parallel = 4),
+#                    verbose = TRUE)
+
 par(mfrow = c(2, 2))
 plot(m2_2_fit)
 par(mfrow = c(1, 1))
 
-invisible(capture.output(ergm::mcmc.diagnostics(m2_2, which = "plots")))
+knitr::include_graphics("./fig/m2_2.png")
 ```
 
-### F.4 Model 4 (m4)
+### F.5 Model 3 (m3)
 
-```{r echo=FALSE}
+```{r, cache=TRUE, dependson="load-ergm", echo=FALSE}
+# NOTE: model is loaded from a file since it takes a long time to run
+# m3 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
+#                    nodematch("party"),
+#                  check.degeneracy = TRUE,
+#                  control = ergm::control.ergm(MCMC.burnin = 5000,
+#                                               MCMC.samplesize = 10000,
+#                                               seed = random_seed,
+#                                               MCMLE.maxit = 60,
+#                                               parallel = 4),
+#                  verbose = TRUE)
+```
+
+Failed to converge, exceeded time limit.
+
+### F.6 Model 4 (m4)
+
+```{r, cache=TRUE, dependson="load-ergm", echo=FALSE}
+# NOTE: model is loaded from a file since it takes a long time to run
+# m4 <- ergm::ergm(uw_net_soc_clim_100_nw ~ edges + isolates + gwdegree(decay = 0.5, fixed = FALSE) +
+#                    nodematch("country"),
+#                  check.degeneracy = TRUE,
+#                  control = ergm::control.ergm(MCMC.burnin = 5000,
+#                                               MCMC.samplesize = 10000,
+#                                               seed = random_seed,
+#                                               MCMLE.maxit = 60,
+#                                               parallel = 4),
+#                  verbose = TRUE)
+
 par(mfrow = c(2, 2))
 plot(m4_fit)
 par(mfrow = c(1, 1))
 
-invisible(capture.output(ergm::mcmc.diagnostics(m4, which = "plots")))
+knitr::include_graphics("./fig/m4.png")
 ```
 
 \newpage
@@ -1015,4 +1160,3 @@ https://www.europarl.europa.eu/doceo/document/A-9-2021-0102_EN.html
 ## H. Impacts of Climate Change Document
 
 https://www.europarl.europa.eu/doceo/document/A-9-2021-0115_EN.html
-
